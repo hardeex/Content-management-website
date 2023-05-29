@@ -1,0 +1,14 @@
+{% extends 'home/base.html' %} 
+{% block title %} {{object.title}} {% endblock %} 
+
+{% block body %} 
+        <h1>{{object.title | upper}} </h1>
+        <small>
+            Last Updated: {{object.date}} | Author: {{object.author}}
+           </small> <br> <br>    
+           <p>
+                {{object.content}}
+           </p><br><br>
+
+           <a href="{% url 'index:blog_list' %}" class="btn btn-primary">Back To Blog Posts List</a><br><br>
+{% endblock %}

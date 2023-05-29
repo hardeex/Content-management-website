@@ -1,0 +1,30 @@
+{% extends 'home/base.html' %}
+{% block title %} Job Posts {% endblock %} 
+
+
+{% block body %} 
+
+    <h1>JOB LISTINGS</h1> <br>
+    
+        <ol>
+        {% for job in object_list %} 
+        <li>
+           <h4><a href="{% url 'index:job_details' job.pk %}"> {{job.title}}</a></h4> 
+           <small>
+            Last Updated: {{job.published_date}} |  Post By: {{job.name}}
+            Job Location: {{job.location}} |    Deadline: {{job.deadline}}
+           </small>    
+           <p>
+                {{job.description | truncatewords:"80"}}
+           </p>
+            
+            
+        </li>
+            
+        
+        {% empty %} 
+            <h2>No recent job posts availabe at the moment....</h2>
+        {% endfor %}
+    </ol>
+
+{% endblock %}

@@ -1,0 +1,347 @@
+{% extends 'home/base.html' %}
+{% load static %}
+
+{% block title %} Home {% endblock %}
+
+<header>
+    {% block slides %} 
+    <div id="carouselExampleCaptions" class="carousel slide" data-bs-ride="carousel">
+        <div class="carousel-indicators">
+          <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
+          <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="1" aria-label="Slide 2"></button>
+          <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="2" aria-label="Slide 3"></button>
+        </div>
+
+        <div class="carousel-inner">
+          <div class="carousel-item active" data-bs-interval="80000">
+            <img src="{% static '/images/tech.jpg' %}" class="d-block w-100" alt="header tech image">
+            <div class="carousel-caption d-none d-md-block">
+              <h5>Learn Modern Technologies</h5>
+            </div>
+          </div>
+
+          <div class="carousel-item" data-bs-interval="2000">
+            <img src="{% static '/images/network.jpg' %}" class="d-block w-100" alt="...">
+            <div class="carousel-caption d-none d-md-block">
+              <h5>Network By Connecting With Quality People</h5>
+            </div>
+          </div>
+
+          <div class="carousel-item" data-bs-interval="2000">
+            <img src="{% static '/images/job.webp' %}" class="d-block w-100" alt="...">
+            <div class="carousel-caption d-none d-md-block">
+              <h5>Get Job Updates</h5>
+            </div>
+          </div>
+
+          <div class="carousel-item" data-bs-interval="2000">
+            <img src="{% static '/images/buy.jpg' %}" class="d-block w-100" alt="...">
+            <div class="carousel-caption d-none d-md-block">
+              <h5>Buy Digital and Physical Products</h5>
+            </div>
+          </div>
+
+          <div class="carousel-item" data-bs-interval="2000">
+            <img src="{% static '/images/research.jpg' %}" class="d-block w-100" alt="...">
+            <div class="carousel-caption d-none d-md-block">
+              <h5>Let's Help You With Your Research Work</h5>
+            </div>
+          </div>
+
+        </div>
+
+        <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide="prev">
+          <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+          <span class="visually-hidden">Previous</span>
+        </button>
+
+        <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide="next">
+          <span class="carousel-control-next-icon" aria-hidden="true"></span>
+          <span class="visually-hidden">Next</span>
+        </button>
+      </div>
+    {% endblock %}
+</header>
+
+{% block body %} 
+        <div class="container text-center">
+            <h1>Services</h1>
+          <div class="row">
+          <div class="col">
+        <img src="{% static '/images/digital-prodct.jpg' %}" alt="Digital Product Image" srcset="" class="services-img">
+        <h3>Digital Product</h3>
+        <p>
+          The majority of our digital products are made available without charge. The premium and the free digital products 
+          provide high-quality context that either addresses specific problems or raises awareness on issues that will improve 
+          the quality of people's lives.
+        </p>
+        <div class="col">
+      <img src="{% static '/images/web_security.png' %}" alt="Web Security Image" srcset="" class="services-img">
+      <h3>Web Security</h3>
+      <p>
+        We are a team of individuals who enjoy tackling technological problems by providing creative solutions. 
+        Let's make it happen what you have in mind.
+      </p>
+    </div>
+      </div>
+      
+      <div class="col">
+        <img src="{% static '/images/job.webp' %}" alt="Job Search Image" srcset="" class="services-img">
+        <h3>Job Posting</h3>
+        <p>
+          We offer links to reputable job postings and help you improve the appearance of your cover letter, 
+          reference letter, and other documents with high-quality content.
+        </p>
+        <div class="col">
+      <img src="{% static '/images/web_security.png' %}" alt="Web Security Image" srcset="" class="services-img">
+      <h3>Telecommunications</h3>
+      <p>
+        Cheap and reliable internet connection, cable tv subscription, electricity payment,
+        purchase of WAEC e-pin and bulk printing of airtime.
+      </p>
+    </div>
+       
+
+      </div>
+      
+    </div>
+
+    
+
+    
+
+    <div class="container text-center">
+        <h1>Recent Posts</h1>
+        <div class="row">          
+            <div class="col">
+                <h3 class="btn btn-primary"><a href="{% url 'index:job_list' %}" class="recent-post-btn"> Jobs  </a> </h3>
+                <ul>
+                   {% for job in jobs  %} 
+                   <li>
+                        <h4> <a href="{% url 'index:job_details' job.pk %}"> {{job.title}} </a></h4>
+                        <small>
+                            Last Updated: {{job.pushlished_date}} | Job Posted By: {{job.name}}
+                             Job Location: {{job.location}} | Deadline: {{job.deadline}} 
+                        </small><br> 
+                            <p>{{job.description | truncatewords:"30"}} </p>
+                   </li> <br>
+                    {% empty %} 
+                        <h4>No recent job post availabe right now...</h4>
+                {% endfor %}
+                </ul>               
+            <button class="btn btn-primary" ><small>View More Job Posts...</small></button>
+          </div>
+          <div class="col"> 
+            <h3 class="btn btn-primary"><a href="{% url 'index:blog_list' %}" class="recent-post-btn"> Blog  </a> </h3>          
+            <ul>
+              {% for blog in blogs  %} 
+              <li>
+                   <h4><a href="{% url 'index:blog_details' blog.pk %}">{{blog.title}}</a></h4>
+                   <small>
+                        Last Updated: {{blog.date}} | Job Posted By: {{job.author}}
+                   </small> <br>                  
+                   <p>{{blog.content | truncatewords:"30"}} </p>
+              </li> <br>
+               {% empty %} 
+                   <h2>No recent blog post availabe right now...</h2>
+           {% endfor %}
+           </ul>
+
+            <br><button class="btn btn-primary"><small>View More Blog Posts...</small></button>
+          </div>
+          
+        </div>
+
+        
+      </div>
+
+
+      <div class="container text-center">
+        <h1>About</h1>
+        <div class="row">
+          
+          <div class="col"><br><br>
+            <p>
+
+              We are a team of people who appreciate taking on challenging and unattainable tasks and have a variety of skill sets.
+             Let us assist you with designing, security, and managing your personal, portfolio, and company websites, 
+             mobile applications, and web applications.
+              
+            </p>
+            <p>
+              Additionally, We offer an extensive range of services, including the sale of digital products, telecommunications solutions 
+              like the sale of internet access for all Nigerian networks, job posting services like writing Cvs or Resumes, 
+              cover letters, reference letters, recruitment advice, business management for business owners, and much more. 
+              Additionally, we relieve you of the burden associated with your academic and business research projects, such 
+              as your final year project, school assignments (for all courses, departments, and levels), company plans, 
+              feasibility analyses, business proposals, etc.
+            </p>
+          </div>
+         
+          <div class="col">
+            <p>
+              <h5>Our Services Includes:</h5>
+                <ul>
+                  <li>Academic and Business Reserach Work</li> <br>
+                  <li>Architectural Designs</li><br>
+                  <li>Digital Products</li><br>
+                   <li>Job Posting</li> <br>
+                  <li> Project Management</li> <br>
+                  <li>Sales of data bundles, airtime, cable Tv Suscription, Electricity payment</li> <br>
+                  <li>Web Programming</li>
+                </ul> <br>
+            </p>
+          </div>
+
+        </div>
+      </div>
+
+      
+      <div class="container text-center">
+        <h1>Testimonies</h1>
+        <div class="row">
+          <div class="col">
+            <div>
+              <div>
+                <img src="{% static '/images/tech.jpg' %}" alt="Tomilade image" srcset="" class="services-img">
+              </div>
+                <h5>Olugbemi Tomilade</h5>
+              <p>Lorem, ipsum dolor sit amet consectetur adipisicing elit. Deleniti unde culpa facilis, tenetur perspiciatis ipsam, 
+                deserunt distinctio veniam autem illum qui id accusantium ipsum asperiores molestiae, fugit quas commodi repellat!
+              </p>
+            </div>
+            <div class="col">
+            <div>
+              <div>
+                <img src="{% static '/images/tech.jpg' %}" alt="Tomilade image" srcset="" class="services-img">
+              </div>
+                <h5>Olugbemi Tomilade</h5>
+              <p>Lorem, ipsum dolor sit amet consectetur adipisicing elit. Deleniti unde culpa facilis, tenetur perspiciatis ipsam, 
+                deserunt distinctio veniam autem illum qui id accusantium ipsum asperiores molestiae, fugit quas commodi repellat!
+              </p>
+            </div>
+          </div>
+          <div class="col">
+            <div>
+              <div>
+                <img src="{% static '/images/tech.jpg' %}" alt="Tomilade image" srcset="" class="services-img">
+              </div>
+                <h5>Olugbemi Tomilade</h5>
+              <p>Lorem, ipsum dolor sit amet consectetur adipisicing elit. Deleniti unde culpa facilis, tenetur perspiciatis ipsam, 
+                deserunt distinctio veniam autem illum qui id accusantium ipsum asperiores molestiae, fugit quas commodi repellat!
+              </p>
+            </div>
+          </div>
+          </div>
+
+          <div class="col">
+            <div>
+              <div>
+                <img src="{% static '/images/tech.jpg' %}" alt="Tomilade image" srcset="" class="services-img">
+              </div>
+                <h5>Adeshola Daniel</h5>
+              <p>Lorem, ipsum dolor sit amet consectetur adipisicing elit. Deleniti unde culpa facilis, tenetur perspiciatis ipsam, 
+                deserunt distinctio veniam autem illum qui id accusantium ipsum asperiores molestiae, fugit quas commodi repellat!
+              </p>
+            </div>
+            <div class="col">
+            <div>
+              <div>
+                <img src="{% static '/images/tech.jpg' %}" alt="Tomilade image" srcset="" class="services-img">
+              </div>
+                <h5>Olugbemi Tomilade</h5>
+              <p>Lorem, ipsum dolor sit amet consectetur adipisicing elit. Deleniti unde culpa facilis, tenetur perspiciatis ipsam, 
+                deserunt distinctio veniam autem illum qui id accusantium ipsum asperiores molestiae, fugit quas commodi repellat!
+              </p>
+            </div>
+          </div>
+          <div class="col">
+            <div>
+              <div>
+                <img src="{% static '/images/tech.jpg' %}" alt="Tomilade image" srcset="" class="services-img">
+              </div>
+                <h5>Olugbemi Tomilade</h5>
+              <p>Lorem, ipsum dolor sit amet consectetur adipisicing elit. Deleniti unde culpa facilis, tenetur perspiciatis ipsam, 
+                deserunt distinctio veniam autem illum qui id accusantium ipsum asperiores molestiae, fugit quas commodi repellat!
+              </p>
+            </div>
+          </div>
+          </div>
+          
+          </div>
+              
+
+
+
+            <div>
+              <form action="{% url 'index:home' %}" method="post">
+                {% csrf_token %}
+                <h1>Contact Us</h1>
+
+                <div class="mb-3">
+                  <label for="name" class="form-label">Name</label>
+                  <input type="text" class="form-control" id="name"  placeholder="Name">            
+                </div>
+
+
+                <div class="mb-3">
+                  <label for="email" class="form-label">Email address</label>
+                  <input type="email" class="form-control" id="email" aria-describedby="emailHelp" placeholder="Email">
+                  <div id="emailHelp" class="form-text">We'll never share your email with anyone else.</div>
+                </div>
+
+                <div class="mb-3">
+                  <label for="mobile_number" class="form-label">Phone Number</label>
+                  <input type="number" class="form-control" id="mobile_number" placeholder="Mobile Number">                  
+                </div>
+
+                <div class="mb-3">
+                  <label for="message" class="form-label">Message</label>
+                  <textarea name="message" id="message" cols="30" rows="15" placeholder="Mesaage" autocomplete="on" 
+                  autocorrect = "on" required class="form-control"></textarea>
+                </div>
+                <button type="submit" class="btn btn-primary" id="btn">Submit</button>
+              </form>
+            </div>
+
+
+
+    <style>
+      .services-img{
+          border-radius: 50%;
+          width: 7rem;
+          height: 7rem;
+      }
+
+      .recent-post-btn{
+        color: white;
+        text-decoration: none;
+      }
+
+      h1{
+          margin-top: 1.5rem;
+          text-transform: uppercase;
+      }
+
+      p{
+        text-align: justify;
+      }
+
+      li{
+        list-style-type: none;
+        text-align: justify;
+      }
+
+     
+      #btn{
+        margin-bottom: 5rem;
+      }
+  
+  </style>
+{% endblock %}
+
+
+
+
+
+

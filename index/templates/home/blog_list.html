@@ -1,0 +1,29 @@
+{% extends 'home/base.html' %}
+{% block title %} Blog Posts {% endblock %} 
+
+
+{% block body %} 
+
+    <h1>BLOG POSTS</h1> <br>
+    
+        <ol>
+        {% for blog in object_list %} 
+        <li>
+           <h4><a href="{% url 'index:blog_details' blog.pk %}"> {{blog.title}}</a></h4> 
+           <small>
+            Last Updated: {{blog.date}} | Author: {{blog.author}}
+           </small>    
+           <p>
+                {{blog.content | truncatewords:"80"}}
+           </p>
+            
+            
+        </li>
+            
+        
+        {% empty %} 
+            <h2>No recent posts availabe at the moment....</h2>
+        {% endfor %}
+    </ol>
+
+{% endblock %}
