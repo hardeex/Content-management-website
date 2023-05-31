@@ -1,7 +1,8 @@
 from django.shortcuts import render, get_object_or_404
 from . import models
-from django.views.generic import ListView, DetailView, CreateView
+from django.views.generic import ListView, DetailView, CreateView, UpdateView
 from . import custom_model_form
+
 
 # create classes the views
 class JobHomeView(ListView):
@@ -31,7 +32,14 @@ class AddPostView(CreateView):
     template_name = 'home/add_post.html'
     #fields = '__all__'
 
-# Create your views here.
+class EditPostView(UpdateView):
+    model = models.BlogPost
+    fields = ['title', 'content']
+    template_name = 'home/edit_post.html'
+    #success_url = 'home/blog_details.html'
+    
+
+# Create the function views here.
 def home(request):
     jobs = models.JobPost.objects.all()[:5]
     blogs = models.BlogPost.objects.all()[:5]
