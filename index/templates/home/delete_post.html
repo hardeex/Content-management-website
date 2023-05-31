@@ -1,0 +1,18 @@
+{% extends 'home/base.html' %} 
+{% block title %}  Delete Post {% endblock %}
+
+{% block body %} 
+    <h1> DELETE BLOG POST</h1><br> <br>
+
+    <h3><em>Delete: </em>  {{object.title}} </h3>
+    <p>
+        {{object.content | truncatewords:"80"}}
+    </p>
+
+    <div class="form-group"> 
+        <form method="POST">
+            {% csrf_token %}             
+            <button class="btn btn-primary">Delete</button>
+        </form> <br><br>
+    </div>
+{% endblock %}

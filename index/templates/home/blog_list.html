@@ -11,7 +11,9 @@
         <li>
            <h4><a href="{% url 'index:blog_details' blog.pk %}"> {{blog.title}}</a></h4> 
            <small>
-            Last Updated: {{blog.date}} | Author: {{blog.author}} | <small><a href="{% url 'index:edit_post' blog.pk %}">(Edit)</a></small>
+            Last Updated: {{blog.date}} | Author: {{blog.author}} | 
+            <a href="{% url 'index:edit_post' blog.pk %}">(Edit)</a> |
+            <a href="{% url 'index:delete_post' blog.pk %}">(Delete)</a>
            </small>    
            <p>
                 {{blog.content | truncatewords:"80"}}

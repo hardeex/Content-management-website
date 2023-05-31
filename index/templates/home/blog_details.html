@@ -5,6 +5,8 @@
         <h1>{{object.title | upper}} </h1>
         <small>
             Last Updated: {{object.date}} | Author: {{object.author}}
+            <a href="{% url 'index:edit_post' object.pk %}">(Edit)</a> |
+            <a href="{% url 'index:delete_post' object.pk %}">(Delete)</a>
            </small> <br> <br>    
            <p>
                 {{object.content}}

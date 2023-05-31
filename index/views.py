@@ -1,13 +1,16 @@
 from django.shortcuts import render, get_object_or_404
 from . import models
-from django.views.generic import ListView, DetailView, CreateView, UpdateView
+from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
 from . import custom_model_form
+from django.urls import reverse_lazy
+
 
 
 # create classes the views
 class JobHomeView(ListView):
     model = models.JobPost
     template_name = 'home/job_list.html'
+    ordering = ['-id']
     
 
 
@@ -19,6 +22,7 @@ class JobDetailsView(DetailView):
 class BlogHomeView(ListView):
     model = models.BlogPost
     template_name = 'home/blog_list.html'
+    ordering = ['-id']
 
 
 class BlogDetailsView(DetailView):
@@ -34,9 +38,16 @@ class AddPostView(CreateView):
 
 class EditPostView(UpdateView):
     model = models.BlogPost
-    fields = ['title', 'content']
+    #fields = ['title', 'content']
     template_name = 'home/edit_post.html'
+    form_class = custom_model_form.CustomBlogPostForm
     #success_url = 'home/blog_details.html'
+
+class DeletePostView(DeleteView):
+    model = models.BlogPost
+    success_url = reverse_lazy('index:blog_list')
+    template_name = 'home/delete_post.html'
+    
     
 
 # Create the function views here.
