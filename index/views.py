@@ -1,8 +1,7 @@
 from django.shortcuts import render, get_object_or_404
 from . import models
 from django.views.generic import ListView, DetailView, CreateView
-from django.http import HttpResponseRedirect, HttpResponse
-from django.urls import reverse
+from . import custom_model_form
 
 # create classes the views
 class JobHomeView(ListView):
@@ -28,8 +27,9 @@ class BlogDetailsView(DetailView):
 
 class AddPostView(CreateView):
     model = models.BlogPost
+    form_class = custom_model_form.CustomBlogPostForm
     template_name = 'home/add_post.html'
-    fields = '__all__'
+    #fields = '__all__'
 
 # Create your views here.
 def home(request):
