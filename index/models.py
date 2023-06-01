@@ -9,6 +9,7 @@ from django.http import HttpResponseRedirect, HttpResponse
 class JobPost(models.Model):
     name = models.ForeignKey(User, on_delete = models.CASCADE )
     title = models.CharField(max_length=255)
+    #pushlished_date = models.DateTimeField(auto_now_add=True)
     pushlished_date = models.DateField()
     deadline = models.DateField()
     location = models.CharField(max_length=50)

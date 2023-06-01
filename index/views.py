@@ -10,7 +10,7 @@ from django.urls import reverse_lazy
 class JobHomeView(ListView):
     model = models.JobPost
     template_name = 'home/job_list.html'
-    ordering = ['-id']
+    ordering = ['-pushlished_date']
     
 
 
@@ -22,7 +22,7 @@ class JobDetailsView(DetailView):
 class BlogHomeView(ListView):
     model = models.BlogPost
     template_name = 'home/blog_list.html'
-    ordering = ['-id']
+    ordering = ['-date']
 
 
 class BlogDetailsView(DetailView):
@@ -52,8 +52,10 @@ class DeletePostView(DeleteView):
 
 # Create the function views here.
 def home(request):
-    jobs = models.JobPost.objects.all()[:5]
-    blogs = models.BlogPost.objects.all()[:5]
+    #jobs = models.JobPost.objects.all()[:5]
+    #blogs = models.BlogPost.objects.all()[:5]
+    blogs = models.BlogPost.objects.order_by('-date')[:5]
+    jobs = models.JobPost.objects.order_by('-pushlished_date')[:5]
     return render(request, 'home/home.html',{
         'jobs': jobs,
         'blogs': blogs
