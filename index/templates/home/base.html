@@ -29,22 +29,44 @@
           <ul class="navbar-nav me-auto mb-2 mb-lg-0">
 
             <li class="nav-item">
-              <a class="nav-link active" aria-current="page" href="{% url 'index:home' %}">Home</a>
+            <a class="nav-link active" aria-current="page" href="{% url 'index:home' %}">Home</a>
             </li>
 
+            {% if user.is_authenticated %}
+                  <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="{% url 'index:blog_list' %}" role="button"
+                    data-bs-toggle="dropdown" aria-expanded="false">
+                    Manage Blog
+                    </a>
+                    <ul class="dropdown-menu">   
+                      <li><a class="dropdown-item" href="{% url 'index:blog_list' %}">Blog</a></li>       
+                      <li><a class="dropdown-item" href="{% url 'index:add_post' %}">Add A New Blog</a></li>                
+                      <li><hr class="dropdown-divider"></li>                
+                    </ul>
+                  </li>
 
-            <li class="nav-item dropdown">
-              <a class="nav-link dropdown-toggle" href="{% url 'index:blog_list' %}" role="button"
-               data-bs-toggle="dropdown" aria-expanded="false">
-               Blog
-              </a>
-              <ul class="dropdown-menu">   
-                <li><a class="dropdown-item" href="{% url 'index:blog_list' %}">Post Lists</a></li>       
-                <li><a class="dropdown-item" href="{% url 'index:add_post' %}">Add Blog Post</a></li>                
-                <li><hr class="dropdown-divider"></li>                
-              </ul>
-            </li>
+                  <li class="nav-item">
+                    <a class="nav-link active" aria-current="page" href="{% url 'logout' %}">Logout</a>
+                  </li>                  
+                  
+            {% else %}
+                  <li class="nav-item">
+                    <a class="nav-link active" aria-current="page" href="{% url 'index:blog_list' %}">Blog</a>
+                  </li>
+                  
+                  <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" role="button"
+                     data-bs-toggle="dropdown" aria-expanded="false">
+                     Manage Account
+                    </a>
+                    <ul class="dropdown-menu">   
+                      <li><a class="dropdown-item" href="{% url 'account:register' %}">Register</a></li>   
+                      <li><a class="dropdown-item" href="{% url 'login' %}">Login</a></li>                                         
+                      <li><hr class="dropdown-divider"></li>                
+                    </ul>
+                  </li>                  
 
+            {% endif %}
             <li class="nav-item">
               <a class="nav-link" href="{% url 'index:job_list' %}">Jobs</a>
             </li>
@@ -65,18 +87,20 @@
               </ul>
             </li>
 
+            <!---
             <li class="nav-item dropdown">
               <a class="nav-link dropdown-toggle" href="#" role="button"
                data-bs-toggle="dropdown" aria-expanded="false">
                Manage Account
               </a>
               <ul class="dropdown-menu">   
+                <li><a class="dropdown-item" href="{% url 'account:register' %}">Register</a></li>   
                 <li><a class="dropdown-item" href="{% url 'login' %}">Login</a></li>       
-                <li><a class="dropdown-item" href="{% url 'account:register' %}">Register</a></li>                
+                <li><a class="dropdown-item" href="{% url 'logout' %}">Logout</a></li>              
                 <li><hr class="dropdown-divider"></li>                
               </ul>
             </li>   
-
+            -->
 
             <li class="nav-item dropdown">
               <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
