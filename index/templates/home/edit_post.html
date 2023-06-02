@@ -2,6 +2,7 @@
 {% block title %}  Edit Post {% endblock %}
 
 {% block body %} 
+{% if user.is_authenticated %}
     <h1> UPDATE POST</h1><br> <br>
 
     <div class="form-group"> 
@@ -12,4 +13,7 @@
             <button class="btn btn-primary">Update</button>
         </form> <br><br>
     </div>
+{% else %} 
+    <h3>You don't have the permission to access this page...</h3>
+{% endif %}
 {% endblock %}

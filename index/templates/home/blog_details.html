@@ -3,14 +3,25 @@
 
 {% block body %} 
         <h1>{{object.title | upper}} </h1>
-        <small>
-            Last Updated: {{object.date}} | Author: {{object.author}}
-            <a href="{% url 'index:edit_post' object.pk %}">(Edit)</a> |
-            <a href="{% url 'index:delete_post' object.pk %}">(Delete)</a>
-           </small> <br> <br>    
-           <p>
-                {{object.content}}
-           </p><br><br>
+        {% if user.is_authenticated %}
+               <small>
+                    Last Updated: {{object.date}} | Author: {{object.author}}
+                    <a href="{% url 'index:edit_post' object.pk %}">(Edit)</a> |
+                    <a href="{% url 'index:delete_post' object.pk %}">(Delete)</a>
+                    </small> <br> <br>    
+                    <p>
+                         {{object.content | safe}}
+                    </p><br><br>
+
+          {% else %} 
+               <small>
+               Last Updated: {{object.date}} | Author: {{object.author}}               
+               </small> <br> <br>    
+               <p>
+                    {{object.content | safe}}
+               </p><br><br>
+
+          {% endif %}
 
            <a href="{% url 'index:blog_list' %}" class="btn btn-primary">Back To Blog Posts List</a><br><br>
 {% endblock %}
