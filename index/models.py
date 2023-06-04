@@ -21,15 +21,27 @@ class JobPost(models.Model):
     def __str__(self):
         return f"Job Position: {self.title} | Published Date: {self.pushlished_date} Deadline: {self.deadline} Post By: {self.name}"
 
+class BlogCategory(models.Model):
+    name = models.CharField(max_length= 150)
+    
+    
+    def __str__(self):
+        return self.name
+
+    def get_absolute_url(self):
+        return reverse('index:blog_details', args=[str(self.id)] )
+
+
 class BlogPost(models.Model):
     author = models.ForeignKey(User, on_delete=models.CASCADE)
     title = models.CharField(max_length=255)
     date = models.DateTimeField(auto_now_add=True)
     #date = models.DateTimeField()
+    category = models.CharField(max_length=255, default="Uncategorized")
     content = models.TextField()
 
     def __str__(self):
-        return f"Blog Title: {self.title} | Date Published: { self.date} |  Author: {self.author}"
+        return f"Blog Title: {self.title} | Date Published: { self.date} |  Author: {self.author} | {self.category}"
 
     def get_absolute_url(self):
         return reverse('index:blog_details', args=[str(self.id)] )

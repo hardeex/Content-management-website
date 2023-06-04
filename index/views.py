@@ -36,6 +36,15 @@ class AddPostView(CreateView):
     template_name = 'home/add_post.html'
     #fields = '__all__'
 
+
+class AddCategoryView(CreateView):
+    model = models.BlogCategory
+    #form_class = custom_model_form.CustomBlogPostForm
+    template_name = 'home/add_category.html'
+    fields = '__all__'
+
+
+
 class EditPostView(UpdateView):
     model = models.BlogPost
     #fields = ['title', 'content']
@@ -61,4 +70,8 @@ def home(request):
         'blogs': blogs
     })
 
+def CategoryView(request, category):
+    return render(request, 'category_view.html', {
+        'category': category
+    })
 
