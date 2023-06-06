@@ -64,20 +64,23 @@ class DeletePostView(DeleteView):
 
 # Create the function views here.
 def home(request):
-    #jobs = models.JobPost.objects.all()[:5]
-    #blogs = models.BlogPost.objects.all()[:5]
-    blogs = models.BlogPost.objects.order_by('-date')[:5]
-    jobs = models.JobPost.objects.order_by('-pushlished_date')[:5]
-    return render(request, 'home/home.html',{
-        'jobs': jobs,
-        'blogs': blogs
-    })
+    try:
+            #jobs = models.JobPost.objects.all()[:5]
+            #blogs = models.BlogPost.objects.all()[:5]
+            blogs = models.BlogPost.objects.order_by('-date')[:5]
+            jobs = models.JobPost.objects.order_by('-pushlished_date')[:5]
+            return render(request, 'home/home.html',{
+                'jobs': jobs,
+                'blogs': blogs
+            })
+    except:
+        return render(request, 'home/error.html')
 
 def CategoryView(request, category_name):
     try:
         #category = models.BlogPost.objects.filter(category='category_name')
         category = models.BlogCategory.objects.get(name=category_name)
-        posts = models.BlogPost.objects.filter(category=category)
+        posts = models.BlogPost.objects.filter(category=category)   
         return render(request, 'home/category_view.html', {
             'category': category,
             'posts': posts
