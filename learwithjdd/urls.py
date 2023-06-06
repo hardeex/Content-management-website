@@ -15,10 +15,20 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import include, path
+#from django.conf.urls import handler404
+#from index.views import PageNotFound
+#from django.views.defaults import page_not_found
+#from index.views import reddirct_to_error_page
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', include("index.urls")),
     path('account/', include('django.contrib.auth.urls')),
-    path('account/', include('account.urls'))
+    path('account/', include('account.urls')), 
+    #path('<path:not_found>/', page_not_found, name='page_not_found')
+    #path('<path:not_found>/', reddirct_to_error_page)
 ]
+#handler404 = 'index.views.error_page'
+#handler404 = 'index.views.PageNotFound'
+#handler404 = 'reddirct_to_error_page'
+#handler404 = 'index.vews.reddirct_to_error_page'

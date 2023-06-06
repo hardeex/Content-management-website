@@ -5,6 +5,7 @@ from . views import JobHomeView, JobDetailsView, BlogHomeView, BlogDetailsView, 
 from  django.views.generic.base import RedirectView
 from django.contrib.staticfiles.storage import staticfiles_storage
 
+
 app_name = 'index'
 urlpatterns = [
     path('', views.home, name = 'home'),
@@ -17,5 +18,5 @@ urlpatterns = [
     path('favicon.ico', RedirectView.as_view(url=staticfiles_storage.url('images/favicon.ico'))),
     path('blog/edit/<int:pk>', EditPostView.as_view(), name='edit_post' ),
     path('blog/<int:pk>/delete', DeletePostView.as_view(), name='delete_post' ),
-    path('category/<str:category_id', views.CategoryView, name='category_list'),
+    path('category/<str:category_name>/', views.CategoryView, name='category_list'),    
 ]

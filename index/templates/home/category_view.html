@@ -1,0 +1,42 @@
+{% extends 'home/base.html' %} 
+{% block title %} {{category.name | upper}} POSTS {% endblock %}
+
+{% block body %} 
+{% if posts %}
+        <h1>{{category.name | upper}} POSTS  </h1><br> <br>
+
+        <ol>
+            {% for blog in posts %} 
+            <li>
+               <h4><a href="{% url 'index:blog_details' blog.pk %}"> {{blog.title | upper}}</a></h4> 
+               {% if user.is_authenticated %}
+                    <small>
+                        Last Updated: {{blog.date}} | Author: {{blog.author}} | 
+                        Category: <a href="{% url 'index:edit_post' blog.pk %}">{{blog.category}}</a> |
+                        <a href="{% url 'index:edit_post' blog.pk %}">(Edit)</a> |
+                        <a href="{% url 'index:delete_post' blog.pk %}">(Delete)</a>
+                    </small>    
+                    <p>
+                            {{blog.content | truncatewords:"80" | safe}}
+                    </p>
+            {% else %} 
+                    <small>
+                        Last Updated: {{blog.date}} | Author: {{blog.author}} |                    
+                    </small>    
+                    <p>
+                            {{blog.content | truncatewords:"80" | safe}}
+                    </p>
+            {% endif %}
+                
+            </li>
+                
+            
+            {% empty %} 
+                <h2>No recent posts availabe for this category....</h2>
+            {% endfor %}
+        </ol>
+    {% else %} 
+            <h4>This page do not exists</h4>
+    {% endif %}
+    
+{% endblock %}

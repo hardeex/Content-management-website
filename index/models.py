@@ -37,7 +37,8 @@ class BlogPost(models.Model):
     title = models.CharField(max_length=255)
     date = models.DateTimeField(auto_now_add=True)
     #date = models.DateTimeField()
-    category = models.CharField(max_length=255, default="Uncategorized")
+    category = models.CharField(max_length=150, default="Uncategorized")
+    #category = models.ForeignKey(BlogCategory, on_delete = models.CASCADE)
     content = models.TextField()
 
     def __str__(self):

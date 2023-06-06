@@ -9,7 +9,7 @@
         <ol>
         {% for blog in object_list %} 
         <li>
-           <h4><a href="{% url 'index:blog_details' blog.pk %}"> {{blog.title}}</a></h4> 
+           <h4><a href="{% url 'index:blog_details' blog.pk %}"> {{blog.title | upper}}</a></h4> 
            {% if user.is_authenticated %}
                 <small>
                     Last Updated: {{blog.date}} | Author: {{blog.author}} | 

@@ -3,6 +3,9 @@ from . import models
 from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
 from . import custom_model_form
 from django.urls import reverse_lazy
+#from django.shortcuts import redirect
+#from django.conf.urls import handler404
+#from django.conf import settings
 
 
 
@@ -70,8 +73,23 @@ def home(request):
         'blogs': blogs
     })
 
-def CategoryView(request, category):
-    return render(request, 'category_view.html', {
-        'category': category
-    })
+def CategoryView(request, category_name):
+    try:
+        #category = models.BlogPost.objects.filter(category='category_name')
+        category = models.BlogCategory.objects.get(name=category_name)
+        posts = models.BlogPost.objects.filter(category=category)
+        return render(request, 'home/category_view.html', {
+            'category': category,
+            'posts': posts
+        })
+    except models.BlogCategory.DoesNotExist:
+        return render(request, 'home/category_not_found.html')
+    except:
+        return render(request, 'home/error.html')
 
+
+#def PageNotFound(request, exception):
+ #   return render(request, 'home/error.html', status=404)
+
+#def reddirct_to_error_page(request, exception):
+ #   return render(request, 'home/error.html')

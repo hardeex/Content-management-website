@@ -1,0 +1,11 @@
+{% extends 'home/base.html' %} 
+{% block title %} Page Not Found {% endblock %}
+
+{% block body %}
+
+<h1>ERROR LOADING THIS PAGE !</h1>
+<p>The requested query does not exist.</p>
+
+<a class="btn btn-primary" href="{% url 'index:home' %}">Go Home</a> <br><br><br>
+
+{% endblock %}
