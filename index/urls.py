@@ -16,6 +16,7 @@ urlpatterns = [
     path('add_post/', AddPostView.as_view(), name='add_post'),
     path('blog/edit/<int:pk>', EditPostView.as_view(), name='edit_post' ),
     path('blog/<int:pk>/delete', DeletePostView.as_view(), name='delete_post' ),
+    path('like/<int:pk>', views.LikeView, name='like_post'),
     
     path('job/', JobHomeView.as_view(), name="job_list"),
     path('job/<int:pk>/', JobDetailsView.as_view(), name='job_details'),

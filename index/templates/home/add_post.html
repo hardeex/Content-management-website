@@ -13,6 +13,11 @@
             <button class="btn btn-primary">Post</button>
         </form> <br><br>
     </div>
+    <script>
+        var author = "{{user.id}}";
+        document.getElementById("author").value = author;
+
+    </script>
 {% else %} 
     <h2>You don't have the permission to access this page...</h2>
 {% endif %}

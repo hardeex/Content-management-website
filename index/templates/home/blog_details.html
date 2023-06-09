@@ -3,12 +3,7 @@
 
 {% block body %} 
         <h1>{{object.title | upper}} </h1>
-        {% if user.is_authenticated %} 
-          Author: {{object.author}} <br>
-          Author ID: {{object.author.id}} <br>
-          LoggedIn User: {{user}} <br>
-          LoggedIn user ID: {{user.id}} <br>
-               
+        {% if user.is_authenticated %}                         
                     <small>
                          Last Updated: {{object.date}} | Author: {{object.author}} |
                          Category: <a href="{% url 'index:category_list' object.category %}">{{object.category}}</a> |
@@ -19,7 +14,12 @@
                          </small> <br> <br>    
                          <p>
                               {{object.content | safe}}
-                         </p><br><br>               
+                         </p>  <hr>
+
+               <form action="{% url 'index:like_post' object.pk %}" method="post">
+                    {% csrf_token %} 
+                    <button type="submit"  class="btn btn-secondary" name="post_id" value="{{object.id}}">Likes- {{total_likes}} </button>
+               </form> <br><br><br>            
 
           {% else %} 
                <small>
@@ -31,5 +31,5 @@
 
           {% endif %}
 
-           <a href="{% url 'index:blog_list' %}" class="btn btn-primary">Back To Blog Posts List</a><br><br>
+           <a href="{% url 'index:blog_list' %}" class="btn btn-primary">Back To Posts List</a><br><br>
 {% endblock %}

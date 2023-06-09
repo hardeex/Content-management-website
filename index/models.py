@@ -40,12 +40,16 @@ class BlogPost(models.Model):
     category = models.CharField(max_length=150, default="Uncategorized")
     #category = models.ForeignKey(BlogCategory, on_delete = models.CASCADE)
     content = models.TextField()
+    likes = models.ManyToManyField(User, related_name='blog_posts')
 
     def __str__(self):
         return f"Blog Title: {self.title} | Date Published: { self.date} |  Author: {self.author} | {self.category}"
 
     def get_absolute_url(self):
         return reverse('index:blog_details', args=[str(self.id)] )
+
+    def total_likes(self):
+        return self.likes.count()
         
 
    
