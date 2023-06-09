@@ -13,8 +13,11 @@
                     <small>
                         Last Updated: {{blog.date}} | Author: {{blog.author}} | 
                         Category: <a href="{% url 'index:category_list' blog.category %}">{{blog.category}}</a> |
+                    {% if blog.author.id == user.id  %}
                         <a href="{% url 'index:edit_post' blog.pk %}">(Edit)</a> |
                         <a href="{% url 'index:delete_post' blog.pk %}">(Delete)</a>
+                    
+                    {% endif %}
                     </small>    
                     <p>
                             {{blog.content | truncatewords:"80" | safe}}

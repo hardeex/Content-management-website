@@ -4,20 +4,27 @@
 {% block body %} 
 {% if user.is_authenticated %}
     <h1> DELETE BLOG POST</h1><br> <br>
-
     <h3><em>Delete: </em>  {{object.title}} </h3>
-    <p>
-        {{object.content | truncatewords:"80"}}
-    </p>
+    {% if object.author.id == user.id  %}
+            <p>
+                {{object.content | truncatewords:"80"}}
+            </p>
 
-    <div class="form-group"> 
-        <form method="POST">
-            {% csrf_token %}             
-            <button class="btn btn-primary">Delete</button>
-        </form> <br><br>
-    </div>
+            <div class="form-group"> 
+                <form method="POST">
+                    {% csrf_token %}             
+                    <button class="btn btn-primary">Delete</button>
+                </form> <br><br>
+            </div>
+    {% else %} 
+            <h3>You don't have the access to delete this post</h3> <br> <br>
+            <a class="btn btn-primary" href="{% url 'index:blog_list' %}">View Blog Posts</a> 
+            <a class="btn btn-primary" href="{% url 'index:job_list' %}">View Job Posts</a> <br><br><br>
+    {% endif %}
+
 {% else %} 
-    <h3>You don't have the permission to access this page....</h3>
+    <h3>You don't have the permission to access this page....</h3> <br> <br>
+    <a class="btn btn-primary" href="{% url 'index:home' %}">Go Home</a> <br><br><br>
 
 {% endif %}
 {% endblock %}

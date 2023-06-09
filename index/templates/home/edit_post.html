@@ -4,16 +4,22 @@
 {% block body %} 
 {% if user.is_authenticated %}
     <h1> UPDATE POST</h1><br> <br>
-
-    <div class="form-group"> 
-        <form method="POST">
-            {% csrf_token %} 
-            {{form.as_p}}
-        
-            <button class="btn btn-primary">Update</button>
-        </form> <br><br>
-    </div>
+    {% if object.author.id == user.id  %}
+            <div class="form-group"> 
+                <form method="POST">
+                    {% csrf_token %} 
+                    {{form.as_p}}
+                
+                    <button class="btn btn-primary">Update</button>
+                </form> <br><br>
+            </div>
+    {% else %} 
+            <h3>You don't have the access to edit this post</h3> <br> <br>
+            <a class="btn btn-primary" href="{% url 'index:blog_list' %}">View Blog Posts</a> 
+            <a class="btn btn-primary" href="{% url 'index:job_list' %}">View Job Posts</a> <br><br><br>
+    {% endif %}
 {% else %} 
-    <h3>You don't have the permission to access this page...</h3>
+    <h3>You don't have the permission to access this page...</h3> <br><br>
+    <a class="btn btn-primary" href="{% url 'index:home' %}">Go Home</a> <br><br><br>
 {% endif %}
 {% endblock %}

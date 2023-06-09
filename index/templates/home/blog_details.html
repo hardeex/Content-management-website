@@ -3,16 +3,23 @@
 
 {% block body %} 
         <h1>{{object.title | upper}} </h1>
-        {% if user.is_authenticated %}
-               <small>
-                    Last Updated: {{object.date}} | Author: {{object.author}} |
-                    Category: <a href="{% url 'index:category_list' object.category %}">{{object.category}}</a> |
-                    <a href="{% url 'index:edit_post' object.pk %}">(Edit)</a> |
-                    <a href="{% url 'index:delete_post' object.pk %}">(Delete)</a>
-                    </small> <br> <br>    
-                    <p>
-                         {{object.content | safe}}
-                    </p><br><br>
+        {% if user.is_authenticated %} 
+          Author: {{object.author}} <br>
+          Author ID: {{object.author.id}} <br>
+          LoggedIn User: {{user}} <br>
+          LoggedIn user ID: {{user.id}} <br>
+               
+                    <small>
+                         Last Updated: {{object.date}} | Author: {{object.author}} |
+                         Category: <a href="{% url 'index:category_list' object.category %}">{{object.category}}</a> |
+               {% if object.author.id == user.id  %}
+                         <a href="{% url 'index:edit_post' object.pk %}">(Edit)</a> |
+                         <a href="{% url 'index:delete_post' object.pk %}">(Delete)</a>
+               {% endif %}
+                         </small> <br> <br>    
+                         <p>
+                              {{object.content | safe}}
+                         </p><br><br>               
 
           {% else %} 
                <small>
