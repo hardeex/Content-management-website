@@ -30,7 +30,7 @@
 
             <li class="nav-item">
             <a class="nav-link active" aria-current="page" href="{% url 'index:home' %}">Home</a>
-            </li>
+            </li>   
 
             {% if user.is_authenticated %}
                   <li class="nav-item dropdown">
@@ -39,10 +39,11 @@
                     Manage Blog
                     </a>
                     <ul class="dropdown-menu">   
-                      <li><a class="dropdown-item" href="{% url 'index:blog_list' %}">Blog</a></li>       
-                       <li><hr class="dropdown-divider"></li>
-                      <li><a class="dropdown-item" href="{% url 'index:add_post' %}">Add A New Blog</a></li>    
-                      <li><a class="dropdown-item" href="{% url 'index:add_category' %}">Add A Blog Category</a></li>                                                   
+                      <li><a class="dropdown-item" href="{% url 'index:blog_list' %}">Post </a></li>                              
+                      <li><a class="dropdown-item" href="{% url 'index:add_post' %}">Add A New Post</a></li>  
+                      <li><hr class="dropdown-divider"></li>  
+                      <li><a class="dropdown-item" href="{% url 'index:add_category' %}">Add A New Blog Category</a></li>   
+                      <li><a class="dropdown-item" href="{% url 'index:view_category' %}">View Post Categories</a></li>                                                                             
                     </ul>
                   </li>
 
@@ -50,11 +51,12 @@
                     <a class="nav-link active" aria-current="page" href="{% url 'logout' %}">Logout</a>
                   </li>                  
                   
-            {% else %}
-                  <li class="nav-item">
-                    <a class="nav-link active" aria-current="page" href="{% url 'index:blog_list' %}">Blog</a>
-                  </li>
-                  
+            {% else %}                                
+                <li class="nav-item">
+                  <a class="nav-link" href="{% url 'index:blog_list' %}">Posts</a>
+                </li>
+
+
                   <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle" href="#" role="button"
                      data-bs-toggle="dropdown" aria-expanded="false">

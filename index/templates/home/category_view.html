@@ -38,5 +38,7 @@
     {% else %} 
             <h4>This page do not exists</h4>
     {% endif %}
+
+    <br><br> <a class="btn btn-primary" href="{% url 'index:blog_list' %}">View Blog Posts</a>  <br><br><br>
     
 {% endblock %}

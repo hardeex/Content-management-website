@@ -26,6 +26,13 @@ class BlogHomeView(ListView):
     model = models.BlogPost
     template_name = 'home/blog_list.html'
     ordering = ['-date']
+    #category = models.BlogCategory.objects.all()
+
+    #def getCategoryList(self, *args, **kwargs):
+     #   category_menu = models.BlogCategory.objects.all()
+      #  context = super(BlogHomeView, self).getCategoryList(*args, **kwargs)
+       # context[category_menu] = context
+        #return context
 
 
 class BlogDetailsView(DetailView):
@@ -72,18 +79,18 @@ def home(request):
             return render(request, 'home/home.html',{
                 'jobs': jobs,
                 'blogs': blogs
-            })
+            })  
     except:
         return render(request, 'home/error.html')
 
 def CategoryView(request, category_name):
     try:
         #category = models.BlogPost.objects.filter(category='category_name')
-        category = models.BlogCategory.objects.get(name=category_name)
+        category = models.BlogCategory.objects.get(name=category_name)       
         posts = models.BlogPost.objects.filter(category=category)   
         return render(request, 'home/category_view.html', {
             'category': category,
-            'posts': posts
+            'posts': posts,            
         })
     except models.BlogCategory.DoesNotExist:
         return render(request, 'home/category_not_found.html')
@@ -91,8 +98,8 @@ def CategoryView(request, category_name):
         return render(request, 'home/error.html')
 
 
-#def PageNotFound(request, exception):
- #   return render(request, 'home/error.html', status=404)
-
-#def reddirct_to_error_page(request, exception):
- #   return render(request, 'home/error.html')
+def ListCategory(request):
+    category_list = models.BlogCategory.objects.all()    
+    return render(request, 'home/category_list.html', {
+            'category_list': category_list            
+    })

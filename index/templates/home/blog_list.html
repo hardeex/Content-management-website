@@ -22,11 +22,15 @@
                 </p>
         {% else %} 
                 <small>
+                    Category: <a href="{% url 'index:category_list' blog.category %}">{{blog.category}}</a> |
                     Last Updated: {{blog.date}} | Author: {{blog.author}} |                    
                 </small>    
                 <p>
                         {{blog.content | truncatewords:"80" | safe}}
                 </p>
+                {% for item in category_menu %} 
+                <li><a class="dropdown-item" href="#">{{item.name}} </a></li>
+                {% endfor %}
         {% endif %}
             
         </li>
@@ -36,5 +40,6 @@
             <h2>No recent posts availabe at the moment....</h2>
         {% endfor %}
     </ol>
+
 
 {% endblock %}
