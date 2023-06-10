@@ -33,10 +33,24 @@
             </li>   
 
             {% if user.is_authenticated %}
+                 
+
                   <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="" role="button"
+                    data-bs-toggle="dropdown" aria-expanded="false">
+                    Manage Account
+                    </a>
+                    <ul class="dropdown-menu">   
+                      <li><a class="dropdown-item" href="{% url 'account:edit_profile' %}">Edit Profile </a></li>                              
+                      <li><a class="dropdown-item" href="{% url 'logout' %}">Logout</a></li>                                                                                                   
+                    </ul>
+                  </li>   
+
+
+                   <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle" href="{% url 'index:blog_list' %}" role="button"
                     data-bs-toggle="dropdown" aria-expanded="false">
-                    Manage Blog
+                    Manage Post
                     </a>
                     <ul class="dropdown-menu">   
                       <li><a class="dropdown-item" href="{% url 'index:blog_list' %}">Post </a></li>                              
@@ -47,16 +61,8 @@
                     </ul>
                   </li>
 
-                  <li class="nav-item">
-                    <a class="nav-link active" aria-current="page" href="{% url 'logout' %}">Logout</a>
-                  </li>                  
                   
-            {% else %}                                
-                <li class="nav-item">
-                  <a class="nav-link" href="{% url 'index:blog_list' %}">Posts</a>
-                </li>
-
-
+            {% else %}                                               
                   <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle" href="#" role="button"
                      data-bs-toggle="dropdown" aria-expanded="false">
@@ -67,7 +73,12 @@
                       <li><a class="dropdown-item" href="{% url 'login' %}">Login</a></li>                                         
                       <li><hr class="dropdown-divider"></li>                
                     </ul>
-                  </li>                  
+                  </li>
+
+                   <li class="nav-item">
+                  <a class="nav-link" href="{% url 'index:blog_list' %}">Posts</a>
+                </li>
+
 
             {% endif %}
             <li class="nav-item">

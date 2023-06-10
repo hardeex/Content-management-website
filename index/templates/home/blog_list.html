@@ -20,7 +20,8 @@
                 {% endif %}    
                 </small>    
                 <p> 
-                        {{blog.content | truncatewords:"80" | safe}}
+                       <!---{{blog.content | truncatewords:"80" | safe}}--> 
+                       {{blog.headline | safe}}
                 </p>
         {% else %} 
                 <small>
@@ -28,7 +29,8 @@
                    <b>  Last Updated:</b> {{blog.date}} | <b>Author: </b>  {{blog.author.first_name}} {{blog.author.last_name}} |                    
                 </small>    
                 <p>
-                        {{blog.content | truncatewords:"80" | safe}}
+                        <!-----{{blog.content | truncatewords:"80" | safe}}--->
+                        {{blog.headline | safe}}
                 </p>                
         {% endif %}
             

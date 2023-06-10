@@ -4,6 +4,7 @@ from django.views.generic import ListView, DetailView, CreateView, UpdateView, D
 from . import custom_model_form
 from django.urls import reverse_lazy, reverse
 from django.http import HttpResponseRedirect
+#from ckeditor.fields import RichTextField
 #from django.shortcuts import redirect
 #from django.conf.urls import handler404
 #from django.conf import settings

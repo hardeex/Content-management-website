@@ -1,10 +1,10 @@
 from django.urls import path
-from . views import UserRegisterView
-#from . forms import registration_form
+from . views import UserRegisterView, UserEditProfileView
+
 
 app_name = 'account'
 
 urlpatterns = [
     path('register/', UserRegisterView.as_view(), name='register'),
-    #path('account/', registration_form.as_view, name='account'),
+    path('edit_profile/', UserEditProfileView.as_view(), name='edit_profile'),
 ]

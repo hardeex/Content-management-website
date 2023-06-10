@@ -9,7 +9,7 @@ for category_list in category:
 class CustomBlogPostForm(forms.ModelForm):
     class Meta:
         model = models.BlogPost
-        fields = ('title', 'author', 'category', 'content')
+        fields = ('title', 'author', 'category', 'content', 'headline')
 
         widgets = {
             'title': forms.TextInput(attrs={'class': 'form-control', 'placeholder':'Blog Title'}),
@@ -17,4 +17,5 @@ class CustomBlogPostForm(forms.ModelForm):
             #'author': forms.Select(attrs={'class': 'form-control'}),
             'category': forms.Select(choices= category_lists,  attrs= {'class': 'form-control'}),
             'content': forms.Textarea(attrs={'class': 'form-control', 'placeholder':'Blog Content'}),
+            'headline': forms.Textarea(attrs={'class': 'form-control', 'placeholder':'A snippet of your post that captures readers mind to read your post '}),
         }

@@ -2,7 +2,7 @@ from django.db import models
 from django.contrib.auth.models import User
 from django.urls import reverse
 from django.http import HttpResponseRedirect, HttpResponse
-
+from ckeditor.fields import RichTextField
 
 
 # Create your models here.
@@ -37,9 +37,11 @@ class BlogPost(models.Model):
     title = models.CharField(max_length=255)
     date = models.DateTimeField(auto_now_add=True)
     #date = models.DateTimeField()
-    category = models.CharField(max_length=150, default="Uncategorized")
+    category = models.CharField(max_length=150)
     #category = models.ForeignKey(BlogCategory, on_delete = models.CASCADE)
-    content = models.TextField()
+    #content = models.TextField()
+    content = RichTextField(blank=True, null=True)
+    headline = models.TextField(max_length=255)
     likes = models.ManyToManyField(User, related_name='blog_posts')
 
     def __str__(self):

@@ -3,13 +3,14 @@
 
 {% block body %} 
 {% if user.is_authenticated %}
-    <h1>ADD A NEW BLOG POST</h1><br> <br>
-
+    <h1>ADD A NEW BLOG POST</h1>
+       
+    <br><br>
     <div class="form-group"> 
         <form method="POST">
             {% csrf_token %} 
             {{form.as_p}}
-        
+            {{form.media}}
             <button class="btn btn-primary">Post</button>
         </form> <br><br>
     </div>

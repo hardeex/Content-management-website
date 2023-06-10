@@ -9,7 +9,7 @@
                 <form method="POST">
                     {% csrf_token %} 
                     {{form.as_p}}
-                
+                    {{form.media}}
                     <button class="btn btn-primary">Update</button>
                 </form> <br><br>
             </div>
