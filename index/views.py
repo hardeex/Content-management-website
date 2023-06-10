@@ -43,8 +43,14 @@ class BlogDetailsView(DetailView):
     def get_context_data(self, *args, **kwargs):
         get_likes = get_object_or_404(models.BlogPost, id=self.kwargs['pk'])
         context = super(BlogDetailsView, self).get_context_data(*args, **kwargs)
-        total_likes = get_likes.total_likes()        
+        total_likes = get_likes.total_likes()    
+        
+        liked = False    
+        if get_likes.likes.filter(id=self.request.user.id).exists():
+            liked = True
+
         context['total_likes'] = total_likes
+        context['liked']=liked
         return context
     
 
@@ -114,5 +120,11 @@ def ListCategory(request):
 
 def LikeView(request, pk):
     post = get_object_or_404(models.BlogPost, id=request.POST.get('post_id'))
-    post.likes.add(request.user)
-    return HttpResponseRedirect(reverse('index:blog_details', args=[str(pk  )]))
+    liked = False
+    if post.likes.filter(id=request.user.id).exists():
+        post.likes.remove(request.user)
+        lked= False
+    else:
+        post.likes.add(request.user)
+        liked = True
+    return HttpResponseRedirect(reverse('index:blog_details', args=[str(pk)]))

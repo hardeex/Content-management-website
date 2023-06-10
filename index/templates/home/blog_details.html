@@ -18,7 +18,11 @@
 
                <form action="{% url 'index:like_post' object.pk %}" method="post">
                     {% csrf_token %} 
-                    <button type="submit"  class="btn btn-secondary" name="post_id" value="{{object.id}}">Likes- {{total_likes}} </button>
+                    {% if liked %}
+                         <button type="submit"  class="btn btn-danger" name="post_id" value="{{object.id}}">Unliked </button> - {{total_likes}} Likes
+                    {% else %} 
+                         <button type="submit"  class="btn btn-success" name="post_id" value="{{object.id}}">Likes - {{total_likes}} </button>
+                    {% endif %}
                </form> <br><br><br>            
 
           {% else %} 
@@ -27,7 +31,8 @@
                </small> <br> <br>    
                <p>
                     {{object.content | safe}}
-               </p><br><br>
+               </p> <hr>
+               <small><a  href="{% url 'login' %}">Login</a> to Like Posts - {{total_likes}} Likes </small> <br><br><br>
 
           {% endif %}
 
