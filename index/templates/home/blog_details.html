@@ -5,8 +5,8 @@
         <h1>{{object.title | upper}} </h1>
         {% if user.is_authenticated %}                         
                     <small>
-                         Last Updated: {{object.date}} | Author: {{object.author}} |
-                         Category: <a href="{% url 'index:category_list' object.category %}">{{object.category}}</a> |
+                        <b>Last Updated: {{object.date}}  </b> | Author: {{blog.author.first_name}} {{blog.author.last_name}} |
+                        <b> Category:</b>  <a href="{% url 'index:category_list' object.category %}">{{object.category}}</a> |
                {% if object.author.id == user.id  %}
                          <a href="{% url 'index:edit_post' object.pk %}">(Edit)</a> |
                          <a href="{% url 'index:delete_post' object.pk %}">(Delete)</a>
@@ -27,7 +27,7 @@
 
           {% else %} 
                <small>
-               Last Updated: {{object.date}} | Author: {{object.author}}               
+               <b>Last Updated: </b>  {{object.date}} | <b>Author: </b>  {{object.author}}               
                </small> <br> <br>    
                <p>
                     {{object.content | safe}}
