@@ -6,11 +6,28 @@
 
     <div class="form-group"> 
         <form method="POST">
-            {% csrf_token %} 
-            {{form.as_p}}
-             <small>Don't have an account?</small> <a href="{% url 'account:register' %}">Register</a>
+          <!---  {% csrf_token %} 
+            {{form.as_p}}-->
+
+            <div class="container">                                
+                    {% csrf_token %}
+                    <div class="mb-3">
+                        <label for="id_username" class="form-label">Username:</label>
+                        <input type="text" name="username" id="id_username" class="form-control">
+                    </div>
+                    <div class="mb-3">
+                        <label for="id_password" class="form-label">Password:</label>
+                        <input type="password" name="password" id="id_password" class="form-control">
+                    </div>
+                    <small>Don't have an account?</small> <a href="{% url 'account:register' %}">Register</a>
+                   <br><br> <button type="submit" class="btn btn-primary">Login</button> <br><br><br>
+                
+            </div>
+            
+            <!---
+            <small>Don't have an account?</small> <a href="{% url 'account:register' %}">Register</a>
          <br><br>
-            <button class="btn btn-primary">Login</button>
+            <button class="btn btn-primary">Login</button>-->
         </form>    
     </div> <br><br><br>
 {% endblock %}

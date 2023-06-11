@@ -2,12 +2,15 @@
 {% block title %}  EDIT PROFILE {% endblock %}
 
 {% block body %} 
-    <h1>Welcome {{object.first_name}} </h1><br> <br>
-
-    <div class="form-group"> 
+    <h1>Welcome {{object.first_name}} </h1>
+    <small> <a href="{% url 'account:password' %}">Click Here</a> to change password or click the change
+         password button below. The change password form do not work any longer.</small>
+         
+   <br> <br> <div class="form-group"> 
         <form method="POST">
             {% csrf_token %} 
-            {{form.as_p}}             
+            {{form.as_p}}
+            <p> <a href="{% url 'account:password' %}" class="btn btn-secondary">Change Password</a> </p>             
          <br><br>
             <button class="btn btn-primary">Update Profile</button>
         </form>    
