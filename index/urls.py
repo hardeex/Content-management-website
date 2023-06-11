@@ -24,5 +24,6 @@ urlpatterns = [
     
     path('add_category/', AddCategoryView.as_view(), name='add_category'),       
     path('category/<str:category_name>/', views.CategoryView, name='category_list'), 
-    path('view_category/', views.ListCategory, name='view_category'),   
+    path('view_category/', views.ListCategory, name='view_category'), 
+
 ]

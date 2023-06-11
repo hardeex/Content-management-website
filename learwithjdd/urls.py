@@ -15,10 +15,8 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import include, path
-#from django.conf.urls import handler404
-#from index.views import PageNotFound
-#from django.views.defaults import page_not_found
-#from index.views import reddirct_to_error_page
+from django.conf import settings
+from django.conf.urls.static import static
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -27,8 +25,4 @@ urlpatterns = [
     path('account/', include('account.urls', namespace='account')), 
     #path('<path:not_found>/', page_not_found, name='page_not_found')
     #path('<path:not_found>/', reddirct_to_error_page)
-]
-#handler404 = 'index.views.error_page'
-#handler404 = 'index.views.PageNotFound'
-#handler404 = 'reddirct_to_error_page'
-#handler404 = 'index.vews.reddirct_to_error_page'
+] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

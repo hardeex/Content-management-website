@@ -4,6 +4,7 @@ from django.contrib.auth.forms import UserCreationForm, UserChangeForm, Password
 from django.urls import reverse_lazy
 from .forms import RegisterForm, EditProfileForm, PasswordChangedForm
 from django.contrib.auth.views import PasswordChangeView
+from . import models
 
 
 class UserRegisterView(generic.CreateView):

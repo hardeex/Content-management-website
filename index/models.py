@@ -55,4 +55,20 @@ class BlogPost(models.Model):
         
 
    
-    
+class Profile(models.Model):
+    user = models.OneToOneField(User, null=True, on_delete=models.CASCADE)   
+    bio = RichTextField(blank=True, null=True)
+    #bio = models.TextField()
+    profile_pic = models.ImageField(null=True, blank=True, upload_to="images/profile/")
+    linkedln_url = models.CharField(max_length=255, blank=True, null=True)
+    facebook_url =  models.CharField(max_length=255, blank=True, null=True)
+    twitter_url= models.CharField(max_length=255, blank=True, null=True)
+    instagram_url =  models.CharField(max_length=255, blank=True, null=True)
+    whatsapp_url= models.CharField(max_length=255, blank=True, null=True)
+    github_url=  models.CharField(max_length=255, blank=True, null=True)
+    website_url= models.CharField(max_length=255, blank=True, null=True)
+
+
+
+    def __str__(self):
+        return str(self.user)    

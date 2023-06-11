@@ -23,8 +23,48 @@
                     {% else %} 
                          <button type="submit"  class="btn btn-success" name="post_id" value="{{object.id}}">Likes - {{total_likes}} </button>
                     {% endif %}
-               </form> <br><br><br>            
+               </form> <br><br><br> 
 
+               <!--- Author Profile Page
+
+               {{object.author.profile.bio|safe}}
+               <img src="{{object.author.profile.profile_pic.url}}" alt="" srcset=""> 
+
+               -->
+               
+               <div class="card mb-3" >
+                    <div class="row g-0">
+                      <div class="col-md-3">
+                        <img src="{{object.author.profile.profile_pic.url}}" class="rounded-circle" alt="Author profile image" width="150" height="150"  >  
+
+                        <div class="contact-links">
+                         <h4>CONTACT LINKS</h4>
+                         <ul>
+                              <li>GIthub: </li>
+                         </ul>
+                        </div>
+                      </div>
+                      
+                      <div class="col-md-8">
+                        <div class="card-body">
+                          <h5 class="card-title" >{{object.author.first_name|safe}} {{object.author.last_name|safe}}</h5>
+                          <p class="card-text">
+                              {{object.author.profile.bio|safe}}
+                          </p>
+                          <p class="card-text"><small class="text-body-secondary">Last updated 3 mins ago</small></p>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                  <style>
+                    .contact-links{
+                         margin-top: 2rem;
+                    }
+
+                   
+                  </style>
+                <!--- End Author Profile Page-->
           {% else %} 
                <small>
                <b>Last Updated: </b>  {{object.date}} | <b>Author: </b>  {{object.author.first_name}} {{object.author.last_name}}               
@@ -32,7 +72,7 @@
                <p>
                     {{object.content | safe}}
                </p> <hr>
-               <small><a  href="{% url 'login' %}">Login</a> to Like Posts - {{total_likes}} Likes </small> <br><br><br>
+               <small><a  href="{% url 'login' %}">Login</a> to Like Posts and see the author professional summary - {{total_likes}} Likes </small> <br><br><br>
 
           {% endif %}
 
