@@ -1,4 +1,6 @@
 {% extends 'home/base.html' %} 
+{% load static %} 
+
 {% block title %} {{object.title}} {% endblock %} 
 
 {% block body %} 
@@ -30,41 +32,80 @@
                {{object.author.profile.bio|safe}}
                <img src="{{object.author.profile.profile_pic.url}}" alt="" srcset=""> 
 
-               -->
-               
-               <div class="card mb-3" >
-                    <div class="row g-0">
-                      <div class="col-md-3">
-                        <img src="{{object.author.profile.profile_pic.url}}" class="rounded-circle" alt="Author profile image" width="150" height="150"  >  
+               -->                    
+                    <div class="card mb-3"  >
+                         <div class="row g-0">
+                         <div class="col-md-2">
 
-                        <div class="contact-links">
-                         <h4>CONTACT LINKS</h4>
-                         <ul>
-                              <li>GIthub: </li>
-                         </ul>
-                        </div>
-                      </div>
-                      
-                      <div class="col-md-8">
-                        <div class="card-body">
-                          <h5 class="card-title" >{{object.author.first_name|safe}} {{object.author.last_name|safe}}</h5>
-                          <p class="card-text">
-                              {{object.author.profile.bio|safe}}
-                          </p>
-                          <p class="card-text"><small class="text-body-secondary">Last updated 3 mins ago</small></p>
-                        </div>
-                      </div>
+                              {% if object.author.profile.profile_pic.url %}
+                                   <img src="{{object.author.profile.profile_pic.url}}"  class="rounded-circle" 
+                                   alt="Author profile image" width="170" height="170"  >  
+                              {% else %}
+                                   <img src="{% static 'images/profile_user_icon.png' %}"  class="rounded-circle"
+                                   alt="default profile image" width="170" height="170"   > 
+                              {% endif %}          
+                         </div>
+                         <div class="col-md-10">
+                         <div class="card-body">
+                              <h5 class="card-title">{{object.author.first_name|safe}} {{object.author.last_name|safe}}</h5>
+                              
+                              <small  class="fw-lighter">
+                                   {% if object.author.profile.website_url %}
+                                   <a href="{{object.author.profile.website_url}}" target="_blank">Website </a>                                     
+                              {% endif %}
+                              
+                              
+                              {% if object.author.profile.facebook_url %}
+                                   |  <a href="{{object.author.profile.facebook_url}}" class="links" target="_blank">Facebook </a>                                  
+                              {% endif %}
+                              
+                              
+                              {% if object.author.profile.linkedln_url %}
+                                   |  <a href="{{object.author.profile.linkedln_url}}" class="links" target="_blank">Linkedln </a> 
+                              {% endif %}
+
+                              
+                              {% if object.author.profile.twitter_url %}
+                                   |  <a href="{{object.author.profile.twitter_url}}" class="links" target="_blank">Twitter </a> 
+                              {% endif %}
+
+                              {% if object.author.profile.instagram_url %}                                   
+                                   |  <a href="{{object.author.profile.instagram_url}}" class="links" target="_blank">Instagram </a>                                  
+                              {% endif %}                                   
+                              
+                              
+                              {% if object.author.profile.whatsapp_url %} 
+                                   |  <a href="{{object.author.profile.whatsapp_url}}" class="links" target="_blank"> WhatsApp </a>
+                              {% endif %}
+                              
+                              
+                              {% if object.author.profile.github_url %}
+                              
+                                   |  <a href="{{object.author.profile.github_url}}" class="links" target="_blank">GitHub </a> 
+                              {% endif %}
+
+                              </small>
+                              <p class="card-text">
+                                   {{object.author.profile.bio |truncatewords:"80" |safe}} 
+                                   ... <a href="{% url 'account:user_profile' object.author.profile.id %}" class="link-info link-offset-2 link-underline-opacity-25 link-underline-opacity-100-hover">
+                                       Read More...
+                                   </a>         
+                                   </p>
+                              
+                         </div>
+                         </div>
+                         </div>
                     </div>
-                  </div>
 
-                  <style>
-                    .contact-links{
-                         margin-top: 2rem;
-                    }
 
-                   
-                  </style>
+
                 <!--- End Author Profile Page-->
+
+
+
+
+
+
           {% else %} 
                <small>
                <b>Last Updated: </b>  {{object.date}} | <b>Author: </b>  {{object.author.first_name}} {{object.author.last_name}}               

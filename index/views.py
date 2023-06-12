@@ -28,13 +28,7 @@ class BlogHomeView(ListView):
     model = models.BlogPost
     template_name = 'home/blog_list.html'
     ordering = ['-date']
-    #category = models.BlogCategory.objects.all()
-
-    #def getCategoryList(self, *args, **kwargs):
-     #   category_menu = models.BlogCategory.objects.all()
-      #  context = super(BlogHomeView, self).getCategoryList(*args, **kwargs)
-       # context[category_menu] = context
-        #return context
+  
 
 
 class BlogDetailsView(DetailView):

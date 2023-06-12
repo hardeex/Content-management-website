@@ -12,8 +12,8 @@
            <h4><a href="{% url 'index:blog_details' blog.pk %}"> {{blog.title | upper}}</a></h4> 
            {% if user.is_authenticated %}
                 <small>
-                   <b>Last Updated:</b>  {{blog.date}} | <b>Author: </b>
-                    {{blog.author.first_name}} {{blog.author.last_name}} | 
+                   <b>Last Updated:</b>  {{blog.date}} | <b>Author: </b>                    
+                        {{blog.author.first_name}} {{blog.author.last_name}} | 
                    <b>Category:</b>  <a href="{% url 'index:category_list' blog.category %}">{{blog.category}}</a> 
                 {% if blog.author.id == user.id  %}
                     | <a href="{% url 'index:edit_post' blog.pk %}">(Edit)</a> 
