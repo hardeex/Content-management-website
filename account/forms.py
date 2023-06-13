@@ -1,6 +1,7 @@
 from django.contrib.auth.forms import UserCreationForm, UserChangeForm, PasswordChangeForm
 from django.contrib.auth.models import User
 from django import forms
+from index.models import Profile
 #from django.url import reverse_lazy
 
 class RegisterForm(UserCreationForm):
@@ -49,3 +50,25 @@ class PasswordChangedForm(PasswordChangeForm):
     class Meta:
         model = User
         fields = ('username', 'new_password1', 'new_password2')  
+
+
+
+class ProfilePageForm(forms.ModelForm):
+    class Meta:
+            model = Profile
+            fields = ('profile_pic', 'email_url', 'website_url', 'github_url', 'linkedln_url', 'facebook_url', 'twitter_url', 'instagram_url', 'whatsapp_url', 'bio')
+
+            widgets ={
+                #'profile_pic': forms.TextInput(attrs={'class': 'form-control'}),
+                'email_url': forms.TextInput(attrs={'class': 'form-control', 'placeholder':'Email'}),
+                'website_url': forms.TextInput(attrs={'class': 'form-control', 'placeholder':'Portfolio Link'}),
+                'github_url': forms.TextInput(attrs={'class': 'form-control', 'placeholder':'Your GitHub Repo Link'}),
+                'linkedln_url': forms.TextInput(attrs={'class': 'form-control', 'placeholder':'Linkedln Link'}),
+                'facebook_url': forms.TextInput(attrs={'class': 'form-control', 'placeholder':'Facebook Profile Link'}),
+                'twitter_url': forms.TextInput(attrs={'class': 'form-control', 'placeholder':'Twitter Profile Link'}),
+                'whatsapp_url': forms.TextInput(attrs={'class': 'form-control', 'placeholder':'WhatsApp Link'}),
+                'instagram_url': forms.TextInput(attrs={'class': 'form-control', 'placeholder':'Instagram Profile Link'}),
+                'bio': forms.Textarea(attrs={'class': 'form-control', 'placeholder':'About you'}),
+
+            }
+

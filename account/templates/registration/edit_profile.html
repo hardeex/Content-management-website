@@ -1,21 +1,41 @@
 {% extends 'home/base.html' %} 
-{% block title %}  EDIT PROFILE {% endblock %}
+{% load static %} 
+
+
+{% block title %}  SETTINGS {% endblock %}
+
+
 
 {% block body %} 
-    <h1>Welcome {{object.first_name}} </h1>
+    
+<h1>Welcome {{object.first_name}} </h1>
     <small> <a href="{% url 'account:password' %}">Click Here</a> to change password or click the change
          password button below. The change password form do not work any longer.</small> <br><br>
 
-         <h3> Bio </h3>
-         {{ object.profile.bio|safe }} 
-         
+         <div >
+            {% if object.profile.profile_pic.url %}
+            <img src="{{object.profile.profile_pic.url}}" class="rounded mx-auto d-block"
+            alt="Author profile image" width="170" height="170"  >  
+       {% else %}
+            <img src="{% static 'images/profile_user_icon.png' %}"  class="rounded float-start"
+            alt="default profile image" width="170" height="170"   > 
+       {% endif %}  
+          </div> <br><br>
+
+         <h5>PROFESSIONAL SUMMARY...</h5>
+         <p class="card-text">{{object.profile.bio |safe |truncatewords:"80"}}</p> 
+         {% if user.profile.id %}        
+            <a href="{% url 'account:edit_profile_page' user.profile.id %}" class="btn btn-secondary">Edit Profile</a><br><br> 
+         {% endif %}       
+
+
    <br> <br> <div class="form-group"> 
         <form method="POST">
             {% csrf_token %} 
             {{form.as_p}}
             <p> <a href="{% url 'account:password' %}" class="btn btn-secondary">Change Password</a> </p>             
          <br><br>
-            <button class="btn btn-primary">Update Profile</button>
+            <button class="btn btn-primary">Update Settings</button>
         </form>    
     </div> <br><br><br>
 {% endblock %}

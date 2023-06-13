@@ -50,8 +50,12 @@
                               <h5 class="card-title">{{object.author.first_name|safe}} {{object.author.last_name|safe}}</h5>
                               
                               <small  class="fw-lighter">
-                                   {% if object.author.profile.website_url %}
-                                   <a href="{{object.author.profile.website_url}}" target="_blank">Website </a>                                     
+                              {% if object.author.profile.email_url %}    
+                                   <a href="mailto: {{object.author.profile.email_url}}" target="_blank">Email</a>                                                      
+                              {% endif %}
+
+                              {% if object.author.profile.website_url %}
+                                   |<a href="{{object.author.profile.website_url}}" target="_blank">Website </a>                                     
                               {% endif %}
                               
                               
@@ -85,11 +89,13 @@
                               {% endif %}
 
                               </small>
-                              <p class="card-text">
-                                   {{object.author.profile.bio |truncatewords:"80" |safe}} 
-                                   ... <a href="{% url 'account:user_profile' object.author.profile.id %}" class="link-info link-offset-2 link-underline-opacity-25 link-underline-opacity-100-hover">
-                                       Read More...
-                                   </a>         
+                              <p class="card-text">                                  
+                                   {{object.author.profile.bio |truncatewords:"80" |safe}}                                    
+                                   {% if object.author.profile.pk %}
+                                   ... <a href="{% url 'account:user_profile' object.author.profile.pk %}" class="link-info link-offset-2 link-underline-opacity-25 link-underline-opacity-100-hover">
+                                       Read More...                                   
+                                   </a>   
+                                   {% endif %}
                                    </p>
                               
                          </div>

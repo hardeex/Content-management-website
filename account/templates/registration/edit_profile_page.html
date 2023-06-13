@@ -1,0 +1,29 @@
+{% extends 'home/base.html' %} 
+{% load static %} 
+
+{% block title %}  EDIT PROFILE PAGE {% endblock %}
+
+
+{% block body %} 
+ <h1>EDIT PROFILE PAGE</h1> <br> <br>
+{% if user.is_authenticated %} 
+   {% if user.id == profile.user.id %}
+
+            <div class="form-group"> 
+                <form method="POST" enctype="multipart/form-data">
+                    {% csrf_token %} 
+                    {{form.as_p}} 
+                    {{form.media}}           
+                    <button class="btn btn-primary">Update Changes</button>
+                </form> <br><br>
+            </div> 
+    {% else %}   
+                <p>You do not have the right authroization for this account</p> <br><br>
+                <a class="btn btn-primary" href="{% url 'index:home' %}">Go Home</a> <br><br><br>
+    {% endif %}     
+{% else %} 
+            <h2>You are not authorized to access this page... <a href="{% url 'login' %}"></a></h2><br><br>
+            <a class="btn btn-primary" href="{% url 'index:home' %}">Go Home</a> <br><br><br>
+{% endif %}
+   
+{% endblock %}

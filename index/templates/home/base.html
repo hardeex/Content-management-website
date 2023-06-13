@@ -39,9 +39,16 @@
                     data-bs-toggle="dropdown" aria-expanded="false">
                     Manage Account
                     </a>
-                    <ul class="dropdown-menu">   
-                      <li><a class="dropdown-item" href="{% url 'account:edit_profile' %}">Edit Profile </a></li>                              
-                      <li><a class="dropdown-item" href="{% url 'logout' %}">Logout</a></li>                                                                                                   
+                    <ul class="dropdown-menu">    
+                    {% if user.profile.id %}
+                          <li><a class="dropdown-item" href="{% url 'account:edit_profile_page' user.profile.id %}"> Edit Profile </a></li>
+                          <li><a class="dropdown-item" href="{% url 'account:user_profile' user.profile.pk %}">View Profile</a></li> 
+                    {% else %} 
+                          <li><a class="dropdown-item" href="{% url 'account:create_profile' %}">Create Profile </a></li>  
+                    {% endif %}                       
+                      <li><a class="dropdown-item" href="{% url 'account:edit_profile' %}"> Settings </a></li> 
+                      <li><hr class="dropdown-divider"></li>                                                 
+                      <li><a class="dropdown-item" href="{% url 'logout' %}">Logout</a></li>                                                                                                                        
                     </ul>
                   </li>   
 

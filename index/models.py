@@ -67,8 +67,11 @@ class Profile(models.Model):
     whatsapp_url= models.CharField(max_length=255, blank=True, null=True)
     github_url=  models.CharField(max_length=255, blank=True, null=True)
     website_url= models.CharField(max_length=255, blank=True, null=True)
-
+    email_url= models.CharField(max_length=255, blank=True, null=True)
 
 
     def __str__(self):
         return str(self.user)    
+
+    def get_absolute_url(self):
+        return reverse('index:blog_details', args=[str(self.id)] )

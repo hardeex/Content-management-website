@@ -1,6 +1,74 @@
 {% extends 'home/base.html' %} 
-{% block title %}  {{object.author.first_name}} PROFILE {% endblock %}
+{% load static %}
+
+{% block title %}  {{page_user.user.first_name}} PROFILE {% endblock %}
 
 {% block body %} 
-    {{page_user}}
+<h1> {{page_user.user.last_name|upper}} {{page_user.user.first_name|upper}} PROFILE</h1> <br><br>
+<div class="card mb-3"  >
+    <div class="row g-0">
+    <div class="col-md-2">
+
+         {% if page_user.profile_pic.url %}
+              <img src="{{page_user.profile_pic.url}}"  class="rounded-circle" 
+              alt="Author profile image" width="170" height="170"  >  
+         {% else %}
+              <img src="{% static 'images/profile_user_icon.png' %}"  class="rounded-circle"
+              alt="default profile image" width="170" height="170"   > 
+         {% endif %}          
+    </div>
+    <div class="col-md-10">
+    <div class="card-body">
+         <h5 class="card-title">{{page_user.user.first_name|safe}} {{page_user.user.last_name|safe}}</h5>
+         
+         <small  class="fw-lighter">
+          {% if page_user.email_url %}    
+             <a href="mailto: {{page_user.email_url}}" target="_blank">Email</a>                                                      
+          {% endif %}
+
+          {% if page_user.website_url %}
+              | <a href="{{page_user.website_url}}" target="_blank">Website </a>                                     
+         {% endif %}
+         
+         
+         {% if page_user.facebook_url %}
+              |  <a href="{{page_user.facebook_url}}" class="links" target="_blank">Facebook </a>                                  
+         {% endif %}
+         
+         
+         {% if page_user.linkedln_url %}
+              |  <a href="{{page_user.linkedln_url}}" class="links" target="_blank">Linkedln </a> 
+         {% endif %}
+
+         
+         {% if page_user.twitter_url %}
+              |  <a href="{{page_user.twitter_url}}" class="links" target="_blank">Twitter </a> 
+         {% endif %}
+
+         {% if page_user.instagram_url %}                                   
+              |  <a href="{{page_user.instagram_url}}" class="links" target="_blank">Instagram </a>                                  
+         {% endif %}                                   
+         
+         
+         {% if page_user.whatsapp_url %} 
+              |  <a href="{{page_user.whatsapp_url}}" class="links" target="_blank"> WhatsApp </a>
+         {% endif %}
+         
+         
+         {% if page_user.github_url %}
+         
+              |  <a href="{{page_user.github_url}}" class="links" target="_blank">GitHub </a> 
+         {% endif %}
+
+         </small>
+         <p class="card-text">
+              {{page_user.bio |safe}}               
+              </a>         
+              </p>
+         
+    </div>
+    </div>
+    </div>
+</div>
+
 {% endblock %}
