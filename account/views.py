@@ -6,6 +6,7 @@ from .forms import RegisterForm, EditProfileForm, PasswordChangedForm, ProfilePa
 from django.contrib.auth.views import PasswordChangeView
 from django.views.generic import DetailView, CreateView
 from index.models import Profile
+from django.conf import settings
 
 
 
@@ -24,6 +25,12 @@ class UserEditProfileView(generic.UpdateView):
 
     def get_object(self):
         return self.request.user
+
+    def form_valid(self, form):
+        profile = form.instance
+        if not profile.profile_pic:  # Check if profile_pic field is empty
+            profile.profile_pic = settings.DEFAULT_PROFILE_PIC_URL  # Assign default profile picture URL
+        return super().form_valid(form)
 
 
 class ChangePasswordView(PasswordChangeView):

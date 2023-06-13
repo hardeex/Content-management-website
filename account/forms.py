@@ -2,6 +2,8 @@ from django.contrib.auth.forms import UserCreationForm, UserChangeForm, Password
 from django.contrib.auth.models import User
 from django import forms
 from index.models import Profile
+from django.forms import ImageField
+from django.core.exceptions import ValidationError
 #from django.url import reverse_lazy
 
 class RegisterForm(UserCreationForm):
@@ -53,22 +55,31 @@ class PasswordChangedForm(PasswordChangeForm):
 
 
 
+MAX_FILE_SIZE = 2 * 1024 * 1024  # 2MB
+
+def validate_file_size(value):
+    if value.size > MAX_FILE_SIZE:
+        raise ValidationError(f"The maximum file size allowed is {MAX_FILE_SIZE} bytes.")
+
 class ProfilePageForm(forms.ModelForm):
+    profile_pic = forms.ImageField(
+        validators=[validate_file_size],
+        widget=forms.ClearableFileInput(attrs={'class': 'form-control'})
+    )
     class Meta:
-            model = Profile
-            fields = ('profile_pic', 'email_url', 'website_url', 'github_url', 'linkedln_url', 'facebook_url', 'twitter_url', 'instagram_url', 'whatsapp_url', 'bio')
+        model = Profile
+        fields = ('profile_pic', 'email_url', 'website_url', 'github_url', 'linkedln_url', 'facebook_url', 'twitter_url', 'instagram_url', 'whatsapp_url', 'bio')
 
-            widgets ={
-                #'profile_pic': forms.TextInput(attrs={'class': 'form-control'}),
-                'email_url': forms.TextInput(attrs={'class': 'form-control', 'placeholder':'Email'}),
-                'website_url': forms.TextInput(attrs={'class': 'form-control', 'placeholder':'Portfolio Link'}),
-                'github_url': forms.TextInput(attrs={'class': 'form-control', 'placeholder':'Your GitHub Repo Link'}),
-                'linkedln_url': forms.TextInput(attrs={'class': 'form-control', 'placeholder':'Linkedln Link'}),
-                'facebook_url': forms.TextInput(attrs={'class': 'form-control', 'placeholder':'Facebook Profile Link'}),
-                'twitter_url': forms.TextInput(attrs={'class': 'form-control', 'placeholder':'Twitter Profile Link'}),
-                'whatsapp_url': forms.TextInput(attrs={'class': 'form-control', 'placeholder':'WhatsApp Link'}),
-                'instagram_url': forms.TextInput(attrs={'class': 'form-control', 'placeholder':'Instagram Profile Link'}),
-                'bio': forms.Textarea(attrs={'class': 'form-control', 'placeholder':'About you'}),
+        widgets ={
+            'email_url': forms.TextInput(attrs={'class': 'form-control', 'placeholder':'Email'}),                
+            'website_url': forms.TextInput(attrs={'class': 'form-control', 'placeholder':'Portfolio Link'}),
+            'github_url': forms.TextInput(attrs={'class': 'form-control', 'placeholder':'Your GitHub Repo Link'}),
+            'linkedln_url': forms.TextInput(attrs={'class': 'form-control', 'placeholder':'Linkedln Link'}),
+            'facebook_url': forms.TextInput(attrs={'class': 'form-control', 'placeholder':'Facebook Profile Link'}),
+            'twitter_url': forms.TextInput(attrs={'class': 'form-control', 'placeholder':'Twitter Profile Link'}),
+            'whatsapp_url': forms.TextInput(attrs={'class': 'form-control', 'placeholder':'WhatsApp Link'}),
+            'instagram_url': forms.TextInput(attrs={'class': 'form-control', 'placeholder':'Instagram Profile Link'}),
+            'bio': forms.Textarea(attrs={'class': 'form-control', 'placeholder':'About you'}),
+        }
 
-            }
 

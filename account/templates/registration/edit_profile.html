@@ -13,13 +13,13 @@
          password button below. The change password form do not work any longer.</small> <br><br>
 
          <div >
-            {% if object.profile.profile_pic.url %}
-            <img src="{{object.profile.profile_pic.url}}" class="rounded mx-auto d-block"
-            alt="Author profile image" width="170" height="170"  >  
-       {% else %}
-            <img src="{% static 'images/profile_user_icon.png' %}"  class="rounded float-start"
-            alt="default profile image" width="170" height="170"   > 
-       {% endif %}  
+            {% if object.profile.profile_pic %}
+            <img src="{{ object.profile.profile_pic.url }}" class="rounded mx-auto d-block"
+                alt="Author profile image" width="170" height="170">
+        {% else %}
+            <img src="{% static 'images/profile_user_icon.png' %}" class="rounded float-start"
+                alt="default profile image" width="170" height="170">
+        {% endif %}  
           </div> <br><br>
 
          <h5>PROFESSIONAL SUMMARY...</h5>

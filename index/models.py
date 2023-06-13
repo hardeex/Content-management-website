@@ -37,11 +37,11 @@ class BlogPost(models.Model):
     title = models.CharField(max_length=255)
     date = models.DateTimeField(auto_now_add=True)
     #date = models.DateTimeField()
-    category = models.CharField(max_length=150)
+    category = models.CharField(max_length=150, unique=True)
     #category = models.ForeignKey(BlogCategory, on_delete = models.CASCADE)
     #content = models.TextField()
-    content = RichTextField(blank=True, null=True)
-    headline = models.TextField(max_length=255)
+    content = RichTextField(blank=True, null=True, unique=True)
+    headline = models.TextField(max_length=255, unique=True)
     likes = models.ManyToManyField(User, related_name='blog_posts')
 
     def __str__(self):
@@ -74,4 +74,4 @@ class Profile(models.Model):
         return str(self.user)    
 
     def get_absolute_url(self):
-        return reverse('index:blog_details', args=[str(self.id)] )
+        return reverse('index:home')
