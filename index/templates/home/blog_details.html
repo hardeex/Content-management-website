@@ -25,7 +25,7 @@
                     {% else %} 
                          <button type="submit"  class="btn btn-success" name="post_id" value="{{object.id}}">Likes - {{total_likes}} </button>
                     {% endif %}
-               </form> <br><br><br> 
+               </form> <br>
 
                <!--- Author Profile Page
 
@@ -92,7 +92,7 @@
                               <p class="card-text">                                  
                                    {{object.author.profile.bio |truncatewords:"80" |safe}}                                    
                                    {% if object.author.profile.pk %}
-                                   ... <a href="{% url 'account:user_profile' object.author.profile.pk %}" class="link-info link-offset-2 link-underline-opacity-25 link-underline-opacity-100-hover">
+                                   ... <a href="{% url 'account:user_profile' object.author.profile.pk %}" class="link-info link-offset-2 link-underline-opacity-25 link-underline-opacity-100-hover", target="_blank">
                                        Read More...                                   
                                    </a>   
                                    {% endif %}
@@ -105,13 +105,46 @@
 
 
 
-                <!--- End Author Profile Page-->
+               <!--- End Author Profile Page-->
+
+          <!-- Viewing the comments session for logged in user-->
+
+          <div>
+               <h2>Comments....</h2>
+               <div class="comment-box">
+               {% if  object.comments.all %}
+                    {% for comment in object.comments.all %}
+                       <strong>
+                           {{ comment.name }} - {{ comment.date }}
+                       </strong>
+                       {{ comment.body |safe }}                    
+                    {% endfor %}
+              
+
+                    <style>
+                         .comment-box{
+                              border: 0.3px solid gray;
+                              padding: 1.5rem;
+                              outline-style: dotted;
+                         }
+                    </style>
+               </div> 
+                     {% else %}           
+                 <p>There is no comment available for this post yet. <a href="#">Add Comment...</a></p>                   
+               {% endif %}      
+           </div>
+            
+          
+
+
+
+          <!--End of  Viewing the comments session for logged in user-->
 
 
 
 
 
-
+          <!-- views for users not logged in-->
           {% else %} 
                <small>
                <b>Last Updated: </b>  {{object.date}} | <b>Author: </b>  {{object.author.first_name}} {{object.author.last_name}}               
@@ -119,9 +152,9 @@
                <p>
                     {{object.content | safe}}
                </p> <hr>
-               <small><a  href="{% url 'login' %}">Login</a> to Like Posts and see the author professional summary - {{total_likes}} Likes </small> <br><br><br>
+               <small><a  href="{% url 'login' %}">Login</a> to Like Posts, Commment and view the author bio - {{total_likes}} Likes </small> <br><br><br>
 
           {% endif %}
-
-           <a href="{% url 'index:blog_list' %}" class="btn btn-primary">Back To Posts List</a><br><br>
+          <!-- End of views for users not logged in-->
+          <br><br><br><br> <a href="{% url 'index:blog_list' %}" class="btn btn-primary">Back To Posts List</a><br><br>
 {% endblock %}

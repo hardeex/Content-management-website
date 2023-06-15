@@ -34,14 +34,14 @@ class BlogCategory(models.Model):
 
 class BlogPost(models.Model):
     author = models.ForeignKey(User, on_delete=models.CASCADE)
-    title = models.CharField(max_length=255)
+    title = models.CharField(max_length=255, unique=True)
     date = models.DateTimeField(auto_now_add=True)
     #date = models.DateTimeField()
-    category = models.CharField(max_length=150, unique=True)
+    category = models.CharField(max_length=150)
     #category = models.ForeignKey(BlogCategory, on_delete = models.CASCADE)
     #content = models.TextField()
     content = RichTextField(blank=True, null=True, unique=True)
-    headline = models.TextField(max_length=255, unique=True)
+    headline = models.TextField(max_length=255)
     likes = models.ManyToManyField(User, related_name='blog_posts')
 
     def __str__(self):
@@ -75,3 +75,13 @@ class Profile(models.Model):
 
     def get_absolute_url(self):
         return reverse('index:home')
+
+
+class Comment(models.Model):
+    post = models.ForeignKey(BlogPost, on_delete=models.CASCADE, related_name="comments")
+    name = models.CharField(max_length=255)
+    body = RichTextField(blank=True, null=True)
+    date = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return '%s - %s' % (self.post.title, self.name)
