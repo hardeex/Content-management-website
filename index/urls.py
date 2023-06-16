@@ -26,4 +26,6 @@ urlpatterns = [
     path('category/<str:category_name>/', views.CategoryView, name='category_list'), 
     path('view_category/', views.ListCategory, name='view_category'), 
 
+    path('<int:pk>/add_post/', views.add_comment, name='add_comment'),
+
 ]

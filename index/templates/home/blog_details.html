@@ -1,5 +1,6 @@
 {% extends 'home/base.html' %} 
 {% load static %} 
+{% load humanize %}
 
 {% block title %} {{object.title}} {% endblock %} 
 
@@ -104,42 +105,14 @@
                     </div>
 
 
+                    <!---View of comment for logged in user-->
+                    
+
+                    <!---End of view of comment for logged in user-->
 
                <!--- End Author Profile Page-->
 
-          <!-- Viewing the comments session for logged in user-->
-
-          <div>
-               <h2>Comments....</h2>
-               <div class="comment-box">
-               {% if  object.comments.all %}
-                    {% for comment in object.comments.all %}
-                       <strong>
-                           {{ comment.name }} - {{ comment.date }}
-                       </strong>
-                       {{ comment.body |safe }}                    
-                    {% endfor %}
-              
-
-                    <style>
-                         .comment-box{
-                              border: 0.3px solid gray;
-                              padding: 1.5rem;
-                              outline-style: dotted;
-                         }
-                    </style>
-               </div> 
-                     {% else %}           
-                 <p>There is no comment available for this post yet. <a href="#">Add Comment...</a></p>                   
-               {% endif %}      
-           </div>
-            
-          
-
-
-
-          <!--End of  Viewing the comments session for logged in user-->
-
+         
 
 
 
@@ -152,7 +125,27 @@
                <p>
                     {{object.content | safe}}
                </p> <hr>
-               <small><a  href="{% url 'login' %}">Login</a> to Like Posts, Commment and view the author bio - {{total_likes}} Likes </small> <br><br><br>
+               <small><a  href="{% url 'login' %}">Login</a> to Like Posts, Comment and view the author bio - {{total_likes}} Likes </small> <br><br><br>
+
+
+          <!-- Viewing the comments -->
+
+          
+         
+               <h3 id="comment-header">Comments</h3> 
+               <hr>   <br>
+               {% for comment in object.comments.all %}
+               <div>
+                    <p>{{ comment.user }} - {{ comment.date | naturaltime }}</p>
+                    <p>{{ comment.body | safe }}</p> <hr> <br>
+                    {% empty %} 
+                         <p>No comment for this post yet...</p>
+               {% endfor %}
+               <a href="{% url 'index:add_comment' object.id %}">Add comment</a>
+               </div>
+          
+          <!--End of  Viewing the comments -->
+
 
           {% endif %}
           <!-- End of views for users not logged in-->

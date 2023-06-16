@@ -4,7 +4,7 @@ from django import forms
 from index.models import Profile
 from django.forms import ImageField
 from django.core.exceptions import ValidationError
-#from django.url import reverse_lazy
+from index.models import Comment
 
 class RegisterForm(UserCreationForm):
     email = forms.EmailField(widget=forms.EmailInput(attrs={'class': 'form-control'}))
@@ -83,3 +83,9 @@ class ProfilePageForm(forms.ModelForm):
         }
 
 
+class CommentForm(forms.ModelForm):
+    parent = forms.IntegerField(widget=forms.HiddenInput(), required=False)
+
+    class Meta:
+        model = Comment
+        fields = ('body',)

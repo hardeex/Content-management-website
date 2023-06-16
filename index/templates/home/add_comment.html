@@ -1,0 +1,36 @@
+{% extends 'home/base.html' %}
+
+{% block title %}  Add Comment {% endblock %}
+
+{% block body %}
+    <h2>Add Comment</h2><br><br>
+{% if user.is_authenticated %}
+
+   
+  <div class="form-group">   
+            <form method="POST">
+                {% csrf_token %}
+                {{ comment_form.as_p }}
+                {{form.media}}
+
+         <button class="btn btn-primary">Add Comment</button>       
+            </form><br><br>
+            </div>
+{% else %} 
+    <p>You must <a href="{% url 'login' %}"> LOGIN </a> to add a comment</p> <br><br><br>
+{% endif %}
+
+    
+{% endblock %}
+
+
+
+
+    
+       
+    
+    
+     
+      
+
+

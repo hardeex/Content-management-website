@@ -1,15 +1,16 @@
-from django.shortcuts import render, get_object_or_404
+from django.shortcuts import render, get_object_or_404, redirect
 from . import models
 from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
 from . import custom_model_form
 from django.urls import reverse_lazy, reverse
 from django.http import HttpResponseRedirect
+from account.forms import CommentForm
 #from ckeditor.fields import RichTextField
 #from django.shortcuts import redirect
 #from django.conf.urls import handler404
 #from django.conf import settings
 
-
+from .models import BlogPost, Comment
 
 # create classes the views
 class JobHomeView(ListView):
@@ -46,8 +47,9 @@ class BlogDetailsView(DetailView):
 
         context['total_likes'] = total_likes
         context['liked']=liked
+        context['comment_form'] = CommentForm()  # Add the comment form to the context
         return context
-    
+
 
 class AddPostView(CreateView):
     model = models.BlogPost
@@ -123,3 +125,21 @@ def LikeView(request, pk):
         post.likes.add(request.user)
         liked = True
     return HttpResponseRedirect(reverse('index:blog_details', args=[str(pk)]))
+
+
+
+
+def add_comment(request, pk):
+    blogpost = get_object_or_404(BlogPost, pk=pk)
+
+    if request.method == 'POST':
+        form = CommentForm(request.POST)
+        if form.is_valid():
+            comment = form.save(commit=False)
+            comment.post = blogpost
+            comment.save()
+            return redirect('home:blog_details', pk=pk)
+    else:
+        form = CommentForm()
+
+    return render(request, 'home/add_comment.html', {'form': form})
