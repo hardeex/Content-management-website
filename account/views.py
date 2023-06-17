@@ -2,7 +2,7 @@ from django.shortcuts import render, get_object_or_404, redirect
 from django.views import generic
 from django.contrib.auth.forms import UserCreationForm, UserChangeForm, PasswordChangeForm
 from django.urls import reverse_lazy
-from .forms import RegisterForm, EditProfileForm, PasswordChangedForm, ProfilePageForm, CommentForm
+from .forms import RegisterForm, EditProfileForm, PasswordChangedForm, ProfilePageForm
 from django.contrib.auth.views import PasswordChangeView
 from django.views.generic import DetailView, CreateView
 from index.models import Profile

@@ -4,13 +4,16 @@ from django.views.generic import ListView, DetailView, CreateView, UpdateView, D
 from . import custom_model_form
 from django.urls import reverse_lazy, reverse
 from django.http import HttpResponseRedirect
-from account.forms import CommentForm
+from account.forms import NewCommentForm
+#from account.forms import CommentForm
 #from ckeditor.fields import RichTextField
 #from django.shortcuts import redirect
 #from django.conf.urls import handler404
 #from django.conf import settings
 
 from .models import BlogPost, Comment
+
+
 
 # create classes the views
 class JobHomeView(ListView):
@@ -29,8 +32,8 @@ class BlogHomeView(ListView):
     model = models.BlogPost
     template_name = 'home/blog_list.html'
     ordering = ['-date']
-  
 
+  
 
 class BlogDetailsView(DetailView):
     model = models.BlogPost
@@ -38,17 +41,32 @@ class BlogDetailsView(DetailView):
 
     def get_context_data(self, *args, **kwargs):
         get_likes = get_object_or_404(models.BlogPost, id=self.kwargs['pk'])
-        context = super(BlogDetailsView, self).get_context_data(*args, **kwargs)
-        total_likes = get_likes.total_likes()    
-        
-        liked = False    
+        context = super().get_context_data(*args, **kwargs)
+        post = self.get_object()
+        context['comments'] = post.comments.filter(status=True)
+        context['comment_form'] = NewCommentForm()
+        total_likes = get_likes.total_likes()
+        liked = False
         if get_likes.likes.filter(id=self.request.user.id).exists():
             liked = True
-
         context['total_likes'] = total_likes
-        context['liked']=liked
-        context['comment_form'] = CommentForm()  # Add the comment form to the context
+        context['liked'] = liked
         return context
+
+
+def add_comment(request, pk):
+    post = get_object_or_404(models.BlogPost, pk=pk)
+    comments = post.comments.filter(status=True)
+    if request.method == "POST":
+        comment_form = NewCommentForm(request.POST)
+        if comment_form.is_valid():
+            user_comment = comment_form.save(commit=False)
+            user_comment.post = post
+            user_comment.save()
+            return redirect('index:blog_details', pk=pk)
+    else:
+        comment_form = NewCommentForm()
+    return redirect('index:blog_details', pk=pk)
 
 
 class AddPostView(CreateView):
@@ -129,17 +147,4 @@ def LikeView(request, pk):
 
 
 
-def add_comment(request, pk):
-    blogpost = get_object_or_404(BlogPost, pk=pk)
 
-    if request.method == 'POST':
-        form = CommentForm(request.POST)
-        if form.is_valid():
-            comment = form.save(commit=False)
-            comment.post = blogpost
-            comment.save()
-            return redirect('home:blog_details', pk=pk)
-    else:
-        form = CommentForm()
-
-    return render(request, 'home/add_comment.html', {'form': form})

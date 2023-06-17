@@ -5,6 +5,8 @@ from index.models import Profile
 from django.forms import ImageField
 from django.core.exceptions import ValidationError
 from index.models import Comment
+from ckeditor.widgets import CKEditorWidget
+
 
 class RegisterForm(UserCreationForm):
     email = forms.EmailField(widget=forms.EmailInput(attrs={'class': 'form-control'}))
@@ -82,10 +84,15 @@ class ProfilePageForm(forms.ModelForm):
             'bio': forms.Textarea(attrs={'class': 'form-control', 'placeholder':'About you'}),
         }
 
-
-class CommentForm(forms.ModelForm):
-    parent = forms.IntegerField(widget=forms.HiddenInput(), required=False)
-
+class NewCommentForm(forms.ModelForm):
+    content = forms.CharField(widget=CKEditorWidget())
     class Meta:
         model = Comment
-        fields = ('body',)
+        fields = ('user', 'content')
+
+        widgets = {
+            'user': forms.TextInput(attrs={'class': 'form-control',  'value': '', 'id':'user_name', 'type': 'hidden'}),                      
+            #'content': forms.Textarea(attrs={'class': 'form-control'}),
+            #'content': CKEditorWidget(),
+        }
+

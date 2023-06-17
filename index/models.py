@@ -76,13 +76,16 @@ class Profile(models.Model):
     def get_absolute_url(self):
         return reverse('index:home')
 
-
 class Comment(models.Model):
-    post = models.ForeignKey(BlogPost, on_delete=models.CASCADE, related_name="comments")
-    user = models.ForeignKey(User, on_delete=models.CASCADE)
-    body = RichTextField(blank=True, null=True)
-    parent = models.ForeignKey('self', on_delete=models.CASCADE, null=True, blank=True, related_name='replies')
+    user = models.ForeignKey(User,  on_delete=models.CASCADE)
+    post = models.ForeignKey(BlogPost, on_delete=models.CASCADE, related_name='comments')
+    content = RichTextField(blank=True, null=True)
+    #parent = models.ForeignKey('self', on_delete=models.CASCADE, null=True, blank=True, related_name='replies')
     date = models.DateTimeField(auto_now_add=True)
+    status = models.BooleanField(default=True)
+
+    class Meta:
+            ordering = ('date', )
 
     def __str__(self):
-        return '%s - %s' % (self.post.title, self.name, self.date)
+            return f"Comment By: {self.user}"

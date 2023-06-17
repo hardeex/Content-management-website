@@ -7,8 +7,10 @@ from django.contrib.staticfiles.storage import staticfiles_storage
 
 
 app_name = 'index'
+
 urlpatterns = [
     path('favicon.ico', RedirectView.as_view(url=staticfiles_storage.url('images/favicon.ico'))),
+    
     path('', views.home, name = 'home'),
 
     path('blog/', BlogHomeView.as_view(), name="blog_list"),
@@ -26,6 +28,7 @@ urlpatterns = [
     path('category/<str:category_name>/', views.CategoryView, name='category_list'), 
     path('view_category/', views.ListCategory, name='view_category'), 
 
-    path('<int:pk>/add_post/', views.add_comment, name='add_comment'),
+    path('<int:pk>/add_comment/', views.add_comment, name='add_comment')
+
 
 ]

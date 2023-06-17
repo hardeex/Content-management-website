@@ -2,31 +2,35 @@
 {% load static %} 
 {% load humanize %}
 
+
 {% block title %} {{object.title}} {% endblock %} 
 
 {% block body %} 
-        <h1>{{object.title | upper}} </h1>
-        {% if user.is_authenticated %}                         
-                    <small>
-                        <b>Last Updated: {{object.date}}  </b> | <b>Author: </b>  {{object.author.first_name}} {{object.author.last_name}} |
-                        <b> Category:</b>  <a href="{% url 'index:category_list' object.category %}">{{object.category}}</a> |
-               {% if object.author.id == user.id  %}
-                         <a href="{% url 'index:edit_post' object.pk %}">(Edit)</a> |
-                         <a href="{% url 'index:delete_post' object.pk %}">(Delete)</a>
-               {% endif %}
-                         </small> <br> <br>    
-                         <p>
-                              {{object.content | safe}}
-                         </p>  <hr>
+          <div class="post-title">
+               <h1>{{object.title | upper}} </h1>
+                    {% if user.is_authenticated %}                         
+                                   <small>
+                                   <b>Last Updated: {{object.date}}  </b> | <b>Author: </b>  {{object.author.first_name}} {{object.author.last_name}} |
+                                   <b> Category:</b>  <a href="{% url 'index:category_list' object.category %}">{{object.category}}</a> |
+                              {% if object.author.id == user.id  %}
+                                        <a href="{% url 'index:edit_post' object.pk %}">(Edit)</a> |
+                                        <a href="{% url 'index:delete_post' object.pk %}">(Delete)</a>
+                              {% endif %}
+                                        </small> <br> <br>    
+                                        <p>
+                                             {{object.content | safe}}
+                                        </p>  <hr>
 
-               <form action="{% url 'index:like_post' object.pk %}" method="post">
-                    {% csrf_token %} 
-                    {% if liked %}
-                         <button type="submit"  class="btn btn-danger" name="post_id" value="{{object.id}}">Unliked </button> - {{total_likes}} Likes
-                    {% else %} 
-                         <button type="submit"  class="btn btn-success" name="post_id" value="{{object.id}}">Likes - {{total_likes}} </button>
-                    {% endif %}
-               </form> <br>
+                              <form action="{% url 'index:like_post' object.pk %}" method="post">
+                                   {% csrf_token %} 
+                                   {% if liked %}
+                                        <button type="submit"  class="btn btn-danger" name="post_id" value="{{object.id}}">Unliked </button> - {{total_likes}} Likes
+                                   {% else %} 
+                                        <button type="submit"  class="btn btn-success" name="post_id" value="{{object.id}}">Likes - {{total_likes}} </button>
+                                   {% endif %}
+                              </form> <br>
+          </div> <br>
+        
 
                <!--- Author Profile Page
 
@@ -34,16 +38,16 @@
                <img src="{{object.author.profile.profile_pic.url}}" alt="" srcset=""> 
 
                -->                    
-                    <div class="card mb-3"  >
+                    <div class="post-title"  >
                          <div class="row g-0">
                          <div class="col-md-2">
 
                               {% if object.author.profile.profile_pic.url %}
                                    <img src="{{object.author.profile.profile_pic.url}}"  class="rounded-circle" 
-                                   alt="Author profile image" width="170" height="170"  >  
+                                   alt="Author profile image" width="100" height="100"  >  
                               {% else %}
                                    <img src="{% static 'images/profile_user_icon.png' %}"  class="rounded-circle"
-                                   alt="default profile image" width="170" height="170"   > 
+                                   alt="default profile image" width="100" height="100"   > 
                               {% endif %}          
                          </div>
                          <div class="col-md-10">
@@ -105,8 +109,39 @@
                     </div>
 
 
-                    <!---View of comment for logged in user-->
-                    
+                    <!---View of comment for logged in user--> <br><br>
+                    <div class="post-title">
+                         {% with comments.count as total_comments %} 
+                         <h2>
+                              {{ total_comments }} Comment{{ total_comments|pluralize }} <hr>
+                         </h2>
+                         {% endwith %} 
+
+                         {% for comment in comments %} 
+                         comment {{ forloop.counter }} by <b>{{ comment.user }} </b>
+                         on {{ comment.content | safe |linebreaks }} <hr>
+                         {% empty %} 
+                         <p>There are no comments for this post.</p>
+                         {% endfor %} 
+
+                         <br><br>
+                         <div>
+                                   <h2> Make a new comment</h2>
+                                   <form id="myForm" method="post" action="{% url 'index:add_comment' object.id %}"> 
+                                   {% csrf_token %} 
+                                        {{ form.media }}
+                                        {{ comment_form.as_p }}                                                            
+                                        <button type="submit" class="btn btn-secondary">Add comment</button>
+                                   </form>
+                         </div>
+                         
+
+                         <script>
+                              var user = "{{user.id}}";
+                              document.getElementById("user_name").value = user;
+                      
+                          </script>  
+                    </div>
 
                     <!---End of view of comment for logged in user-->
 
@@ -119,30 +154,22 @@
 
           <!-- views for users not logged in-->
           {% else %} 
+          <div class="post-title">
                <small>
-               <b>Last Updated: </b>  {{object.date}} | <b>Author: </b>  {{object.author.first_name}} {{object.author.last_name}}               
-               </small> <br> <br>    
-               <p>
-                    {{object.content | safe}}
-               </p> <hr>
-               <small><a  href="{% url 'login' %}">Login</a> to Like Posts, Comment and view the author bio - {{total_likes}} Likes </small> <br><br><br>
+                              <b>Last Updated: </b>  {{object.date}} | <b>Author: </b>  {{object.author.first_name}} {{object.author.last_name}}               
+                              </small> <br> <br>    
+                              <p>
+                                   {{object.content | safe}}
+                              </p> <hr>
+                              <small><a  href="{% url 'login' %}">Login</a> to Like Posts, Comment and view the author bio - {{total_likes}} Likes </small>
+          </div>
+               <br><br><br>
 
 
           <!-- Viewing the comments -->
 
           
          
-               <h3 id="comment-header">Comments</h3> 
-               <hr>   <br>
-               {% for comment in object.comments.all %}
-               <div>
-                    <p>{{ comment.user }} - {{ comment.date | naturaltime }}</p>
-                    <p>{{ comment.body | safe }}</p> <hr> <br>
-                    {% empty %} 
-                         <p>No comment for this post yet...</p>
-               {% endfor %}
-               <a href="{% url 'index:add_comment' object.id %}">Add comment</a>
-               </div>
           
           <!--End of  Viewing the comments -->
 
@@ -150,4 +177,12 @@
           {% endif %}
           <!-- End of views for users not logged in-->
           <br><br><br><br> <a href="{% url 'index:blog_list' %}" class="btn btn-primary">Back To Posts List</a><br><br>
+
+          <style>
+               .post-title{
+                    margin: auto;
+                    width: 55rem;
+                    text-align: justify;               
+               }
+          </style>
 {% endblock %}
