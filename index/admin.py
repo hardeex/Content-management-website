@@ -3,9 +3,15 @@ from . import models
 
 # Register your models here.
 admin.site.register(models.JobPost)
-admin.site.register(models.BlogPost)
+#admin.site.register(models.BlogPost)
 admin.site.register(models.BlogCategory)
 admin.site.register(models.Profile)
+
+@admin.register(models.BlogPost)
+class BlogPostAdmin(admin.ModelAdmin):
+    list_display = ('title', 'author', 'category',  'date')
+    list_filter = ('title', 'author', 'category', 'date')
+    search_field = ('author', 'title', 'content', 'category', 'date')
 
 @admin.register(models.Comment)
 class CommentAdmin(admin.ModelAdmin):
