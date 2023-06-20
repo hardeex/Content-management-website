@@ -6,6 +6,7 @@ from django.forms import ImageField
 from django.core.exceptions import ValidationError
 from index.models import Comment
 from ckeditor.widgets import CKEditorWidget
+from mptt.forms import TreeNodeChoiceField
 
 
 class RegisterForm(UserCreationForm):
@@ -86,13 +87,17 @@ class ProfilePageForm(forms.ModelForm):
 
 class NewCommentForm(forms.ModelForm):
     content = forms.CharField(widget=CKEditorWidget())
+    parent = TreeNodeChoiceField(queryset=Comment.objects.all())
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs) 
+         
+        self.fields['parent'].required = False 
+        self.fields['parent'].label = ''
+        self.fields['parent'].widget.attrs.update({'class': 'd-none'})
+
     class Meta:
         model = Comment
-        fields = ('user', 'content')
+        fields = ('parent', 'content')
 
-        widgets = {
-            'user': forms.TextInput(attrs={'class': 'form-control',  'value': '', 'id':'user_name', 'type': 'hidden'}),                      
-            #'content': forms.Textarea(attrs={'class': 'form-control'}),
-            #'content': CKEditorWidget(),
-        }
-
+       

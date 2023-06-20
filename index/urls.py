@@ -30,5 +30,4 @@ urlpatterns = [
 
     path('<int:pk>/add_comment/', views.add_comment, name='add_comment')
 
-
 ]

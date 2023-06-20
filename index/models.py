@@ -3,6 +3,7 @@ from django.contrib.auth.models import User
 from django.urls import reverse
 from django.http import HttpResponseRedirect, HttpResponse
 from ckeditor.fields import RichTextField
+from mptt.models import MPTTModel, TreeForeignKey
 
 
 # Create your models here.
@@ -37,7 +38,7 @@ class BlogPost(models.Model):
     title = models.CharField(max_length=255, unique=True)
     date = models.DateTimeField(auto_now_add=True)
     #date = models.DateTimeField()
-    category = models.CharField(max_length=150)
+    category = models.CharField(max_length=150, default='uncategorized')
     #category = models.ForeignKey(BlogCategory, on_delete = models.CASCADE)
     #content = models.TextField()
     content = RichTextField(blank=True, null=True, unique=True)
@@ -76,16 +77,27 @@ class Profile(models.Model):
     def get_absolute_url(self):
         return reverse('index:home')
 
-class Comment(models.Model):
-    user = models.ForeignKey(User,  on_delete=models.CASCADE)
+class Comment(MPTTModel):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
     post = models.ForeignKey(BlogPost, on_delete=models.CASCADE, related_name='comments')
     content = RichTextField(blank=True, null=True)
-    #parent = models.ForeignKey('self', on_delete=models.CASCADE, null=True, blank=True, related_name='replies')
     date = models.DateTimeField(auto_now_add=True)
     status = models.BooleanField(default=True)
-
+    
+    # MPTT implementation
+    parent = TreeForeignKey('self', on_delete=models.CASCADE, null=True, blank=True, related_name='replies')
+    #level = models.PositiveIntegerField(default=0)
+    #lft = models.PositiveIntegerField(default=0)
+    #rght = models.PositiveIntegerField(default=0)
+    #tree_id = models.PositiveIntegerField(default=0)  
+    
+    class MPTTMeta:
+        order_insertion_by = ['date']
+    
     class Meta:
-            ordering = ('date', )
-
+        ordering = ('date', )
+    
     def __str__(self):
-            return f"Comment By: {self.user}"
+        return f"Comment By: {self.user}"
+
+

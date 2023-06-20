@@ -22,7 +22,7 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('', include("index.urls")),
     path('account/', include('django.contrib.auth.urls')),
-    path('account/', include('account.urls', namespace='account')), 
-    #path('<path:not_found>/', page_not_found, name='page_not_found')
-    #path('<path:not_found>/', reddirct_to_error_page)
+    path('account/', include('account.urls', namespace='account')),    
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+
+

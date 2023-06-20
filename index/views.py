@@ -54,6 +54,7 @@ class BlogDetailsView(DetailView):
         return context
 
 
+
 def add_comment(request, pk):
     post = get_object_or_404(models.BlogPost, pk=pk)
     comments = post.comments.filter(status=True)
@@ -62,11 +63,14 @@ def add_comment(request, pk):
         if comment_form.is_valid():
             user_comment = comment_form.save(commit=False)
             user_comment.post = post
+            user_comment.user = request.user
             user_comment.save()
             return redirect('index:blog_details', pk=pk)
     else:
         comment_form = NewCommentForm()
     return redirect('index:blog_details', pk=pk)
+
+   
 
 
 class AddPostView(CreateView):
@@ -143,7 +147,6 @@ def LikeView(request, pk):
         post.likes.add(request.user)
         liked = True
     return HttpResponseRedirect(reverse('index:blog_details', args=[str(pk)]))
-
 
 
 
