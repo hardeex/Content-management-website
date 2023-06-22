@@ -1,225 +1,218 @@
-{% extends 'home/base.html' %} 
-{% load static %} 
-{% load humanize %}
+{% extends 'home/base.html' %}
+{% load static %}
+{% load humanize %} <!---to display date in a natural time-->
+{% load mptt_tags %}
 
+{% block title %}{{ object.title }}{% endblock %}
 
-{% block title %} {{object.title}} {% endblock %} 
+{% block body %}
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="col-lg-8">
+            <div class="post-container">
+                <div class="post-title">
+                    <h1>{{ object.title | upper }}</h1>
+                    {% if user.is_authenticated %}
+                    <small>
+                        <b>Last Updated:</b> {{ object.date }} | <b>Author:</b> {{ object.author.first_name }}
+                        {{ object.author.last_name }} |
+                        <b>Category:</b> <a href="{% url 'index:category_list' object.category %}">{{ object.category }}</a> |
+                        {% if object.author.id == user.id %}
+                        <a href="{% url 'index:edit_post' object.pk %}">(Edit)</a> |
+                        <a href="{% url 'index:delete_post' object.pk %}">(Delete)</a>
+                        {% endif %}
+                    </small> <br> <br>
+                    <p>
+                        {{ object.content | safe }}
+                    </p>
+                    <hr>
 
-{% block body %} 
-          <div class="post-title">
-               <h1>{{object.title | upper}} </h1>
-                    {% if user.is_authenticated %}                         
-                                   <small>
-                                   <b>Last Updated: {{object.date}}  </b> | <b>Author: </b>  {{object.author.first_name}} {{object.author.last_name}} |
-                                   <b> Category:</b>  <a href="{% url 'index:category_list' object.category %}">{{object.category}}</a> |
-                              {% if object.author.id == user.id  %}
-                                        <a href="{% url 'index:edit_post' object.pk %}">(Edit)</a> |
-                                        <a href="{% url 'index:delete_post' object.pk %}">(Delete)</a>
-                              {% endif %}
-                                        </small> <br> <br>    
-                                        <p>
-                                             {{object.content | safe}}
-                                        </p>  <hr>
-
-                              <form action="{% url 'index:like_post' object.pk %}" method="post">
-                                   {% csrf_token %} 
-                                   {% if liked %}
-                                        <button type="submit"  class="btn btn-danger" name="post_id" value="{{object.id}}">Unliked </button> - {{total_likes}} Likes
-                                   {% else %} 
-                                        <button type="submit"  class="btn btn-success" name="post_id" value="{{object.id}}">Likes - {{total_likes}} </button>
-                                   {% endif %}
-                              </form> <br>
-          </div> <br>
-        
-
-               <!--- Author Profile Page
-
-          
-
-               -->                    
-                    <div class="post-title"  >
-                         <div class="row g-0">
-                         <div class="col-md-2">
-
-                         {% if object.author.profile.profile_pic %}
-                              <img src="{{ object.author.profile.profile_pic.url }}" class="rounded-circle" alt="Author profile image" width="100" height="100">
-                          {% else %}
-                              <img src="{% static 'images/profile_user_icon.png' %}" class="rounded-circle" alt="Default profile image" width="100" height="100">
-                          {% endif %}        
-                         </div>
-                         <div class="col-md-10">
-                         <div class="card-body">
-                              <h5 class="card-title">{{object.author.first_name|safe}} {{object.author.last_name|safe}}</h5>
-                              
-                              <small  class="fw-lighter">
-                              {% if object.author.profile.email_url %}    
-                                   <a href="mailto: {{object.author.profile.email_url}}" target="_blank">Email</a>                                                      
-                              {% endif %}
-
-                              {% if object.author.profile.website_url %}
-                                   |<a href="{{object.author.profile.website_url}}" target="_blank">Website </a>                                     
-                              {% endif %}
-                              
-                              
-                              {% if object.author.profile.facebook_url %}
-                                   |  <a href="{{object.author.profile.facebook_url}}" class="links" target="_blank">Facebook </a>                                  
-                              {% endif %}
-                              
-                              
-                              {% if object.author.profile.linkedln_url %}
-                                   |  <a href="{{object.author.profile.linkedln_url}}" class="links" target="_blank">Linkedln </a> 
-                              {% endif %}
-
-                              
-                              {% if object.author.profile.twitter_url %}
-                                   |  <a href="{{object.author.profile.twitter_url}}" class="links" target="_blank">Twitter </a> 
-                              {% endif %}
-
-                              {% if object.author.profile.instagram_url %}                                   
-                                   |  <a href="{{object.author.profile.instagram_url}}" class="links" target="_blank">Instagram </a>                                  
-                              {% endif %}                                   
-                              
-                              
-                              {% if object.author.profile.whatsapp_url %} 
-                                   |  <a href="{{object.author.profile.whatsapp_url}}" class="links" target="_blank"> WhatsApp </a>
-                              {% endif %}
-                              
-                              
-                              {% if object.author.profile.github_url %}
-                              
-                                   |  <a href="{{object.author.profile.github_url}}" class="links" target="_blank">GitHub </a> 
-                              {% endif %}
-
-                              </small>
-                              <p class="card-text">                                  
-                                   {{object.author.profile.bio |truncatewords:"80" |safe}}                                    
-                                   {% if object.author.profile.pk %}
-                                   ... <a href="{% url 'account:user_profile' object.author.profile.pk %}" class="link-info link-offset-2 link-underline-opacity-25 link-underline-opacity-100-hover", target="_blank">
-                                       Read More...                                   
-                                   </a>   
-                                   {% endif %}
-                                   </p>
-                              
-                         </div>
-                         </div>
-                         </div>
+                    <form action="{% url 'index:like_post' object.pk %}" method="post">
+                        {% csrf_token %}
+                        {% if liked %}
+                        <button type="submit" class="btn btn-danger" name="post_id" value="{{ object.id }}">Unliked
+                        </button> - {{ total_likes }} Likes
+                        {% else %}
+                        <button type="submit" class="btn btn-success" name="post_id" value="{{ object.id }}">Likes -
+                            {{ total_likes }}</button>
+                        {% endif %}
+                    </form>
+                    {% else %}
+                    <div class="alert alert-info">
+                        <small>
+                            <b>Last Updated:</b> {{ object.date }} | <b>Author:</b> {{ object.author.first_name }}
+                            {{ object.author.last_name }}
+                        </small> <br> <br>
+                        <p>
+                            {{ object.content | safe }}
+                        </p>
+                        <hr>
+                        <small>
+                            <a href="{% url 'login' %}">Login</a> to Like Posts, Comment and view the author bio -
+                            {{ total_likes }} Likes
+                        </small>
                     </div>
+                    {% endif %}
+                </div>
 
+                <div>
+                    <h2>{{ total_comments }} Comment{{ total_comments|pluralize }}</h2>
+                        <small>Discussion on: {{ object.title }}</small> <br>
+                        <small>Scroll up if you can not find the reply box when clicked</small><hr>
+                    <div>
+                        {% for comment in comments %}
+                            <div id="{{ comment.id }}">
+                                <div style="border: 1px solid gray">
+                                    <div class="d-flex">
+                                        <div class="p-2 flex-grow-1"><b>{{ comment.user }}</b></div>
+                                        <div class="p-2"><small>{{ comment.date }} ({{ comment.date|naturaltime }})</small></div>
+                                    </div>
+                
+                                    {{ comment.content | safe }}
+                                    {% if comment.level < 3 %} <br> <br>
+                                        <button type="button" class="btn btn-primary" onclick="myFunction('{{ comment.id }}')">Reply</button>
+                                    {% endif %}
+                                </div>
+                
+                                <div>
+                                    {% if not comment.is_leaf_node %}
+                                        <div class="children-comment">
+                                            {% recursetree comment.get_children %}
+                                                <div id="{{ node.id }}">
+                                                    <div style="border: 1px solid gray">
+                                                        <div class="d-flex">
+                                                            <div class="p-2 flex-grow-1"><b>{{ node.user }}</b></div>
+                                                            <div class="p-2"><small>{{ node.date }} ({{ node.date|naturaltime }})</small></div>
+                                                        </div>
+                                                        
+                                                        {{ node.content | safe }}
+                                                        {% if node.level < 5 %} <br> <br>
+                                                            <button type="button" class="btn btn-primary" onclick="myFunction('{{ node.id }}')">Reply</button>
+                                                        {% endif %}
+                                                    </div>
+                
+                                                    <div>
+                                                        {% if not node.is_leaf_node %}
+                                                            <div class="children-comment">
+                                                                {{ children }}
+                                                            </div>
+                                                        {% endif %}
+                                                    </div>
+                                                </div>
+                                            {% endrecursetree %}
+                                        </div>
+                                    {% endif %}
+                                </div>
+                            </div>
+                        {% endfor %}
+                    </div>
+                
+                    <!-- Pagination -->
+                    <div class="pagination">
+                        {% if comments.has_previous %}
+                            <a href="?page={{ comments.previous_page_number }}" class="pagination-link">Previous</a>
+                        {% endif %}
+                        {% for page_num in comments.paginator.page_range %}
+                            {% if page_num == comments.number %}
+                                <span class="pagination-number current-page">{{ page_num }}</span>
+                            {% else %}
+                                <a href="?page={{ page_num }}" class="pagination-link">{{ page_num }}</a>
+                            {% endif %}
+                        {% endfor %}
+                        {% if comments.has_next %}
+                            <a href="?page={{ comments.next_page_number }}" class="pagination-link">Next</a>
+                        {% endif %}
+                    </div>
+                
+                    <br><br>
+                    <div>
+                        <h2>Make a new comment</h2>
+                        <form id="myForm" method="POST" action="{% url 'index:add_comment' object.id %}">
+                            {% csrf_token %}
+                            {{ comment_form.as_p }}
+                            {{ form.media }}
+                            <button type="submit" class="btn btn-secondary">Add comment</button>
+                        </form>
+                    </div>
+                </div>
 
-                    <!---View of comment for logged in user--> <br><br>
-                    <div class="post-title">
-                         {% with comments.count as total_comments %} 
-                         <h2>
-                             {{ total_comments }} Comment{{ total_comments|pluralize }}                               
-                         </h2>
-                         <small>Discussion on: {{ object.title }}</small><hr>
-                         {% endwith %} 
-                     
-                         {% load mptt_tags %} 
-                         <div>
-                             {% recursetree comments %} 
-                             <small><b>{{ node.user }}</b> - {{ node.date }} ({{ node.date|naturaltime }})</small>
-                             <div class="parent-comment" id="{{ node.id }}">{{ node.content|safe }}</div>                      
-                            
-                             <button type="button"class="btn btn-primary"  onclick="myFunction('{{ node.id }}')">Reply</button>
-                             <div>
-                                 {% if not node.is_leaf_node %} 
-                                 <div class="children-comment">{{ children }} </div> <hr>
-                                 {% endif %}
-                             </div>     
-                     
-                             {% endrecursetree %}
-                         </div>
-                     
-                         <br><br>
-                         <div>
-                             <h2>Make a new comment</h2>
-                             <form id="myForm" method="POST" action="{% url 'index:add_comment' object.id %}"> 
-                                 {% csrf_token %}
-                                 {{ comment_form.as_p }} 
-                                 {{ form.media }}                                                                                            
-                                 <button type="submit" class="btn btn-secondary">Add comment</button>
-                             </form>
-                         </div>
-                     
-                     
-                         <script>
-                            
-                     
-                             function myFunction(id) {
-                                        var existingForm = document.getElementById("newForm");
-                                        if (existingForm) {
-                                             existingForm.remove();
-                                        }
+                <br><br>
+                <a href="{% url 'index:blog_list' %}" class="btn btn-primary">Back To Posts List</a><br><br>
+            </div>
+        </div>
+    </div>
+</div>
 
-                                        var reply = document.getElementById(id);
-                                        var formHTML = `
-                                        <form id="newForm" method="POST" class="form-insert py-2" action="{% url 'index:add_comment' object.pk %}">
-                                                  <div><h2>Reply</h2></div>
-                                                  <select name="parent" class="d-none" id="id_parent">
-                                                       <option value="${id}" selected="${id}"></option>
-                                                  </select>
-                                                  <label for="id_content">Content:</label>
-                                                  <textarea name="content" cols="40" rows="5" class="form-control" required id="id_content"></textarea>
-                                                  {% csrf_token %}
-                                                  {{ form.media }}
-                                                  <button type="submit" class="btn-primary btn-lg btn-block">Add comment</button>
-                                             </form>
-                                        `;
+<script>
+    function formExit() {
+        document.getElementById("newForm").remove();
+    }
 
-                                        reply.insertAdjacentHTML("afterend", formHTML);
-                                        }
+    function myFunction(id) {
+        var existingForm = document.getElementById("newForm");
+        if (existingForm) {
+            existingForm.remove();
+        }
 
-                       
-                         </script>  
-                     
-                         <style>
-                             .parent-comment {
-                                 
-                             }
-                             .children-comment {
-                                 margin-left:40px;
-                                 
-                             }
-                         </style>
-                     </div>
-                     
+        var reply = document.getElementById(id);
+        var formHTML = `
+            <form id="newForm" method="POST" class="form-insert py-2" action="{% url 'index:add_comment' object.pk %}">
+                <div class="d-flex">
+                    <div class="p-2 flex-grow-1"><h2>Reply</h2></div>
+                    <div class="p-2"><button type="button" class="btn btn-secondary btn-sm" onclick="formExit()">Close</button></div>
+                </div>
+                <select name="parent" class="d-none" id="id_parent">
+                    <option value="${id}" selected="${id}"></option>
+                </select>
+                <label for="id_content">Content:</label>
+                <textarea name="content" cols="40" rows="5" class="form-control" required id="id_content"></textarea>
+                {% csrf_token %}
+                {{ form.media }}
+                <button type="submit" class="btn btn-secondary btn-sm">Submit Reply</button>
+            </form>
+        `;
 
-                    <!---End of view of comment for logged in user-->
+        var container = document.createElement('div');
+        container.innerHTML = formHTML;
+        container.classList.add('my-2', 'p-2', 'border', 'border-gray');
 
-               <!--- End Author Profile Page-->
+        reply.parentNode.insertBefore(container, reply);
+    }
+</script>
 
-          <!-- views for users not logged in-->
-          {% else %} 
-          <div class="post-title">
-               <small>
-                              <b>Last Updated: </b>  {{object.date}} | <b>Author: </b>  {{object.author.first_name}} {{object.author.last_name}}               
-                              </small> <br> <br>    
-                              <p>
-                                   {{object.content | safe}}
-                              </p> <hr>
-                              <small><a  href="{% url 'login' %}">Login</a> to Like Posts, Comment and view the author bio - {{total_likes}} Likes </small>
-          </div>
-               <br><br><br>
+<style>
+    .post-title {
+        margin: auto;
+        text-align: justify;
+        max-width: 55rem;
+        width: 100%;
+    }
 
+    .children-comment{
+        margin-left: 2rem;
+    }
 
-          <!-- Viewing the comments -->
+    .pagination {
+        margin-top: 20px;
+        text-align: center;
+    }
 
-          
-         
-          
-          <!--End of  Viewing the comments -->
+    .pagination-link {
+        display: inline-block;
+        margin-right: 5px;
+        padding: 5px 10px;
+        background-color: #f2f2f2;
+        color: #333;
+        text-decoration: none;
+        border-radius: 5px;
+    }
 
+    .pagination-link:hover {
+        background-color: #ccc;
+    }
 
-          {% endif %}
-          <!-- End of views for users not logged in-->
-          <br><br><br><br> <a href="{% url 'index:blog_list' %}" class="btn btn-primary">Back To Posts List</a><br><br>
-
-          <style>
-               .post-title{
-                    margin: auto;
-                    width: 55rem;
-                    text-align: justify;               
-               }
-          </style>
+    .current-page {
+        font-weight: bold;
+    }
+</style>
 {% endblock %}

@@ -35,7 +35,7 @@ INSTALLED_APPS = [
     'index',
     'account',
     'ckeditor',
-    'mptt',
+    'mptt',   
     'django.contrib.humanize',
     'django.contrib.admin',
     'django.contrib.auth',

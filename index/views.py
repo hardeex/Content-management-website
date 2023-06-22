@@ -5,13 +5,9 @@ from . import custom_model_form
 from django.urls import reverse_lazy, reverse
 from django.http import HttpResponseRedirect
 from account.forms import NewCommentForm
-#from account.forms import CommentForm
-#from ckeditor.fields import RichTextField
-#from django.shortcuts import redirect
-#from django.conf.urls import handler404
-#from django.conf import settings
-
 from .models import BlogPost, Comment
+from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
+from django.db.models import Count
 
 
 
@@ -33,24 +29,42 @@ class BlogHomeView(ListView):
     template_name = 'home/blog_list.html'
     ordering = ['-date']
 
-  
+
+
+
 
 class BlogDetailsView(DetailView):
     model = models.BlogPost
     template_name = 'home/blog_details.html'
+    paginate_by = 5  # Number of comments per page
+    context_object_name = 'post'
 
-    def get_context_data(self, *args, **kwargs):
-        get_likes = get_object_or_404(models.BlogPost, id=self.kwargs['pk'])
-        context = super().get_context_data(*args, **kwargs)
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
         post = self.get_object()
-        context['comments'] = post.comments.filter(status=True)
+
+        # Get all comments for the post and order them by date (most recent first)
+        comments = post.comments.filter(status=True).order_by('-date')
+
+        # Apply pagination to comments
+        paginator = Paginator(comments, self.paginate_by)
+        page_number = self.request.GET.get('page')
+
+        try:
+            page_obj = paginator.page(page_number)
+        except PageNotAnInteger:
+            # If page_number is not an integer, show the first page
+            page_obj = paginator.page(1)
+        except EmptyPage:
+            # If page is out of range (e.g. page_number > number of pages), show the last page
+            page_obj = paginator.page(paginator.num_pages)
+
+        total_comments = comments.count()  # Get the total number of comments
+        context['comments'] = page_obj
         context['comment_form'] = NewCommentForm()
-        total_likes = get_likes.total_likes()
-        liked = False
-        if get_likes.likes.filter(id=self.request.user.id).exists():
-            liked = True
-        context['total_likes'] = total_likes
-        context['liked'] = liked
+        context['total_likes'] = post.total_likes()
+        context['liked'] = post.likes.filter(id=self.request.user.id).exists()
+        context['total_comments'] = total_comments  # Add total_comments to the context
         return context
 
 
@@ -69,6 +83,8 @@ def add_comment(request, pk):
     else:
         comment_form = NewCommentForm()
     return redirect('index:blog_details', pk=pk)
+
+
 
    
 
