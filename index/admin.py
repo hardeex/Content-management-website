@@ -16,8 +16,3 @@ class BlogPostAdmin(admin.ModelAdmin):
     list_filter = ('title', 'author', 'category', 'date')
     search_field = ('author', 'title', 'content', 'category', 'date')
 
-#@admin.register(models.Comment)
-#class CommentAdmin(admin.ModelAdmin):
- #   list_display = ("post", "user", "date", "status")
-  #  list_filter = ("status", "date")
-   # search_field = ("user", "content")

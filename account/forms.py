@@ -7,6 +7,7 @@ from django.core.exceptions import ValidationError
 from index.models import Comment
 from ckeditor.widgets import CKEditorWidget
 from mptt.forms import TreeNodeChoiceField
+from contact.models import Contact
 
 
 class RegisterForm(UserCreationForm):
@@ -100,4 +101,17 @@ class NewCommentForm(forms.ModelForm):
         model = Comment
         fields = ('parent', 'content')
 
-       
+
+class ContactForm(forms.ModelForm):
+    
+
+    class Meta:
+        model = Contact
+        fields = ('subject', 'name', 'email', 'message')
+
+        widgets = {
+            'subject': forms.TextInput(attrs={'class': 'form-control'}),
+            'name': forms.TextInput(attrs={'class': 'form-control'}),
+            'email': forms.TextInput(attrs={'class': 'form-control'}),
+            'message': forms.Textarea(attrs={'class': 'form-control'}),
+        }

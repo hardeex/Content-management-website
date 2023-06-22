@@ -1,0 +1,16 @@
+{% extends 'home/base.html' %} 
+{% block title %}  Contact Us {% endblock %}
+
+{% block body %} 
+    <h1>SEND US MESSAGE...</h1>
+       
+    <br><br>
+    <div class="form-group"> 
+        <form method="POST">
+            {% csrf_token %} 
+            {{form.as_p}}           
+            <button class="btn btn-primary">Send Message</button>
+        </form> <br><br>
+    </div>
+
+{% endblock %}

@@ -34,6 +34,7 @@ ALLOWED_HOSTS = []
 INSTALLED_APPS = [
     'index',
     'account',
+    'contact',
     'ckeditor',
     'mptt',   
     'django.contrib.humanize',
@@ -139,4 +140,18 @@ DEFAULT_PROFILE_PIC_URL = 'static/images/profile_user_icon.png'
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
+# Email Configuration
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = 'smtp.gmail.com'  # Replace with your SMTP server address
+EMAIL_PORT = 587  # Replace with your SMTP server port
+EMAIL_HOST_USER = 'webmasterjdd@gmail.com'  # Replace with your email address
+EMAIL_HOST_PASSWORD = 'Hardeewale1412'  # Replace with your email password
+EMAIL_USE_TLS = True
 
+# Contact Form Configuration
+DEFAULT_FROM_EMAIL = 'webmasterjdd@gmail.com'  # Replace with your email address
+
+# Admin Email Configuration
+ADMINS = [
+    ('Adewale', 'jamiuadewaleyusuf@gmail.com'),  # Replace with the admin's name and email address
+]
