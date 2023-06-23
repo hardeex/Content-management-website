@@ -83,19 +83,12 @@ class CreateProfilePageVIew(CreateView):
         return super().form_valid(form)
 
 
-class ForgotPasswordView(SuccessMessageMixin, FormView):
+class ForgotPasswordView(SuccessMessageMixin, PasswordResetView):
     template_name = 'registration/forgot_password.html'
-    form_class = PasswordResetForm
+    email_template_name = 'registration/forgot_password_email.html'
+    subject_template_name = 'registration/forgot_password_subject.txt'
+    success_message = "We've emailed you instructions for setting your password, " \
+                      "if an account exists with the email you entered. You should receive them shortly." \
+                      " If you don't receive an email, " \
+                      "please make sure you've entered the address you registered with, and check your spam folder."
     success_url = reverse_lazy('login')
-    success_message = "We've emailed you instructions for setting your password. " \
-                      "If an account exists with the email you entered, " \
-                      "you should receive the instructions shortly. " \
-                      "If you don't receive an email, " \
-                      "please make sure you've entered the correct email address " \
-                      "and check your spam folder."
-
-    def form_valid(self, form):
-        response = super().form_valid(form)
-        if self.success_message:
-            messages.success(self.request, self.success_message)
-        return response
