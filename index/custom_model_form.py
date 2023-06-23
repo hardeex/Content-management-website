@@ -1,6 +1,8 @@
 from django import forms
 from . import models
 
+
+
 category = models.BlogCategory.objects.all().values_list('name', 'name')
 category_lists = []
 for category_list in category:

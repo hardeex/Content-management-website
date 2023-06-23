@@ -1,10 +1,8 @@
-from django.shortcuts import render
-from django.urls import path
+from django.shortcuts import render, redirect
 from account.forms import ContactForm
 from .utils import send_email_to_admin
 
 
-# Create your views here.
 def Contact(request):
     if request.method == 'POST':
         form = ContactForm(request.POST)
@@ -19,15 +17,18 @@ def Contact(request):
             send_email_to_admin(name, email, subject, message)
 
             # Optionally, save the contact information to a database
-            save_contact_info(name, email, subject, message)
+            # save_contact_info(name, email, subject, message)
 
-            return redirect('contact_success')  # Redirect to a success page
+            # Set a success message in the session
+            request.session['contact_success'] = True
+
+            return redirect('contact:contact')  # Redirect to the same page
     else:
         form = ContactForm()
-    return render(request, 'contact.html', {'form': form})
+
+    # Check if a success message is present in the session
+    contact_success = request.session.pop('contact_success', False)
+
+    return render(request, 'contact.html', {'form': form, 'contact_success': contact_success})
 
 
-
-
-def Contact_success(request):
-    return render(request, 'contact_success.html')

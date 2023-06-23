@@ -145,7 +145,7 @@ EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 EMAIL_HOST = 'smtp.gmail.com'  # Replace with your SMTP server address
 EMAIL_PORT = 587  # Replace with your SMTP server port
 EMAIL_HOST_USER = 'webmasterjdd@gmail.com'  # Replace with your email address
-EMAIL_HOST_PASSWORD = 'Hardeewale1412'  # Replace with your email password
+EMAIL_HOST_PASSWORD = 'coqalbledferuxgm'  # Replace with your email password
 EMAIL_USE_TLS = True
 
 # Contact Form Configuration
@@ -153,5 +153,5 @@ DEFAULT_FROM_EMAIL = 'webmasterjdd@gmail.com'  # Replace with your email address
 
 # Admin Email Configuration
 ADMINS = [
-    ('Adewale', 'jamiuadewaleyusuf@gmail.com'),  # Replace with the admin's name and email address
+    ('webmasterjdd', 'webmasterjdd@gmail.com'),  # Replace with the admin's name and email address
 ]

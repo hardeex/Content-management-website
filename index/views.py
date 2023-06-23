@@ -11,6 +11,7 @@ from django.db.models import Count
 
 
 
+
 # create classes the views
 class JobHomeView(ListView):
     model = models.JobPost
@@ -124,10 +125,10 @@ def home(request):
             #jobs = models.JobPost.objects.all()[:5]
             #blogs = models.BlogPost.objects.all()[:5]
             blogs = models.BlogPost.objects.order_by('-date')[:5]
-            jobs = models.JobPost.objects.order_by('-pushlished_date')[:5]
+            jobs = models.JobPost.objects.order_by('-pushlished_date')[:5]            
             return render(request, 'home/home.html',{
                 'jobs': jobs,
-                'blogs': blogs
+                'blogs': blogs                
             })  
     except:
         return render(request, 'home/error.html')
@@ -163,7 +164,3 @@ def LikeView(request, pk):
         post.likes.add(request.user)
         liked = True
     return HttpResponseRedirect(reverse('index:blog_details', args=[str(pk)]))
-
-
-
-
