@@ -9,6 +9,13 @@ from index.models import Profile
 from django.conf import settings
 from django.contrib.auth.decorators import login_required
 from index.models import BlogPost
+from django.contrib.auth.views import PasswordResetView
+from django.contrib.messages.views import SuccessMessageMixin
+from django.contrib import messages
+from django.views.generic.edit import FormView
+from django.contrib.auth.forms import PasswordResetForm
+
+
 
 
 class UserRegisterView(generic.CreateView):
@@ -76,3 +83,19 @@ class CreateProfilePageVIew(CreateView):
         return super().form_valid(form)
 
 
+class ForgotPasswordView(SuccessMessageMixin, FormView):
+    template_name = 'registration/forgot_password.html'
+    form_class = PasswordResetForm
+    success_url = reverse_lazy('login')
+    success_message = "We've emailed you instructions for setting your password. " \
+                      "If an account exists with the email you entered, " \
+                      "you should receive the instructions shortly. " \
+                      "If you don't receive an email, " \
+                      "please make sure you've entered the correct email address " \
+                      "and check your spam folder."
+
+    def form_valid(self, form):
+        response = super().form_valid(form)
+        if self.success_message:
+            messages.success(self.request, self.success_message)
+        return response

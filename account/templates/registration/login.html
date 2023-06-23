@@ -19,15 +19,14 @@
                         <label for="id_password" class="form-label">Password:</label>
                         <input type="password" name="password" id="id_password" class="form-control">
                     </div>
-                    <small>Don't have an account?</small> <a href="{% url 'account:register' %}">Register</a>
+                    <div class="d-flex">
+                        <div class="p-2 flex-grow-1">  <small>Don't have an account?</small> <a href="{% url 'account:register' %}">Register</a></div>
+                        <div class="p-2">  <a href="{% url 'account:forgot_password' %}">Forgot Password</a></div>                      
+                      </div>
+                   
                    <br><br> <button type="submit" class="btn btn-primary">Login</button> <br><br><br>
                 
-            </div>
-            
-            <!---
-            <small>Don't have an account?</small> <a href="{% url 'account:register' %}">Register</a>
-         <br><br>
-            <button class="btn btn-primary">Login</button>-->
+            </div>        
         </form>    
     </div> <br><br><br>
 {% endblock %}
