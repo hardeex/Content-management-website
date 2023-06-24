@@ -1,5 +1,8 @@
 {% extends 'home/base.html' %}
 {% load static %}
+{% load humanize %}
+
+
 
 {% block title %} Home {% endblock %}
 
@@ -106,49 +109,46 @@
       
     </div>
 
-  
 
     
 
     <div class="container text-center">
         <h1>Recent Posts</h1>
         <div class="row">          
-            <div class="col">
-                <h3 class="btn btn-primary"><a href="#" class="recent-post-btn"> Jobs  </a> </h3>
+            <div class="col">                
                 <ul>
                    {% for job in jobs  %} 
                    <li>
                         <h4> <a href="#"> {{job.title}} </a></h4>
                         <small>
-                            Last Updated: {{job.date}} | Job Posted By: {{job.author}}
-                             Job Location: {{job.location}} | Deadline: {{job.deadline}} 
-                        </small><br> 
-                            <p>{{job.content | truncatewords:"30"}} </p>
+                           <b>Last Updated: </b>  {{job.date}} ({{job.date | naturaltime}}) | <b> Job Posted By:</b>  {{job.author.first_name}}  {{job.author.last_name}}
+                          |  <b> Job Location: </b> {{job.location}} |    <b>  Deadline:</b> {{job.deadline}} 
+                        </small><br>  
+                        <p> {{job.content | safe | truncatewords:"30"}}  </p>                           
                    </li> <br>
                     {% empty %} 
                         <h4>No recent job post availabe right now...</h4>
                 {% endfor %}
                 </ul>               
-            <button class="btn btn-primary" ><small>View More Job Posts...</small></button>
+            <button class="btn btn-primary" ><small>View More Job Posts...</small></button> <br> <br>
           </div>
 
-          <div class="col"> 
-            <h3 class="btn btn-primary"><a href="{% url 'index:blog_list' %}" class="recent-post-btn"> Blog  </a> </h3>          
+          <div class="col">                   
             <ul>
               {% for blog in blogs  %} 
               <li>
                    <h4><a href="{% url 'index:blog_details' blog.pk %}">{{blog.title}}</a></h4>
                    <small>
-                        Last Updated: {{blog.date}} | Job Posted By: {{job.author}}
+                      <b> Last Updated: </b>  {{blog.date}} ({{blog.date | naturaltime}}) |  <b> Post By:</b>  {{blog.author.first_name}}  {{blog.author.last_name}}
                    </small> <br>                  
-                   <p>{{blog.content | truncatewords:"30"}} </p>
+                   <p>{{blog.content| safe | truncatewords:"30"}} </p>
               </li> <br>
                {% empty %} 
                    <h2>No recent blog post availabe right now...</h2>
            {% endfor %}
            </ul>
 
-            <br><button class="btn btn-primary"><small>View More Blog Posts...</small></button>
+            <br><button class="btn btn-primary"><small>View More Blog Posts...</small></button> 
           </div>
           
         </div>   

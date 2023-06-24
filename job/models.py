@@ -13,7 +13,7 @@ class JobPost(models.Model):
     title = models.CharField(max_length=255, unique=True)
     date = models.DateTimeField(auto_now_add=True)
     deadline = models.CharField(max_length=150, default='Not specified')
-    location: models.CharField(max_length=150)    
+    location = models.CharField(max_length=150)    
     category = models.CharField(max_length=150, default='uncategorized')    
     content = RichTextField(blank=True, null=True, unique=True)    
 
@@ -21,7 +21,7 @@ class JobPost(models.Model):
         return f"Job Title: {self.title} | Date Published: { self.date} |  Author: {self.author} | {self.category}"
 
     def get_absolute_url(self):
-        return reverse('index:blog_details', args=[str(self.id)] )
+        return reverse('jobs:job_details', args=[str(self.id)] )
 
         
 
@@ -34,4 +34,24 @@ class JobCategory(models.Model):
         return self.name
 
     def get_absolute_url(self):
-        return reverse('index:job_details', args=[str(self.id)] )
+        return reverse('jobs:job_details', args=[str(self.id)] )
+
+
+   
+
+
+class JobComment(models.Model):
+    user = models.CharField(max_length=100)
+    post = models.ForeignKey(JobPost, on_delete=models.CASCADE, related_name='job_comments')
+    content = RichTextField(blank=True, null=True)
+    date = models.DateTimeField(auto_now_add=True)
+    status = models.BooleanField(default=True)
+    
+    
+    class Meta:
+        ordering = ('-date', )
+    
+    def __str__(self):
+        return f"Comment By: {self.user}"
+
+

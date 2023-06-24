@@ -1,0 +1,47 @@
+{% extends 'home/base.html' %}
+{% block title %} Job Posts {% endblock %} 
+
+
+{% block body %} 
+
+    <h1>JOB POSTS</h1> <br>
+    
+        <ol>
+        {% for job in object_list %} 
+        <li>
+           <h4><a href="{% url 'jobs:job_details' job.pk %}"> {{job.title | upper}}</a></h4> 
+           {% if user.is_authenticated %}
+                <small>
+                   <b>Last Updated:</b>  {{job.date}} | <b>Author: </b>                    
+                        {{job.author.first_name}} {{job.author.last_name}} | 
+                   <b>Category:</b>  <a href="{% url 'jobs:category_list' job.category %}">{{job.category}}</a> 
+                {% if job.author.id == user.id  %}
+                    | <a href="{% url 'jobs:edit_post' job.pk %}">(Edit)</a> 
+                    | <a href="{% url 'jobs:delete_post' job.pk %}">(Delete)</a>
+                {% endif %}    
+                </small>    
+                <p> 
+                       <!---{{job.content | truncatewords:"80" | safe}}--> 
+                       {{job.headline | safe}}
+                </p>
+        {% else %} 
+                <small>
+                   <b> Category:</b>  <a href="{% url 'jobs:category_list' job.category %}">{{job.category}}</a> |
+                   <b>  Last Updated:</b> {{job.date}} | <b>Author: </b>  {{job.author.first_name}} {{job.author.last_name}} |                    
+                </small>    
+                <p>
+                        <!-----{{job.content | truncatewords:"80" | safe}}--->
+                        {{job.headline | safe}}
+                </p>                
+        {% endif %}
+            
+        </li> <br>
+            
+        
+        {% empty %} 
+            <h2>No recent posts availabe at the moment....</h2>
+        {% endfor %}
+    </ol>
+
+
+{% endblock %}
