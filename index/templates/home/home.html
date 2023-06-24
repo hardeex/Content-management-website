@@ -106,7 +106,7 @@
       
     </div>
 
-    
+  
 
     
 
@@ -114,16 +114,16 @@
         <h1>Recent Posts</h1>
         <div class="row">          
             <div class="col">
-                <h3 class="btn btn-primary"><a href="{% url 'index:job_list' %}" class="recent-post-btn"> Jobs  </a> </h3>
+                <h3 class="btn btn-primary"><a href="#" class="recent-post-btn"> Jobs  </a> </h3>
                 <ul>
                    {% for job in jobs  %} 
                    <li>
-                        <h4> <a href="{% url 'index:job_details' job.pk %}"> {{job.title}} </a></h4>
+                        <h4> <a href="#"> {{job.title}} </a></h4>
                         <small>
-                            Last Updated: {{job.pushlished_date}} | Job Posted By: {{job.name}}
+                            Last Updated: {{job.date}} | Job Posted By: {{job.author}}
                              Job Location: {{job.location}} | Deadline: {{job.deadline}} 
                         </small><br> 
-                            <p>{{job.description | truncatewords:"30"}} </p>
+                            <p>{{job.content | truncatewords:"30"}} </p>
                    </li> <br>
                     {% empty %} 
                         <h4>No recent job post availabe right now...</h4>
@@ -131,6 +131,7 @@
                 </ul>               
             <button class="btn btn-primary" ><small>View More Job Posts...</small></button>
           </div>
+
           <div class="col"> 
             <h3 class="btn btn-primary"><a href="{% url 'index:blog_list' %}" class="recent-post-btn"> Blog  </a> </h3>          
             <ul>
@@ -150,9 +151,7 @@
             <br><button class="btn btn-primary"><small>View More Blog Posts...</small></button>
           </div>
           
-        </div>
-
-        
+        </div>   
       </div>
 
 

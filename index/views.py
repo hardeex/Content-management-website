@@ -8,21 +8,14 @@ from account.forms import NewCommentForm
 from .models import BlogPost, Comment
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.db.models import Count
+from job.models import JobPost
+
 
 
 
 
 # create classes the views
-class JobHomeView(ListView):
-    model = models.JobPost
-    template_name = 'home/job_list.html'
-    ordering = ['-pushlished_date']
-    
 
-
-class JobDetailsView(DetailView):
-    model = models.JobPost
-    template_name = 'home/job_details.html'
 
 
 class BlogHomeView(ListView):
@@ -121,17 +114,17 @@ class DeletePostView(DeleteView):
 
 # Create the function views here.
 def home(request):
-    try:
+   
             #jobs = models.JobPost.objects.all()[:5]
             #blogs = models.BlogPost.objects.all()[:5]
             blogs = models.BlogPost.objects.order_by('-date')[:5]
-            jobs = models.JobPost.objects.order_by('-pushlished_date')[:5]            
+            #jobs = models.JobPost.objects.order_by('-pushlished_date')[:5]             
+            jobs = JobPost.objects.order_by('-date')[:5]          
             return render(request, 'home/home.html',{
                 'jobs': jobs,
                 'blogs': blogs                
             })  
-    except:
-        return render(request, 'home/error.html')
+  
 
 def CategoryView(request, category_name):
     try:

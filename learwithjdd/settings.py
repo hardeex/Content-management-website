@@ -35,6 +35,7 @@ INSTALLED_APPS = [
     'index',
     'account',
     'contact',
+    'job',
     'ckeditor',
     'mptt',   
     'django.contrib.humanize',

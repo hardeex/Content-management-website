@@ -46,7 +46,7 @@
                   <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle" href="" role="button"
                     data-bs-toggle="dropdown" aria-expanded="false">
-                    Manage Account
+                    Account
                     </a>
                     <ul class="dropdown-menu">    
                     {% if user.profile.id %}
@@ -65,7 +65,7 @@
                    <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle" href="{% url 'index:blog_list' %}" role="button"
                     data-bs-toggle="dropdown" aria-expanded="false">
-                    Manage Post
+                    Blog
                     </a>
                     <ul class="dropdown-menu">   
                       <li><a class="dropdown-item" href="{% url 'index:blog_list' %}">Post </a></li>                              
@@ -76,12 +76,26 @@
                     </ul>
                   </li>
 
+                  <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="{% url 'index:blog_list' %}" role="button"
+                    data-bs-toggle="dropdown" aria-expanded="false">
+                     Jobs
+                    </a>
+                    <ul class="dropdown-menu">   
+                      <li><a class="dropdown-item" href="{% url 'index:blog_list' %}">Job Listing</a></li>                              
+                      <li><a class="dropdown-item" href="{% url 'index:add_post' %}">Add A New Job Post</a></li>  
+                      <li><hr class="dropdown-divider"></li>  
+                      <li><a class="dropdown-item" href="{% url 'index:add_category' %}">Add A New Job Category</a></li>   
+                      <li><a class="dropdown-item" href="{% url 'index:view_category' %}">View Job Categories</a></li>                                                                             
+                    </ul>
+                  </li>
+
                   
             {% else %}                                               
                   <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle" href="#" role="button"
                      data-bs-toggle="dropdown" aria-expanded="false">
-                     Manage Account
+                     Account
                     </a>
                     <ul class="dropdown-menu">   
                       <li><a class="dropdown-item" href="{% url 'account:register' %}">Register</a></li>   
@@ -94,12 +108,13 @@
                   <a class="nav-link" href="{% url 'index:blog_list' %}">Posts</a>
                 </li>
 
+              <li class="nav-item">
+              <a class="nav-link" href="{% url 'jobs:job_list' %}">Jobs Listing</a>
+              </li>
+
 
             {% endif %}
-            <li class="nav-item">
-              <a class="nav-link" href="{% url 'index:job_list' %}">Jobs</a>
-            </li>
-
+           
             <li class="nav-item">
               <a class="nav-link" href="{% url 'contact:contact' %}">Contact</a>
             </li>

@@ -7,23 +7,10 @@ from mptt.models import MPTTModel, TreeForeignKey
 
 
 # Create your models here.
-class JobPost(models.Model):
-    name = models.ForeignKey(User, on_delete = models.CASCADE )
-    title = models.CharField(max_length=255)
-    #pushlished_date = models.DateTimeField(auto_now_add=True)
-    pushlished_date = models.DateField()
-    deadline = models.DateField()
-    location = models.CharField(max_length=50)
-    requirement = models.TextField()
-    qualification = models.TextField()
-    description = models.TextField()
-    apply = models.TextField()
-   
-    def __str__(self):
-        return f"Job Position: {self.title} | Published Date: {self.pushlished_date} Deadline: {self.deadline} Post By: {self.name}"
+
 
 class BlogCategory(models.Model):
-    name = models.CharField(max_length= 150)
+    name = models.CharField(max_length= 150, unique=True)
     
     
     def __str__(self):
