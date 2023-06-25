@@ -32,6 +32,12 @@ class RegisterForm(UserCreationForm):
         if User.objects.filter(email=email).exists():
             raise forms.ValidationError('ERROR: This email address is already in use.')
         return email
+    
+    def clean_username(self):
+        username = self.cleaned_data.get('username')
+        if User.objects.filter(email=username).exists():
+            raise forms.ValidationError('ERROR: This username is already in use.')
+        return 
 
 
 
@@ -41,12 +47,7 @@ class EditProfileForm(UserChangeForm):
     first_name = forms.CharField(max_length=100, widget= forms.TextInput(attrs={'class': 'form-control'}))
     last_name = forms.CharField(max_length=100,  widget= forms.TextInput(attrs={'class': 'form-control'}))
     username = forms.CharField(max_length=100,  widget= forms.TextInput(attrs={'class': 'form-control'}))
-    last_login = forms.CharField(max_length=100,  widget= forms.TextInput(attrs={'class': 'form-control', 'readonly': 'readonly'}))
-    #is_superuser = forms.CharField(max_length=100,  widget= forms.CheckboxInput(attrs={'class': 'form-check'}))
-    #is_superuser = forms.CharField(max_length=100,  widget= forms.TextInput(attrs={'class': 'form-check', 'readonly': 'readonly'}))
-    #is_staff = forms.CharField(max_length=100,  widget= forms.CheckboxInput(attrs={'class': 'form-check'}))
-    #is_active = forms.CharField(max_length=100,  widget= forms.CheckboxInput(attrs={'class': 'form-check'}))
-    #date_joined = forms.CharField(max_length=100,  widget= forms.TextInput(attrs={'class': 'form-control'}))
+    last_login = forms.CharField(max_length=100,  widget= forms.TextInput(attrs={'class': 'form-control', 'readonly': 'readonly'}))   
     date_joined = forms.CharField(max_length=100,  widget= forms.TextInput(attrs={'class': 'form-control', 'readonly': 'readonly'}))
    
 

@@ -1,4 +1,8 @@
 {% extends 'home/base.html' %}
+{% load humanize %}
+
+
+
 {% block title %} Job Posts {% endblock %} 
 
 
@@ -12,26 +16,28 @@
            <h4><a href="{% url 'jobs:job_details' job.pk %}"> {{job.title | upper}}</a></h4> 
            {% if user.is_authenticated %}
                 <small>
-                   <b>Last Updated:</b>  {{job.date}} | <b>Author: </b>                    
+                   <b>Last Updated:</b>  {{job.date}} ({{job.date | naturaltime}})  | <b>Job Post By: </b>                    
                         {{job.author.first_name}} {{job.author.last_name}} | 
-                   <b>Category:</b>  <a href="{% url 'jobs:category_list' job.category %}">{{job.category}}</a> 
+                   <b>Category:</b>  <a href="{% url 'jobs:job_category_list' job.category %}">{{job.category}}</a> <br>
+                   <b> Job Location: </b> {{job.location}} |    <b>  Deadline:</b> {{job.deadline}} 
                 {% if job.author.id == user.id  %}
-                    | <a href="{% url 'jobs:edit_post' job.pk %}">(Edit)</a> 
-                    | <a href="{% url 'jobs:delete_post' job.pk %}">(Delete)</a>
+                    | <a href="{% url 'jobs:edit_job_post' job.pk %}">(Edit)</a> 
+                    | <a href="{% url 'jobs:delete_job_post' job.pk %}">(Delete)</a>
                 {% endif %}    
                 </small>    
                 <p> 
                        <!---{{job.content | truncatewords:"80" | safe}}--> 
-                       {{job.headline | safe}}
+                       {{job.content | truncatewords:"60"  | safe}}
                 </p>
         {% else %} 
                 <small>
-                   <b> Category:</b>  <a href="{% url 'jobs:category_list' job.category %}">{{job.category}}</a> |
-                   <b>  Last Updated:</b> {{job.date}} | <b>Author: </b>  {{job.author.first_name}} {{job.author.last_name}} |                    
+                   <b> Category:</b>  <a href="{% url 'jobs:job_category_list' job.category %}">{{job.category}}</a> |
+                   <b>  Last Updated:</b> {{job.date}} ({{job.date | naturaltime}})  | <b> Job Post By: </b>  {{job.author.first_name}} {{job.author.last_name}} |                    
+                  <br> <b> Job Location: </b> {{job.location}} |    <b>  Deadline:</b> {{job.deadline}} 
                 </small>    
                 <p>
                         <!-----{{job.content | truncatewords:"80" | safe}}--->
-                        {{job.headline | safe}}
+                        {{job.content | truncatewords:"60" | safe}}
                 </p>                
         {% endif %}
             

@@ -18,7 +18,7 @@ class JobPost(models.Model):
     content = RichTextField(blank=True, null=True, unique=True)    
 
     def __str__(self):
-        return f"Job Title: {self.title} | Date Published: { self.date} |  Author: {self.author} | {self.category}"
+        return f" {self.title}"
 
     def get_absolute_url(self):
         return reverse('jobs:job_details', args=[str(self.id)] )
@@ -41,7 +41,7 @@ class JobCategory(models.Model):
 
 
 class JobComment(models.Model):
-    user = models.CharField(max_length=100)
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
     post = models.ForeignKey(JobPost, on_delete=models.CASCADE, related_name='job_comments')
     content = RichTextField(blank=True, null=True)
     date = models.DateTimeField(auto_now_add=True)
@@ -53,5 +53,3 @@ class JobComment(models.Model):
     
     def __str__(self):
         return f"Comment By: {self.user}"
-
-

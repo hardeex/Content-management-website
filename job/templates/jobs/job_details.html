@@ -1,0 +1,165 @@
+{% extends 'home/base.html' %}
+{% load static %}
+{% load humanize %} <!---to display date in a natural time-->
+
+
+{% block title %}{{ object.title }}{% endblock %}
+
+{% block body %}
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="col-lg-8">
+            <div class="post-container">
+                <div class="post-title">
+                    <h1>{{ object.title | upper }}</h1>
+                    {% if user.is_authenticated %}
+                    <small>
+                        <b>Last Updated:</b> {{ object.date }} ({{object.date | naturaltime}})  | <b>Posted By:</b> {{ object.author.first_name }}
+                        {{ object.author.last_name }} |
+                        <b>Category:</b> <a href="{% url 'jobs:job_category_list' object.category %}">{{ object.category }}</a> | <br>
+                        <b> Job Location: </b> {{object.location}} |    <b>  Deadline:</b> {{object.deadline}} 
+                        {% if object.author.id == user.id %}
+                        <a href="{% url 'jobs:edit_job_post' object.pk %}">(Edit)</a> |
+                        <a href="{% url 'jobs:delete_job_post' object.pk %}">(Delete)</a>
+                        {% endif %}
+                    </small> <br> <br>
+                    <p>
+                        {{ object.content | safe }}
+                    </p>
+                    <hr>
+
+                    
+                    {% else %}
+                    <div >
+                        <small>
+                            <b>Last Updated:</b> {{ object.date }} ({{object.date | naturaltime}})  | <b>Posted By:</b> {{ object.author.first_name }}
+                            {{ object.author.last_name }} <br>
+                            <b> Job Location: </b> {{object.location}} |    <b>  Deadline:</b> {{object.deadline}} 
+                        </small> <br> <br>
+                        <p>
+                            {{ object.content | safe }}
+                        </p>
+                        <hr>
+                        <small>
+                            <a href="{% url 'login' %}">Login</a> to  Comment(s).                          
+                        </small>
+                    </div>
+                    {% endif %}
+                </div>
+
+  <!-- Comment tags -->
+<div>
+    {% with total_comments as comments_count %}
+    <h2>
+        {{ comments_count }} Comment{{ comments_count|pluralize }}
+    </h2>
+    {% endwith %}    
+</div>
+
+<div>
+{% for comment in comments %}
+    Comment {{ forloop.counter }} by {{ comment.user }} on {{ comment.date }} 
+    {{ comment.content | safe }}
+{% empty %}
+    <p>There are no comments for this job post</p>
+{% endfor %}
+</div>
+
+<!-- Make a new comment -->
+{% if user.is_authenticated %}
+<h2>Make A New Comment.</h2>
+<form action="{% url 'jobs:add_job_comment' object.id %}" method="post">
+    {{ comment_form.as_p }}
+    {% csrf_token %}
+    <button type="submit" class="btn btn-secondary">Add Comment</button>
+</form>
+{% endif %}
+<!-- End of Make a new comment -->
+
+<!-- Comment tags -->
+
+
+               
+                
+                   
+
+                <br><br>
+                <a href="{% url 'jobs:job_list' %}" class="btn btn-primary">Back To Job List</a><br><br>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    function formExit() {
+        document.getElementById("newForm").remove();
+    }
+
+    function myFunction(id) {
+        var existingForm = document.getElementById("newForm");
+        if (existingForm) {
+            existingForm.remove();
+        }
+
+        var reply = document.getElementById(id);
+        var formHTML = `
+            <form id="newForm" method="POST" class="form-insert py-2" action="{% url 'index:add_comment' object.pk %}">
+                <div class="d-flex">
+                    <div class="p-2 flex-grow-1"><h2>Reply</h2></div>
+                    <div class="p-2"><button type="button" class="btn btn-secondary btn-sm" onclick="formExit()">Close</button></div>
+                </div>
+                <select name="parent" class="d-none" id="id_parent">
+                    <option value="${id}" selected="${id}"></option>
+                </select>
+                <label for="id_content">Content:</label>
+                <textarea name="content" cols="40" rows="5" class="form-control" required id="id_content"></textarea>
+                {% csrf_token %}
+                {{ form.media }}
+                <button type="submit" class="btn btn-secondary btn-sm">Submit Reply</button>
+            </form>
+        `;
+
+        var container = document.createElement('div');
+        container.innerHTML = formHTML;
+        container.classList.add('my-2', 'p-2', 'border', 'border-gray');
+
+        reply.parentNode.insertBefore(container, reply);
+    }
+</script>
+
+<style>
+    .post-title {
+        margin: auto;
+        text-align: justify;
+        max-width: 55rem;
+        width: 100%;
+    }
+
+    .children-comment{
+        margin-left: 2rem;
+    }
+
+    .pagination {
+        margin-top: 20px;
+        text-align: center;
+    }
+
+    .pagination-link {
+        display: inline-block;
+        margin-right: 5px;
+        padding: 5px 10px;
+        background-color: #f2f2f2;
+        color: #333;
+        text-decoration: none;
+        border-radius: 5px;
+    }
+
+    .pagination-link:hover {
+        background-color: #ccc;
+    }
+
+    .current-page {
+        font-weight: bold;
+    }
+</style>
+{% endblock %}

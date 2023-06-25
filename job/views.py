@@ -4,9 +4,10 @@ from django.views.generic import ListView, DetailView, CreateView, UpdateView, D
 from . import job_forms
 from django.urls import reverse_lazy, reverse
 from django.http import HttpResponseRedirect
-#from account.forms import NewCommentForm
+from . job_forms import NewCommentForm
 from .models import JobPost, JobComment
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
+from django.db.models import Count
 
 
 
@@ -19,10 +20,9 @@ class JobHomeView(ListView):
     ordering = ['-date']
 
 
-class JobDetailsView(DetailView):
+class JobDetailsView(DetailView): 
     model = models.JobPost
     template_name = 'jobs/job_details.html'
-    paginate_by = 5  # Number of comments per page
     context_object_name = 'post'
 
     def get_context_data(self, **kwargs):
@@ -30,32 +30,21 @@ class JobDetailsView(DetailView):
         post = self.get_object()
 
         # Get all comments for the post and order them by date (most recent first)
-        comments = post.comments.filter(status=True).order_by('-date')
-
-        # Apply pagination to comments
-        paginator = Paginator(comments, self.paginate_by)
-        page_number = self.request.GET.get('page')
-
-        try:
-            page_obj = paginator.page(page_number)
-        except PageNotAnInteger:
-            # If page_number is not an integer, show the first page
-            page_obj = paginator.page(1)
-        except EmptyPage:
-            # If page is out of range (e.g. page_number > number of pages), show the last page
-            page_obj = paginator.page(paginator.num_pages)
+        comments = post.job_comments.filter(status=True).order_by('-date')
 
         total_comments = comments.count()  # Get the total number of comments
-        context['comments'] = page_obj
-        context['comment_form'] = NewCommentForm()        
+
+        context['comment_form'] = NewCommentForm()
+        context['comments'] = comments  # Add comments to the context
         context['total_comments'] = total_comments  # Add total_comments to the context
         return context
 
 
 
+
 def add_job_comment(request, pk):
     post = get_object_or_404(models.JobPost, pk=pk)
-    comments = post.comments.filter(status=True)
+    comments = post.job_comments.filter(status=True)
     if request.method == "POST":
         comment_form = NewCommentForm(request.POST)
         if comment_form.is_valid():
@@ -63,10 +52,13 @@ def add_job_comment(request, pk):
             user_comment.post = post
             user_comment.user = request.user
             user_comment.save()
-            return redirect('jobs:job_details', pk=pk)
+            return redirect('jobs:job_details', post.pk)
     else:
         comment_form = NewCommentForm()
-    return redirect('jobs:job_details', pk=pk)
+    return redirect('jobs:job_details', post.pk)
+
+
+
 
 
 

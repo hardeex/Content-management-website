@@ -1,5 +1,11 @@
 from django import forms
 from . import models
+from ckeditor.widgets import CKEditorWidget
+
+
+
+from django.contrib.auth.models import User
+from django import forms
 
 
 
@@ -21,4 +27,17 @@ class CustomJobPostForm(forms.ModelForm):
             'deadline': forms.TextInput(attrs={'class': 'form-control'}),
             'content': forms.Textarea(attrs={'class': 'form-control'}),
             
+        }
+
+
+class NewCommentForm(forms.ModelForm):
+    content = forms.CharField(widget=CKEditorWidget())
+
+
+    class Meta:
+        model = models.JobComment
+        fields = ( 'content',)
+
+        widgets = {
+            'content': forms.Textarea(attrs={'class': 'form-control'}),
         }

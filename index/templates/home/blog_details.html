@@ -38,7 +38,7 @@
                         {% endif %}
                     </form>
                     {% else %}
-                    <div class="alert alert-info">
+                    <div >
                         <small>
                             <b>Last Updated:</b> {{ object.date }} | <b>Author:</b> {{ object.author.first_name }}
                             {{ object.author.last_name }}
@@ -54,7 +54,7 @@
                     </div>
                     {% endif %}
                 </div>
-
+<br><br>
                 <div>
                     <h2>{{ total_comments }} Comment{{ total_comments|pluralize }}</h2>
                         <small>Discussion on: {{ object.title }}</small> <br>
@@ -70,7 +70,9 @@
                 
                                     {{ comment.content | safe }}
                                     {% if comment.level < 3 %} <br> <br>
+                                    {% if user.authenicated %}
                                         <button type="button" class="btn btn-primary" onclick="myFunction('{{ comment.id }}')">Reply</button>
+                                    {% endif %}
                                     {% endif %}
                                 </div>
                 
@@ -87,7 +89,9 @@
                                                         
                                                         {{ node.content | safe }}
                                                         {% if node.level < 5 %} <br> <br>
+                                                        {% if user.authenticated %}
                                                             <button type="button" class="btn btn-primary" onclick="myFunction('{{ node.id }}')">Reply</button>
+                                                        {% endif %}
                                                         {% endif %}
                                                     </div>
                 
@@ -125,7 +129,8 @@
                     </div>
                 
                     <br><br>
-                    <div>
+                    {% if user.authenticated %}
+                    <div>                    
                         <h2>Make a new comment</h2>
                         <form id="myForm" method="POST" action="{% url 'index:add_comment' object.id %}">
                             {% csrf_token %}
@@ -134,6 +139,7 @@
                             <button type="submit" class="btn btn-secondary">Add comment</button>
                         </form>
                     </div>
+                    {% endif %}
                 </div>
 
                 <br><br>
