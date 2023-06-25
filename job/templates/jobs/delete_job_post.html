@@ -1,9 +1,9 @@
 {% extends 'home/base.html' %} 
-{% block title %}  Delete Post {% endblock %}
+{% block title %}  Delete Job Post {% endblock %}
 
 {% block body %} 
 {% if user.is_authenticated %}
-    <h1> DELETE BLOG POST</h1><br> <br>
+    <h1> DELETE JOB POST</h1><br> <br>
     <h3><em>Delete: </em>  {{object.title}} </h3>
     {% if object.author.id == user.id  %}
             <p>
@@ -19,7 +19,7 @@
     {% else %} 
             <h3>You don't have the access to delete this post</h3> <br> <br>
             <a class="btn btn-primary" href="{% url 'index:blog_list' %}">View Blog Posts</a> 
-            <a class="btn btn-primary" href="{% url 'index:job_list' %}">View Job Posts</a> <br><br><br>
+            <a class="btn btn-primary" href="{% url 'jobs:job_list' %}">View Job Posts</a> <br><br><br>
     {% endif %}
 
 {% else %} 

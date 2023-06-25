@@ -20,10 +20,12 @@ class JobHomeView(ListView):
     ordering = ['-date']
 
 
+
 class JobDetailsView(DetailView): 
     model = models.JobPost
     template_name = 'jobs/job_details.html'
     context_object_name = 'post'
+    paginate_by = 5  # Number of comments per page
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -31,11 +33,24 @@ class JobDetailsView(DetailView):
 
         # Get all comments for the post and order them by date (most recent first)
         comments = post.job_comments.filter(status=True).order_by('-date')
-
         total_comments = comments.count()  # Get the total number of comments
 
+        # Apply pagination to comments
+        paginator = Paginator(comments, self.paginate_by)
+        page_number = self.request.GET.get('page')
+
+        try:
+            page_obj = paginator.page(page_number)
+        except PageNotAnInteger:
+            # If page_number is not an integer, show the first page
+            page_obj = paginator.page(1)
+        except EmptyPage:
+            # If page is out of range (e.g. page_number > number of pages), show the last page
+            page_obj = paginator.page(paginator.num_pages)
+
+        # Passing the data to the page context
+        context['comments'] = page_obj
         context['comment_form'] = NewCommentForm()
-        context['comments'] = comments  # Add comments to the context
         context['total_comments'] = total_comments  # Add total_comments to the context
         return context
 
@@ -66,7 +81,7 @@ class AddJobPostView(CreateView):
     model = models.JobPost
     form_class = job_forms.CustomJobPostForm
     template_name = 'jobs/add_job_post.html'
-    fields = '__all__'
+    #fields = '__all__'
 
 
 class AddJobCategoryView(CreateView):
@@ -99,8 +114,8 @@ def JobCategoryView(request, category_name):
             'category': category,
             'posts': posts,            
         })
-    except models.BlogCategory.DoesNotExist:
-        return render(request, 'jobs/job_category_not_found.html')
+    except models.JobCategory.DoesNotExist:
+        return render(request, 'home/category_not_found.html')
     except:
         return render(request, 'home/error.html')
 

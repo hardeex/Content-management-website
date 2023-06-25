@@ -1,0 +1,25 @@
+{% extends 'home/base.html' %} 
+{% block title %}  Add A New Job Post {% endblock %}
+
+{% block body %} 
+{% if user.is_authenticated %}
+    <h1>ADD A NEW JOB POST</h1>       
+    <br><br>
+    <div class="form-group"> 
+        <form method="POST">
+            {% csrf_token %} 
+            {{form.as_p}}
+            {{form.media}}
+            <button class="btn btn-primary">Post Job</button>
+        </form> <br><br>
+    </div>
+    <script>
+        var author = "{{user.id}}";
+        document.getElementById("author").value = author;
+    </script>
+{% else %} 
+    <h2>You don't have the permission to access this page...</h2>
+{% endif %}
+
+
+{% endblock %}

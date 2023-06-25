@@ -119,7 +119,7 @@
                 <ul>
                    {% for job in jobs  %} 
                    <li>
-                        <h4> <a href="#"> {{job.title}} </a></h4>
+                        <h4> <a href="{% url 'jobs:job_details' job.pk %}"> {{job.title}} </a></h4>
                         <small>
                            <b>Last Updated: </b>  {{job.date}} ({{job.date | naturaltime}}) | <b> Job Posted By:</b>  {{job.author.first_name}}  {{job.author.last_name}}
                           |  <b> Job Location: </b> {{job.location}} |    <b>  Deadline:</b> {{job.deadline}} 

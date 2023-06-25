@@ -1,0 +1,17 @@
+{% extends 'home/base.html' %} 
+{% block title %} View Job Category {% endblock %}
+
+{% block body %} 
+<h1>Job Categories</h1>
+    {% if category_list %}
+        <ol>
+            {% for item in category_list %} 
+            <li>
+                <h4><a href="{% url 'jobs:job_category_list' item %}">  {{item}} </a></h4> 
+            </li>
+        
+   
+{% endfor %} <br><br>
+    </ol>
+    {% endif %}
+{% endblock %}

@@ -1,0 +1,50 @@
+{% extends 'home/base.html' %} 
+{% load humanize %} <!---to display date in a natural time-->
+
+
+{% block title %} {{category.name | upper}} POSTS {% endblock %}
+
+{% block body %} 
+{% if posts %}
+        <h1>{{category.name | upper}} POSTS  </h1><br> <br>
+
+        <ol>
+            {% for job in posts %} 
+            <li>
+               <h4><a href="{% url 'jobs:job_details' job.pk %}"> {{job.title | upper}}</a></h4> 
+               {% if user.is_authenticated %}
+                    <small>
+                        Last Updated: {{job.date}} ({{ job.date|naturaltime }}) | Author: {{job.author.first_name}} {{ job.author.last_name}} | 
+                        Category: <a href="{% url 'jobs:job_category_list' job.category %}">{{job.category}}</a> |
+                    {% if job.author.id == user.id  %}
+                        <a href="{% url 'jobs:edit_job_post' job.pk %}">(Edit)</a> |
+                        <a href="{% url 'jobs:delete_job_post' job.pk %}">(Delete)</a>
+                    
+                    {% endif %}
+                    </small>    
+                    <p>
+                            {{job.content | truncatewords:"80" | safe}}
+                    </p>
+            {% else %} 
+                    <small>
+                        Last Updated: {{job.date}} | Author: {{job.author.first_name}} {{job.author.last_name}} |                    
+                    </small>    
+                    <p>
+                            {{job.content | truncatewords:"80" | safe}}
+                    </p>
+            {% endif %}
+                
+            </li>
+                
+            
+            {% empty %} 
+                <h2>No recent posts availabe for this category....</h2>
+            {% endfor %}
+        </ol>
+    {% else %} 
+            <h4>This page do not exists</h4>
+    {% endif %}
+
+    <br><br> <a class="btn btn-primary" href="{% url 'jobs:job_list' %}">View Job Posts</a>  <br><br><br>
+    
+{% endblock %}

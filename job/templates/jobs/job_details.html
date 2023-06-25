@@ -47,36 +47,63 @@
                     {% endif %}
                 </div>
 
-  <!-- Comment tags -->
-<div>
-    {% with total_comments as comments_count %}
-    <h2>
-        {{ comments_count }} Comment{{ comments_count|pluralize }}
-    </h2>
-    {% endwith %}    
-</div>
+                    <!-- Comment tags -->
+                    <div>
+                        {% with total_comments as comments_count %}
+                        <h2>
+                            {{ comments_count }} Comment{{ comments_count|pluralize }}
+                        </h2>
+                        <small> Job Title: {{object.title}} </small><hr><br>
+                        {% endwith %}    
+                    </div>
 
-<div>
-{% for comment in comments %}
-    Comment {{ forloop.counter }} by {{ comment.user }} on {{ comment.date }} 
-    {{ comment.content | safe }}
-{% empty %}
-    <p>There are no comments for this job post</p>
-{% endfor %}
-</div>
+                    <div>
+                    {% for comment in comments %}
+                    <div style="border: 1px solid gray;">
+                                <div class="d-flex" >
+                                    <div class="p-2 flex-grow-1"><b>{{ comment.user }}</b></div>
+                                    <div class="p-2"><small>{{ comment.date }} ({{ comment.date|naturaltime }})</small></div>                       
+                                </div> 
+                                <hr>                       
+                                <div class="comments" > {{ comment.content | safe |linebreaks }}</div>
+                    </div>  <br>                  
+                    {% empty %}
+                        <p>There are no comments for this job post</p>
+                    {% endfor %}
+                    </div>
 
-<!-- Make a new comment -->
-{% if user.is_authenticated %}
-<h2>Make A New Comment.</h2>
-<form action="{% url 'jobs:add_job_comment' object.id %}" method="post">
-    {{ comment_form.as_p }}
-    {% csrf_token %}
-    <button type="submit" class="btn btn-secondary">Add Comment</button>
-</form>
-{% endif %}
-<!-- End of Make a new comment -->
+                    
+                    <!-- Pagination -->
+                    <div class="pagination">
+                        {% if comments.has_previous %}
+                            <a href="?page={{ comments.previous_page_number }}" class="pagination-link">Previous</a>
+                        {% endif %}
+                        {% for page_num in comments.paginator.page_range %}
+                            {% if page_num == comments.number %}
+                                <span class="pagination-number current-page">{{ page_num }}</span>
+                            {% else %}
+                                <a href="?page={{ page_num }}" class="pagination-link">{{ page_num }}</a>
+                            {% endif %}
+                        {% endfor %}
+                        {% if comments.has_next %}
+                            <a href="?page={{ comments.next_page_number }}" class="pagination-link">Next</a>
+                        {% endif %}
+                    </div>
+                    <!---End of Pagination-->
 
-<!-- Comment tags -->
+                    <!-- Make a new comment -->
+                    <br><br><br>
+                    {% if user.is_authenticated %}
+                    <h2 style="text-align: center;">Make A New Comment.</h2>
+                    <form action="{% url 'jobs:add_job_comment' object.id %}" method="post">
+                        {{ comment_form.as_p }}
+                        {% csrf_token %}
+                        <button type="submit" class="btn btn-secondary">Add Comment</button>
+                    </form>
+                    {% endif %}
+                    <!-- End of Make a new comment -->
+
+                    <!-- Comment tags -->
 
 
                
@@ -90,42 +117,6 @@
     </div>
 </div>
 
-<script>
-    function formExit() {
-        document.getElementById("newForm").remove();
-    }
-
-    function myFunction(id) {
-        var existingForm = document.getElementById("newForm");
-        if (existingForm) {
-            existingForm.remove();
-        }
-
-        var reply = document.getElementById(id);
-        var formHTML = `
-            <form id="newForm" method="POST" class="form-insert py-2" action="{% url 'index:add_comment' object.pk %}">
-                <div class="d-flex">
-                    <div class="p-2 flex-grow-1"><h2>Reply</h2></div>
-                    <div class="p-2"><button type="button" class="btn btn-secondary btn-sm" onclick="formExit()">Close</button></div>
-                </div>
-                <select name="parent" class="d-none" id="id_parent">
-                    <option value="${id}" selected="${id}"></option>
-                </select>
-                <label for="id_content">Content:</label>
-                <textarea name="content" cols="40" rows="5" class="form-control" required id="id_content"></textarea>
-                {% csrf_token %}
-                {{ form.media }}
-                <button type="submit" class="btn btn-secondary btn-sm">Submit Reply</button>
-            </form>
-        `;
-
-        var container = document.createElement('div');
-        container.innerHTML = formHTML;
-        container.classList.add('my-2', 'p-2', 'border', 'border-gray');
-
-        reply.parentNode.insertBefore(container, reply);
-    }
-</script>
 
 <style>
     .post-title {
@@ -135,9 +126,9 @@
         width: 100%;
     }
 
-    .children-comment{
-        margin-left: 2rem;
-    }
+    .comments{
+        padding: 1.2rem;    
+    }    
 
     .pagination {
         margin-top: 20px;
