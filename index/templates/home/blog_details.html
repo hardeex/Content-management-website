@@ -68,12 +68,14 @@
                                         <div class="p-2"><small>{{ comment.date }} ({{ comment.date|naturaltime }})</small></div>
                                     </div>
                 
-                                    {{ comment.content | safe }}
-                                    {% if comment.level < 3 %} <br> <br>
-                                    {% if user.authenicated %}
-                                        <button type="button" class="btn btn-primary" onclick="myFunction('{{ comment.id }}')">Reply</button>
-                                    {% endif %}
-                                    {% endif %}
+                                    <div style="padding: 1.2rem;">
+                                        {{ comment.content | safe }}
+                                        {% if comment.level < 3 %} <br><br>                                   
+                                            <button type="button" class="btn btn-primary" onclick="myFunction('{{ comment.id }}')">Reply</button>                                    
+                                        {% endif %}
+                                    </div>
+                                    
+                                   
                                 </div>
                 
                                 <div>
@@ -89,9 +91,9 @@
                                                         
                                                         {{ node.content | safe }}
                                                         {% if node.level < 5 %} <br> <br>
-                                                        {% if user.authenticated %}
+                                                        
                                                             <button type="button" class="btn btn-primary" onclick="myFunction('{{ node.id }}')">Reply</button>
-                                                        {% endif %}
+                                                        
                                                         {% endif %}
                                                     </div>
                 
@@ -129,7 +131,7 @@
                     </div>
                 
                     <br><br>
-                    {% if user.authenticated %}
+                    
                     <div>                    
                         <h2>Make a new comment</h2>
                         <form id="myForm" method="POST" action="{% url 'index:add_comment' object.id %}">
@@ -139,7 +141,7 @@
                             <button type="submit" class="btn btn-secondary">Add comment</button>
                         </form>
                     </div>
-                    {% endif %}
+                    
                 </div>
 
                 <br><br>

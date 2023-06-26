@@ -1,0 +1,32 @@
+{% extends 'home/base.html' %}
+{% load static %}
+{% load humanize %}
+
+{% block title %}"{{ query }}" Search Result{% endblock %}
+
+{% block body %} 
+<h2>Search Results for "{{ query }}"</h2>
+<br>
+{% if post_results %}
+  <ul>
+    {% for post_result in post_results %}
+      <li>
+        <a href="{% url 'index:blog_details' post_result.pk %}"><h3>{{ post_result.title }}</h3></a> 
+        <p>{{ post_result.content| truncatewords:"60" | safe }}</p>
+      </li>
+    {% endfor %}
+  </ul>
+{% elif job_results %}
+  <ul>
+    {% for job_result in job_results %}
+      <li>
+        <a href="{% url 'jobs:job_details' job_result.pk %}"><h3>{{ job_result.title }}</h3></a> 
+        <p>{{ job_result.content | truncatewords:"60" | safe }}</p>
+      </li>
+    {% endfor %}
+  </ul>
+{% else %}
+  <p>No results found from the database.</p>
+{% endif %}
+
+{% endblock %}

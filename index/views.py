@@ -9,7 +9,9 @@ from .models import BlogPost, Comment
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.db.models import Count
 from job.models import JobPost
-
+from django.db.models import Q 
+import os
+from django.conf import settings
 
 
 
@@ -147,6 +149,9 @@ def ListCategory(request):
             'category_list': category_list            
     })
 
+
+
+
 def LikeView(request, pk):
     post = get_object_or_404(models.BlogPost, id=request.POST.get('post_id'))
     liked = False
@@ -157,3 +162,34 @@ def LikeView(request, pk):
         post.likes.add(request.user)
         liked = True
     return HttpResponseRedirect(reverse('index:blog_details', args=[str(pk)]))
+
+
+
+def telecom(request):
+    return render(request, 'home/telecom.html')
+
+
+
+def search_results(request):
+    query = request.GET.get('query')  # Get the search query from the URL parameter
+
+    # Perform the search across relevant texts
+    post_results = BlogPost.objects.filter(
+        Q(title__icontains=query) | Q(content__icontains=query)
+    )
+
+    job_results = JobPost.objects.filter(
+        Q(title__icontains=query) | Q(content__icontains=query)
+    )
+
+
+    # Pass the query and search results to the template
+    context = {
+        'query': query,
+        'post_results': post_results,
+        'job_results': job_results,
+        #'static_results': static_results,
+    }
+
+    # Return the search results template
+    return render(request, 'home/search_results.html', context)

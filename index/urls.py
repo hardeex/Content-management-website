@@ -19,13 +19,14 @@ urlpatterns = [
     path('blog/<int:pk>/delete', DeletePostView.as_view(), name='delete_post' ),
     path('like/<int:pk>', views.LikeView, name='like_post'),
     
-   
-
     
     path('add_category/', AddCategoryView.as_view(), name='add_category'),       
     path('category/<str:category_name>/', views.CategoryView, name='category_list'), 
     path('view_category/', views.ListCategory, name='view_category'), 
 
-    path('<int:pk>/add_comment/', views.add_comment, name='add_comment')
+    path('<int:pk>/add_comment/', views.add_comment, name='add_comment'),
 
+    path('search/', views.search_results, name='search_results'),
+
+    path('telecom/', views.telecom, name='telecom'),
 ]
