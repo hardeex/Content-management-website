@@ -15,8 +15,7 @@ class CustomBlogPostForm(forms.ModelForm):
 
         widgets = {
             'title': forms.TextInput(attrs={'class': 'form-control', 'placeholder':'Blog Title'}),
-            'author': forms.TextInput(attrs={'class': 'form-control', 'placeholder':'Blog Title', 'value': '', 'id':'author', 'type': 'hidden'}),
-            #'author': forms.Select(attrs={'class': 'form-control'}),
+            'author': forms.TextInput(attrs={'class': 'form-control', 'placeholder':'Blog Title', 'value': '', 'id':'author', 'type': 'hidden'}),        
             'category': forms.Select(choices= category_lists,  attrs= {'class': 'form-control'}),
             'content': forms.Textarea(attrs={'class': 'form-control', 'placeholder':'Blog Content'}),
             'headline': forms.Textarea(attrs={'class': 'form-control', 'placeholder':'A snippet of your post that captures readers mind to read your post '}),

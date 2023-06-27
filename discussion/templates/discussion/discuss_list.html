@@ -1,0 +1,55 @@
+{% extends 'home/base.html' %}
+{% load humanize %}
+
+
+{% block title %} Discussion Post {% endblock %} 
+
+
+{% block body %} 
+
+<div class="d-flex">
+    <div class="p-2 w-100"><h1> CREATED TOPICS </h1></div>    
+    <div class="p-2 flex-shrink-1" ><a href="{% url 'discussion:create_discussion' %}"><button> Create A New Topic </button></a></div>
+</div>
+
+
+    <br>
+    
+        <ol>
+        {% for discuss in object_list %} 
+        <li>
+           <h4><a href="{% url 'discussion:discuss_details' discuss.pk %}"> {{discuss.title | upper}}</a></h4> 
+           {% if user.is_authenticated %}
+                <small>
+                   <b>Date Created:</b>  {{discuss.date}}({{discuss.date | naturaltime}}) | <b>Created By: </b>                    
+                        {{discuss.author.first_name}} {{discuss.author.last_name}} |                    
+                {% if disucss.author.id == user.id  %}
+                    | <a href="{% url 'discussion:edit_discussion_post' discuss.pk %}">(Edit)</a> 
+                    | <a href="{% url 'discussion:delete_discussion_post' discuss.pk %}">(Delete)</a>
+                {% endif %}    
+                </small>    
+                <p> 
+                       <!---{{blog.content | truncatewords:"80" | safe}}--> 
+                       {{discuss.content | safe | truncatewords:"30"}}
+                </p>
+        {% else %} 
+                <small>
+                   <b>  Date Created:</b>{{discuss.date}}({{discuss.date | naturaltime}})
+                   | <b>Created By: </b>   {{discuss.author.first_name}} {{discuss.author.last_name}}                  
+                </small>    
+                <p>
+                        <!-----{{blog.content | truncatewords:"80" | safe}}--->
+                        {{discuss.content | safe | truncatewords:"30"}}
+                </p>                
+        {% endif %}
+            
+        </li> <br>
+            
+        
+        {% empty %} 
+            <h2>No recent discussion availabe at the moment....</h2>
+        {% endfor %}
+    </ol>
+
+
+{% endblock %}

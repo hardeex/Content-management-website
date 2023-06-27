@@ -46,14 +46,18 @@
               <a class="nav-link" href="{% url 'contact:contact' %}">Contact</a>
             </li>
 
-            
+            <li class="nav-item">
+              <a class="nav-link" href="{% url 'discussion:discuss_list' %}"><b>Discussion</b> </a>
+            </li>
+
+
             {% if user.is_authenticated %}
                  
 
                   <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle" href="" role="button"
                     data-bs-toggle="dropdown" aria-expanded="false">
-                    Account
+                    My Account
                     </a>
                     <ul class="dropdown-menu">    
                     {% if user.profile.id %}
@@ -124,9 +128,7 @@
                    
             <li class="nav-item">
               <a class="nav-link" href="{% url 'index:telecom' %}">Telecom</a>
-            </li>
-           
-
+            </li>          
             <!---
             <li class="nav-item dropdown">
               <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
@@ -143,7 +145,7 @@
                 <li><a class="dropdown-item" href="#">Purchase JAMB e-PIN</a></li>
               </ul>
             </li>
-            --->
+            --->           
           </ul>
 
           {% include 'home/search.html' %}
@@ -171,13 +173,13 @@
         <div class="card">
           <div class="card-body">
             <h5 class="card-title">What We Do?</h5>
-            <p class="card-text">
+            <p class="card-text" style="text-align: justify;">
               We are a team of people who appreciate taking on challenging and unattainable tasks and have a variety of skill sets.
               Let us assist you with designing, security, and managing your personal, portfolio, and company websites, 
               mobile applications, and web applications.
               
             </p>
-            <p>
+            <p style="text-align: justify;">
                Additionally, We offer an extensive range of services, including the sale of digital products, telecommunications solutions 
               like the sale of internet access for all Nigerian networks, job posting services like writing Cvs or Resumes, 
               cover letters, reference letters, recruitment advice, business management for business owners, and much more. 

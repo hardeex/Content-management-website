@@ -24,16 +24,13 @@ class BlogPost(models.Model):
     author = models.ForeignKey(User, on_delete=models.CASCADE)
     title = models.CharField(max_length=255, unique=True)
     date = models.DateTimeField(auto_now_add=True)
-    #date = models.DateTimeField()
     category = models.CharField(max_length=150, default='uncategorized')
-    #category = models.ForeignKey(BlogCategory, on_delete = models.CASCADE)
-    #content = models.TextField()
     content = RichTextField(blank=True, null=True, unique=True)
     headline = models.TextField(max_length=255)
     likes = models.ManyToManyField(User, related_name='blog_posts')
 
     def __str__(self):
-        return f"Blog Title: {self.title} | Date Published: { self.date} |  Author: {self.author} | {self.category}"
+        return self.title
 
     def get_absolute_url(self):
         return reverse('index:blog_details', args=[str(self.id)] )
@@ -46,7 +43,6 @@ class BlogPost(models.Model):
 class Profile(models.Model):
     user = models.OneToOneField(User, null=True, on_delete=models.CASCADE)   
     bio = RichTextField(blank=True, null=True)
-    #bio = models.TextField()
     profile_pic = models.ImageField(null=True, blank=True, upload_to="images/profile/")
     linkedln_url = models.CharField(max_length=255, blank=True, null=True)
     facebook_url =  models.CharField(max_length=255, blank=True, null=True)
@@ -64,6 +60,9 @@ class Profile(models.Model):
     def get_absolute_url(self):
         return reverse('index:home')
 
+
+        
+
 class Comment(MPTTModel):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     post = models.ForeignKey(BlogPost, on_delete=models.CASCADE, related_name='comments')
@@ -73,10 +72,7 @@ class Comment(MPTTModel):
     
     # MPTT implementation
     parent = TreeForeignKey('self', on_delete=models.CASCADE, null=True, blank=True, related_name='replies')
-    #level = models.PositiveIntegerField(default=0)
-    #lft = models.PositiveIntegerField(default=0)
-    #rght = models.PositiveIntegerField(default=0)
-    #tree_id = models.PositiveIntegerField(default=0)  
+ 
     
     class MPTTMeta:
         order_insertion_by = ['date']
