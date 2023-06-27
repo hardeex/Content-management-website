@@ -56,7 +56,7 @@
 <br><br>
                 <div>
 
-                    <div>                    
+                    <div class="comment-form">                    
                         <h2>Make a new comment</h2>
                         <form id="myForm" method="POST" action="{% url 'discussion:add_comment' object.id %}">
                             {% csrf_token %}
@@ -67,61 +67,73 @@
                     </div>
 
                     <br><br><br>
-                    <h2>{{ total_comments }} Comment{{ total_comments |pluralize }}</h2>
+                    <h2>{{ total_comments }} Comment{{ total_comments|pluralize }}</h2> <hr>
                         <small>Discussion on: {{ object.title }}</small> <br>
                         <small>Scroll up if you can not find the reply box when clicked</small><hr>
-                    <div>
-                        {% for comment in comments %}
-                            <div id="{{ comment.id }}">
-                                <div style="border: 1px solid gray">
-                                    <div class="d-flex">
-                                        <div class="p-2 flex-grow-1"><b>{{ comment.user }}</b></div>
-                                        <div class="p-2"><small>{{ comment.date }} ({{ comment.date|naturaltime }})</small></div>
+                  
+                    {% recursetree comments %} 
+                            
+                        <div id="{{node.id}}" class="parent-comment">  
+                            <div class="d-flex">
+                                <div class="p-2 flex-grow-1"><b>{{ node.user }}</b></div>
+                                <div class="p-2"><small>{{ node.date }} ({{ node.date|naturaltime }})</small></div>
+                            </div>                         
+                            {{node.content|safe}}                                      
+                            {% if node.level < 3 %}
+                               <br> <button type="button" class="btn btn-primary" onclick="myFunction('{{ node.id }}')">Reply</button> 
+                            {% endif %}
+                        </div>  
+                            <br>
+                            
+                                {% if not node.is_leaf_node %} 
+                                     <div  class="children-comment"> 
+                                        {{ children }} 
                                     </div>
-                
-                                    <div style="padding: 1.2rem;">
-                                        {{ comment.content | safe }}
-                                        {% if comment.level < 3 %} <br><br>                                   
-                                            <button type="button" class="btn btn-primary" onclick="myFunction('{{ comment.id }}')">Reply</button>                                    
-                                        {% endif %}
-                                    </div>                                                                       
-                                </div>
-                                <br>
-                                <div>
-                                    {% if not comment.is_leaf_node %}
-                                        <div class="children-comment">
-                                            {% recursetree comment.get_children %}
-                                                <div id="{{ node.id }}">
-                                                    <div style="border: 1px solid gray">
-                                                        <div class="d-flex">
-                                                            <div class="p-2 flex-grow-1"><b>{{ node.user }}</b></div>
-                                                            <div class="p-2"><small>{{ node.date }} ({{ node.date|naturaltime }})</small></div>
-                                                        </div>
-                                                        
-                                                        {{ node.content | safe }}
-                                                        {% if node.level < 5 %} <br> <br>
-                                                        
-                                                            <button type="button" class="btn btn-primary" onclick="myFunction('{{ node.id }}')">Reply</button>
-                                                        
-                                                        {% endif %}
-                                                    </div>
-                
-                                                    <div>
-                                                        {% if not node.is_leaf_node %}
-                                                            <div class="children-comment">
-                                                                {{ children }}
-                                                            </div>
-                                                        {% endif %}
-                                                    </div>
-                                                </div>
-                                            {% endrecursetree %}
-                                        </div>
-                                    {% endif %}
-                                </div>
-                            </div>
-                        {% endfor %}
+
+                                {% endif %}
+                               
+                    {% endrecursetree %}
                     </div>
-                
+            
+                    
+                        <script>
+                            function formExit() {
+                                document.getElementById("newForm").remove();
+                            }
+                        
+                            function myFunction(id) {
+                                var existingForm = document.getElementById("newForm");
+                                if (existingForm) {
+                                    existingForm.remove();
+                                }
+                        
+                                var reply = document.getElementById(id);
+                                var formHTML = `
+                                    <form id="newForm" method="POST" class="form-insert py-2" action="{% url 'discussion:add_comment' object.pk %}">
+                                        <div class="d-flex">
+                                            <div class="p-2 flex-grow-1"><h2>Reply</h2></div>
+                                            <div class="p-2"><button type="button" class="btn btn-secondary btn-sm" onclick="formExit()">Close</button></div>
+                                        </div>
+                                        <select name="parent" class="d-none" id="id_parent">
+                                            <option value="${id}" selected="${id}"></option>
+                                        </select>
+                                        <label for="id_content">Content:</label>
+                                        <textarea name="content" cols="40" rows="5" class="form-control" required id="id_content"></textarea>
+                                        {% csrf_token %}
+                                        {{ form.media }} 
+                                        <button type="submit" class="btn btn-secondary btn-sm">Submit Reply</button>
+                                    </form>
+                                `;
+                        
+                                var container = document.createElement('div');
+                                container.innerHTML = formHTML;
+                                container.classList.add('my-2', 'p-2', 'border', 'border-gray');
+                        
+                                reply.parentNode.insertBefore(container, reply);
+                            }
+                        </script>
+                                                         
+                       
                 
                     <br><br>                    
                 </div>
@@ -133,43 +145,6 @@
     </div>
 </div>
 
-<script>
-    function formExit() {
-        document.getElementById("newForm").remove();
-    }
-
-    function myFunction(id) {
-        var existingForm = document.getElementById("newForm");
-        if (existingForm) {
-            existingForm.remove();
-        }
-
-        var reply = document.getElementById(id);
-        var formHTML = `
-            <form id="newForm" method="POST" class="form-insert py-2" action="{% url 'discussion:add_comment' object.id %}">
-                <div class="d-flex">
-                    <div class="p-2 flex-grow-1"><h2>Reply</h2></div>
-                    <div class="p-2"><button type="button" class="btn btn-secondary btn-sm" onclick="formExit()">Close</button></div>
-                </div>
-                <select name="parent" class="d-none" id="id_parent">
-                    <option value="${id}" selected="${id}"></option>
-                </select>
-                <label for="id_content">Content:</label>
-                <textarea name="content" cols="40" rows="5" class="form-control" required id="id_content"></textarea>
-                {% csrf_token %}
-                {{ form.media }}
-                <button type="submit" class="btn btn-secondary btn-sm">Submit Reply</button>
-            </form>
-        `;
-
-        var container = document.createElement('div');
-        container.innerHTML = formHTML;
-        container.classList.add('my-2', 'p-2', 'border', 'border-gray');
-
-        reply.parentNode.insertBefore(container, reply);
-    }
-</script>
-
 <style>
     .post-title {
         margin: auto;
@@ -178,11 +153,38 @@
         width: 100%;
     }
 
-    .children-comment{
-        margin-left: 2rem;
+    
+
+    .parent-comment{
+        border: 1px solid gray;
+        padding: 1.3rem;
+        text-align: justify;
+        
+    }
+    .children-comment {
+        margin-left: 2rem;        
+        text-align: justify;
     }
 
+    .comment-form {
+        margin-bottom: 20px; /* Add some spacing at the bottom */
+    }
 
+    /* Style the CKEditor textarea */
+    .ckeditor-textarea {
+        width: 100%; /* Set the width to 100% to fill the container */
+        height: 200px; /* Set an initial height for the textarea */
+        resize: vertical; /* Allow vertical resizing */
+        box-sizing: border-box; /* Include padding and border in the total height */
+    }
+
+    /* Adjust the textarea height for different screen sizes */
+    @media (max-width: 767px) {
+        /* For screens smaller than 768px (e.g., mobile devices) */
+        .ckeditor-textarea {
+            height: 150px; /* Adjust the height for mobile screens */
+        }
+    }
 </style>
 
 

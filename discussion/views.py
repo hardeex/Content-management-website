@@ -32,7 +32,7 @@ class DiscussionDetailsView(DetailView):
         post = self.get_object()
 
         # Get all comments for the post and order them by date (most recent first)
-        comments = post.discuss_comments.filter(status=True).order_by('-date')
+        comments = post.discuss_comments.filter(status=True).order_by('date')
 
         total_comments = comments.count()  # Get the total number of comments
         #context['comments'] = page_obj

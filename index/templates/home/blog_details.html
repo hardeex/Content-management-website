@@ -73,11 +73,9 @@
                                         {% if comment.level < 3 %} <br><br>                                   
                                             <button type="button" class="btn btn-primary" onclick="myFunction('{{ comment.id }}')">Reply</button>                                    
                                         {% endif %}
-                                    </div>
-                                    
-                                   
+                                    </div>                                                                     
                                 </div>
-                
+                <br>
                                 <div>
                                     {% if not comment.is_leaf_node %}
                                         <div class="children-comment">

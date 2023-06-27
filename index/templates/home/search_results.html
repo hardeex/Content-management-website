@@ -12,19 +12,31 @@
     {% for post_result in post_results %}
       <li>
         <a href="{% url 'index:blog_details' post_result.pk %}"><h3>{{ post_result.title }}</h3></a> 
-        <p>{{ post_result.content| truncatewords:"60" | safe }}</p>
+        <p>{{ post_result.content|truncatewords:"60"|safe }}</p>
       </li>
     {% endfor %}
   </ul>
+
 {% elif job_results %}
   <ul>
     {% for job_result in job_results %}
       <li>
         <a href="{% url 'jobs:job_details' job_result.pk %}"><h3>{{ job_result.title }}</h3></a> 
-        <p>{{ job_result.content | truncatewords:"60" | safe }}</p>
+        <p>{{ job_result.content|truncatewords:"60"|safe }}</p>
       </li>
     {% endfor %}
   </ul>
+
+{% elif discussion_results %}
+  <ul>
+    {% for discussion in discussion_results %}
+      <li>
+        <a href="{% url 'discussion:discuss_details' discussion.pk %}"><h3>{{ discussion.title }}</h3></a> 
+        <p>{{ discussion.content|truncatewords:"60"|safe }}</p>
+      </li>
+    {% endfor %}
+  </ul>
+
 {% else %}
   <p>No results found from the database.</p>
 {% endif %}

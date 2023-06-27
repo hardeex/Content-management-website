@@ -30,13 +30,13 @@ class RegisterForm(UserCreationForm):
     def clean_email(self):
         email = self.cleaned_data.get('email')
         if User.objects.filter(email=email).exists():
-            raise forms.ValidationError('ERROR: This email address is already in use.')
+            raise forms.ValidationError('This email address is already in use.')
         return email
     
     def clean_username(self):
         username = self.cleaned_data.get('username')
         if User.objects.filter(email=username).exists():
-            raise forms.ValidationError('ERROR: This username is already in use.')
+            raise forms.ValidationError('This username is already in use.')
         return 
 
 

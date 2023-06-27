@@ -40,10 +40,9 @@ class Comment(MPTTModel):
  
     
     class MPTTMeta:
-        order_insertion_by = ['date']
+        order_insertion_by = ['-date']
     
-    class Meta:
-        ordering = ('date', )
+
     
     def __str__(self):
         return f"Comment By: {self.user}"

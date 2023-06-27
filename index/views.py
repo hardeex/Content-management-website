@@ -12,6 +12,7 @@ from job.models import JobPost
 from django.db.models import Q 
 import os
 from django.conf import settings
+from discussion.models import Discussion
 
 
 
@@ -178,7 +179,13 @@ def search_results(request):
         Q(title__icontains=query) | Q(content__icontains=query)
     )
 
+    # passing the job_listing database to the search querry
     job_results = JobPost.objects.filter(
+        Q(title__icontains=query) | Q(content__icontains=query)
+    )
+
+    # passing the discussion model to the search query
+    discussion_results = Discussion.objects.filter(
         Q(title__icontains=query) | Q(content__icontains=query)
     )
 
@@ -188,6 +195,7 @@ def search_results(request):
         'query': query,
         'post_results': post_results,
         'job_results': job_results,
+        'discussion_results': discussion_results,
         #'static_results': static_results,
     }
 

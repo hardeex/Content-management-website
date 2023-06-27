@@ -7,6 +7,7 @@ from ckeditor.widgets import CKEditorWidget
 from ckeditor.fields import RichTextField
 from mptt.models import MPTTModel, TreeForeignKey
 from mptt.forms import TreeNodeChoiceField
+from . models import Comment
 
 
 
@@ -26,11 +27,18 @@ class DiscussionForm(forms.ModelForm):
 
 class NewCommentForm(forms.ModelForm):
     content = forms.CharField(widget=CKEditorWidget())
+    parent = TreeNodeChoiceField(queryset=Comment.objects.all())
 
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs) 
+         
+        self.fields['parent'].required = False 
+        self.fields['parent'].label = ''
+        self.fields['parent'].widget.attrs.update({'class': 'd-none'})
 
     class Meta:
         model = models.Comment
-        fields = ( 'content',)
+        fields = ('parent', 'content')
 
         widgets = {
             'content': forms.Textarea(attrs={'class': 'form-control'}),
