@@ -38,7 +38,7 @@ INSTALLED_APPS = [
     'job',
     'discussion',
     'ckeditor',
-    'mptt',   
+    'mptt',       
     'django.contrib.humanize',
     'django.contrib.admin',
     'django.contrib.auth',
@@ -47,6 +47,8 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
 ]
+
+
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -157,3 +159,5 @@ DEFAULT_FROM_EMAIL = 'webmasterjdd@gmail.com'  # Replace with your email address
 ADMINS = [
     ('webmasterjdd', 'webmasterjdd@gmail.com'),  # Replace with the admin's name and email address
 ]
+
+

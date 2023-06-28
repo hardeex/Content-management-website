@@ -13,6 +13,7 @@ from django.db.models import Q
 import os
 from django.conf import settings
 from discussion.models import Discussion
+from django.contrib import messages
 
 
 
@@ -69,6 +70,11 @@ class BlogDetailsView(DetailView):
 def add_comment(request, pk):
     post = get_object_or_404(models.BlogPost, pk=pk)
     comments = post.comments.filter(status=True)
+
+    if not request.user.is_authenticated:
+        messages.warning(request, 'You must log in to make a comment.')
+        return redirect('index:blog_details', pk=pk)
+
     if request.method == "POST":
         comment_form = NewCommentForm(request.POST)
         if comment_form.is_valid():
@@ -79,7 +85,8 @@ def add_comment(request, pk):
             return redirect('index:blog_details', pk=pk)
     else:
         comment_form = NewCommentForm()
-    return redirect('index:blog_details', pk=pk)
+    #return redirect('index:blog_details', pk=pk)
+    return redirect(reverse('index:blog_details', kwargs={'pk': pk}))
 
 
 

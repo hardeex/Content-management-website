@@ -20,11 +20,11 @@
                         <a href="{% url 'discussion:edit_discussion_post' object.pk %}">(Edit)</a> |
                         <a href="{% url 'discussion:delete_discussion_post' object.pk %}">(Delete)</a>
                         {% endif %}
-                    </small> <br> <br>
+                    </small> <hr>
                     <p>
                         {{ object.content | safe }}
                     </p>
-                    <hr>
+                    <hr> <br>
 
                     <form action="{% url 'discussion:like_post' object.pk %}" method="post">
                         {% csrf_token %}
@@ -36,7 +36,7 @@
                             {{ total_likes }}</button>
                         {% endif %}
                     </form>
-                    {% else %}
+                    {% else %}                    
                     <div >
                         <small>
                             <b>Last Updated:</b> {{ object.date }} | <b>Created By:</b> {{ object.author.first_name }}
@@ -53,9 +53,86 @@
                     </div>
                     {% endif %}
                 </div>
-<br><br>
-                <div>
+<br>
+                     <!--- show the blogger info-->
+                     <br>
+  <div class="card mb-3" >                                                             
+    <div class="card mb-3"  >
+         <div class="row g-0">
+            <div class="col-md-2">
+                {% if object.author.profile.profile_pic %}
+                    <img src="{{ object.author.profile.profile_pic.url }}" class="rounded-circle" alt="Author profile image" width="120" height="120">
+                {% else %}
+                    <img src="{% static 'images/profile_user_icon.png' %}" class="rounded-circle" alt="Default profile image" width="170" height="170">
+                {% endif %}
+            </div>
+            
+         <div class="col-md-10">
+         <div class="card-body">
+              <h5 class="card-title">{{object.author.first_name|safe}} {{object.author.last_name|safe}}</h5>
 
+              <small  class="fw-lighter">
+                   {% if object.author.profile.website_url %}
+                   <a href="{{object.author.profile.website_url}}" target="_blank">Website </a>                                     
+              {% endif %}
+
+
+              {% if object.author.profile.facebook_url %}
+                   |  <a href="{{object.author.profile.facebook_url}}" class="links" target="_blank">Facebook </a>                                  
+              {% endif %}
+
+
+              {% if object.author.profile.linkedln_url %}
+                   |  <a href="{{object.author.profile.linkedln_url}}" class="links" target="_blank">Linkedln </a> 
+              {% endif %}
+
+
+              {% if object.author.profile.twitter_url %}
+                   |  <a href="{{object.author.profile.twitter_url}}" class="links" target="_blank">Twitter </a> 
+              {% endif %}
+
+              {% if object.author.profile.instagram_url %}                                   
+                   |  <a href="{{object.author.profile.instagram_url}}" class="links" target="_blank">Instagram </a>                                  
+              {% endif %}                                   
+
+
+              {% if object.author.profile.whatsapp_url %} 
+                   |  <a href="{{object.author.profile.whatsapp_url}}" class="links" target="_blank"> WhatsApp </a>
+              {% endif %}
+
+
+              {% if object.author.profile.github_url %}
+
+                   |  <a href="{{object.author.profile.github_url}}" class="links" target="_blank">GitHub </a> 
+              {% endif %}
+
+              </small>
+              <p class="card-text">
+                {% if object.author.profile and object.author.profile.id %}
+                   {{object.author.profile.bio |truncatewords:"50" |safe}} 
+                   ... <a href="{% url 'account:user_profile' object.author.profile.id %}" class="link-info link-offset-2 link-underline-opacity-25 link-underline-opacity-100-hover">
+                       Read More...
+                   </a> 
+                {% endif %}           
+              </p>
+              
+             
+          
+          
+         </div>
+         </div>
+         </div>
+    </div>
+  </div>
+
+  <!---  End of show the blogger info-->
+
+
+<br>
+
+
+                <div>
+                {% if user.is_authenticated %}
                     <div class="comment-form">                    
                         <h2>Make a new comment</h2>
                         <form id="myForm" method="POST" action="{% url 'discussion:add_comment' object.id %}">
@@ -64,6 +141,7 @@
                             {{ form.media }}
                             <button type="submit" class="btn btn-secondary">Add comment</button>
                         </form>
+                {% endif %}
                     </div>
 
                     <br><br><br>
@@ -80,7 +158,9 @@
                             </div>                         
                             {{node.content|safe}}                                      
                             {% if node.level < 3 %}
+                            {% if user.is_authenticated %}
                                <br> <button type="button" class="btn btn-primary" onclick="myFunction('{{ node.id }}')">Reply</button> 
+                            {% endif %}
                             {% endif %}
                         </div>  
                             <br>
@@ -92,7 +172,7 @@
 
                                 {% endif %}
                                
-                    {% endrecursetree %}
+                    {% endrecursetree %}                
                     </div>
             
                     
@@ -121,7 +201,9 @@
                                         <textarea name="content" cols="40" rows="5" class="form-control" required id="id_content"></textarea>
                                         {% csrf_token %}
                                         {{ form.media }} 
+                                        {% if user.is_authenticated %}
                                         <button type="submit" class="btn btn-secondary btn-sm">Submit Reply</button>
+                                        {% endif %}
                                     </form>
                                 `;
                         
@@ -132,14 +214,14 @@
                                 reply.parentNode.insertBefore(container, reply);
                             }
                         </script>
-                                                         
+                               <br><br><a href="{% url 'discussion:discuss_list' %}" class="btn btn-primary">Back Discussed List</a><br><br>                          
                        
                 
                     <br><br>                    
                 </div>
 
                 <br><br>
-                <a href="{% url 'discussion:discuss_list' %}" class="btn btn-primary">Back Discussed List</a><br><br>
+                
             </div>
         </div>
     </div>
