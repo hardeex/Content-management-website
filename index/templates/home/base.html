@@ -57,7 +57,11 @@
                   <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle" href="" role="button"
                     data-bs-toggle="dropdown" aria-expanded="false">
-                    My Account
+                    {% if user.profile.profile_pic %}
+                    <img src="{{ user.profile.profile_pic.url }}" class="rounded-circle" alt="Author profile image" width="30" height="30"> {{ user }}
+                    {% else %}
+                        <img src="{% static 'images/profile_user_icon.png' %}" class="rounded-circle" alt="Default profile image" width="20" height="20"> {{user}}
+                    {% endif %}
                     </a>
                     <ul class="dropdown-menu">    
                     {% if user.profile.id %}
@@ -125,27 +129,7 @@
 
 
             {% endif %}
-                   
-            <li class="nav-item">
-              <a class="nav-link" href="{% url 'index:telecom' %}">Telecom</a>
-            </li>          
-            <!---
-            <li class="nav-item dropdown">
-              <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                Telecom
-              </a>
-              <ul class="dropdown-menu">
-                <li><a class="dropdown-item" href="#">Buy Data Bundles</a></li>
-                <li><a class="dropdown-item" href="#">Buy Airtime</a></li>
-                <li><hr class="dropdown-divider"></li>
-                <li><a class="dropdown-item" href="#">Cable TV Subscription</a></li>
-                <li><a class="dropdown-item" href="#">Electricity Payment</a></li>
-                <li><hr class="dropdown-divider"></li>
-                <li><a class="dropdown-item" href="#">Purchase WAEC e-PIN</a></li>
-                <li><a class="dropdown-item" href="#">Purchase JAMB e-PIN</a></li>
-              </ul>
-            </li>
-            --->           
+                                   
           </ul>
 
           {% include 'home/search.html' %}
@@ -196,17 +180,17 @@
         <div class="card">
           <div class="card-body">
             <h5 class="card-title">Other Links</h5>
-            <ul>
-              <li><a href="#" class="footer-link">About the Website & Developer </a></li>             
-              <li><a href="#" class="footer-link">Blog</a></li>
-              <li><a href="#" class="footer-link">Jobs</a></li> 
-              <li><a href="#" class="footer-link">Home</a></li>
-              <li><a href="#" class="footer-link">Subscribe </a></li>                           
-              <li><a href="#" class="footer-link">Privacy Policy </a></li>
+            <ul>                         
+              <li><a href="{% url 'index:blog_list' %}" class="footer-link">Blog</a></li>
+              <li><a href="{% url 'discussion:discuss_list' %}" class="footer-link">Chat & Discussion</a></li>
+              <li><a href="{% url 'jobs:job_list' %}" class="footer-link">Jobs</a></li> 
+              <li><a href="{% url 'index:home' %}" class="footer-link">Home</a></li>                                                     
               <li><a href="#" class="footer-link">Task Management Help</a></li>
-              <li><a href="#" class="footer-link">Watch Live Football Matches</a></li>                                        
-            </ul>
-            <a href="https://github.com/hardeex" class="btn btn-primary">GitHub</a>
+              <li class="nav-item">
+                <a class="nav-link" href="{% url 'index:telecom' %}">Telecom</a>
+              </li>  
+              <li><a href="https://afr.808scoretv.com/" class="footer-link">Watch Live Football Matches</a></li>                                        
+            </ul>           
           </div>
         </div>
       </div>
