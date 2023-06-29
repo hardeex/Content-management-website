@@ -1,0 +1,57 @@
+{% extends 'home/base.html' %}
+{% block title %} MY TASKS{% endblock %} 
+
+
+{% block body %} 
+
+{% if user.is_authenticated %}
+       
+        <div class="d-flex">
+            <div class="p-2 w-100"><h1> MY TASKS </h1></div>    
+            <div class="p-2 flex-shrink-1" ><a href="{% url 'tasks:add_tasks' %}"><button> Create A New Task </button></a></div>
+        </div> <br><br>
+
+            <table  class="table table-success table-striped">
+                <thead>
+                <tr>
+                    <th>Task Name</th>            
+                    <th>Description</th>
+                    <th>Start Date</th>
+                    <th>Due Date</th>
+                    <th>Status</th>     
+                    <th>Modify Tasks</th>      
+                </tr>
+                </thead>
+
+                
+                <tbody>
+                {% for task in tasks %}
+                    <tr>
+                    <td>{{ task.name }}</td>              
+                    <td>{{ task.description }}</td>
+                    <td>{{task.start_date}}</td>
+                    <td>{{task.due_date}} </td>                    
+                    <td>
+                        <input type="checkbox" name="completed" value="{{ task.id }}" {% if task.status %}checked{% endif %}>
+                    </td>
+                    <td>
+                        <a href="{% url 'tasks:edit_task' task.id %}">Edit</a>
+                        <a href="{% url 'tasks:delete_task' task.id %}">Delete</a>
+                    </td>                  
+                    </tr>
+                {% empty %} 
+                    <p>You have not added any tasks.... </p>
+                {% endfor %}
+                </tbody>
+            </table>
+{% else %} 
+<br><br>
+<h1>MY TASKS</h1> <br><br>
+        <div class="alert alert-danger" role="alert">
+            <p><a href="{% url 'login' %}">LOGIN</a> to view tasks</p>    
+        </div>
+                
+
+{% endif %}
+
+{% endblock %}

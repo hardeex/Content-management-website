@@ -1,0 +1,19 @@
+{% extends 'home/base.html' %}
+
+{% block title %} Edit Task {% endblock %}
+
+{% block body %}
+    <h1>Edit Task</h1>
+
+    {% if user.is_authenticated %}
+            <form method="post">
+                {% csrf_token %}
+                {{ form.as_p }}
+                <button class="btn btn-primary">Save</button>
+            </form>
+    {% else %} 
+            <div class="alert alert-danger" role="alert">
+                <p><a href="{% url 'login' %}">LOGIN</a> to Edit tasks</p>    
+            </div>
+    {% endif %}
+{% endblock %}

@@ -1,0 +1,27 @@
+{% extends 'home/base.html' %}
+
+{% block title %} Add Task{% endblock %}
+
+{% block body %}
+  <h1>ADD A NEW TASK</h1>
+  {% if user.is_authenticated %}
+    <br><br>
+    <div class="form-group"> 
+      <form method="POST">
+        {% csrf_token %} 
+        {{ form.as_p }} 
+        {{ form.media }}  
+        <br><br>         
+        <button class="btn btn-primary">Add Task</button>
+      </form> <br><br>
+    </div>
+
+  {% else %} 
+
+        <div class="alert alert-danger" role="alert">
+            <p><a href="{% url 'login' %}">LOGIN</a> to create tasks</p>    
+        </div>    
+  {% endif %}
+
+  
+{% endblock %}

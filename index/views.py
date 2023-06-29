@@ -115,6 +115,8 @@ class EditPostView(UpdateView):
     form_class = custom_model_form.CustomBlogPostForm
     #success_url = 'home/blog_details.html'
 
+
+
 class DeletePostView(DeleteView):
     model = models.BlogPost
     success_url = reverse_lazy('index:blog_list')

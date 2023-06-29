@@ -37,6 +37,7 @@ INSTALLED_APPS = [
     'contact',
     'job',
     'discussion',
+    'tasks',
     'ckeditor',
     'mptt',       
     'django.contrib.humanize',

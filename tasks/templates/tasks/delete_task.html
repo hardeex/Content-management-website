@@ -1,0 +1,21 @@
+{% extends 'home/base.html' %}
+
+{% block title %}Delete Task{% endblock %}
+
+{% block body %}
+  <h1>Delete Task</h1>
+
+  {% if user.is_authenticated %}
+        <p>Are you sure you want to delete the task "{{ object.name }}"?</p>
+
+        <form method="post">
+            {% csrf_token %}
+            <button class="btn btn-danger" type="submit">Delete</button>
+            <a href="{% url 'tasks:tasks_list' %}" class="btn btn-secondary">Cancel</a>
+        </form>
+  {% else %} 
+        <div class="alert alert-danger" role="alert">
+            <p><a href="{% url 'login' %}">LOGIN</a> to Delete tasks</p>    
+        </div>
+    {% endif %}
+{% endblock %}
