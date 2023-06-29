@@ -10,4 +10,4 @@ admin.site.register(models.Comment, MPTTModelAdmin)
 class DiscussionAdmin(admin.ModelAdmin):
     list_display = ('title', 'author', 'date')
     list_filter = ('title', 'author',  'date')
-    search_field = ('author', 'title', 'date', 'content')
+    search_fields = ('author', 'title', 'date', 'content')

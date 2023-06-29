@@ -12,7 +12,7 @@ admin.site.register(models.Comment, MPTTModelAdmin)
 class BlogPostAdmin(admin.ModelAdmin):
     list_display = ('title', 'author', 'category',  'date')
     list_filter = ('title', 'author', 'category', 'date')
-    search_field = ('author', 'title', 'content', 'category', 'date')
+    search_fields = ('author', 'title', 'content', 'category', 'date')
 
 
 

@@ -10,11 +10,11 @@ admin.site.register(models.JobCategory)
 class JobPostAdmin(admin.ModelAdmin):
     list_display = ('title', 'author', 'category',  'date')
     list_filter = ('title', 'author', 'category', 'date', 'deadline')
-    search_field = ('author', 'title', 'deadline', 'date')
+    search_fields = ('author', 'title', 'deadline', 'date')
 
 @admin.register(models.JobComment)
 class JobCommentAdmin(admin.ModelAdmin):
     list_display = ('user', 'post', 'date', 'status')
     list_filter = ('user', 'post', 'date', 'content')
-    search_field = ('user', 'post', 'date', 'content')
+    search_fields = ('user', 'post', 'date', 'content')
 
