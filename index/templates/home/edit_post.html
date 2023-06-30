@@ -19,7 +19,10 @@
             <a class="btn btn-primary" href="{% url 'index:job_list' %}">View Job Posts</a> <br><br><br>
     {% endif %}
 {% else %} 
-    <h3>You don't have the permission to access this page...</h3> <br><br>
+<div class="alert alert-danger" role="alert">
+    <p>You don't have the permission to access this page...</p>
+    <a href="{% url 'login' %}">LOGIN</a>   
+</div><br>
     <a class="btn btn-primary" href="{% url 'index:home' %}">Go Home</a> <br><br><br>
 {% endif %}
 {% endblock %}

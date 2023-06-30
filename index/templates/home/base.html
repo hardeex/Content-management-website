@@ -46,13 +46,50 @@
               <a class="nav-link" href="{% url 'contact:contact' %}">Contact</a>
             </li>
 
-            <li class="nav-item">
-              <a class="nav-link" href="{% url 'discussion:discuss_list' %}"><b>Discussion</b> </a>
+            <li class="nav-item dropdown">
+              <a class="nav-link dropdown-toggle" href="#" role="button"
+              data-bs-toggle="dropdown" aria-expanded="false">
+              Tools
+              </a>
+              <ul class="dropdown-menu">   
+                <li><a class="dropdown-item" href="{% url 'discussion:discuss_list' %}">Chat & Discussion</a></li>                                                                
+                <li><a class="dropdown-item" href="#">Inventory Management </a></li> 
+                <li><a class="dropdown-item" href="{% url 'tasks:tasks_list' %}">Task Management</a></li>  
+                <li class="nav-item"><a class="nav-link" href="{% url 'index:telecom' %}">Telecom</a></li> 
+                <li><a class="dropdown-item" href="https://afr.808scoretv.com/" target="_blank">Watch Live Matches</a></li>                                                                             
+              </ul>
             </li>
-
-
+          
             {% if user.is_authenticated %}
                  
+            <li class="nav-item dropdown">
+              <a class="nav-link dropdown-toggle" href="{% url 'index:blog_list' %}" role="button"
+              data-bs-toggle="dropdown" aria-expanded="false">
+              Blog
+              </a>
+              <ul class="dropdown-menu">   
+                <li><a class="dropdown-item" href="{% url 'index:blog_list' %}">Post </a></li>                              
+                <li><a class="dropdown-item" href="{% url 'index:add_post' %}">Add A New Post</a></li>  
+                <li><hr class="dropdown-divider"></li>  
+                <li><a class="dropdown-item" href="{% url 'index:add_category' %}">Add A New Blog Category</a></li>   
+                <li><a class="dropdown-item" href="{% url 'index:view_category' %}">View Post Categories</a></li>                                                                             
+              </ul>
+            </li>
+
+            <li class="nav-item dropdown">
+              <a class="nav-link dropdown-toggle" href="{% url 'index:blog_list' %}" role="button"
+              data-bs-toggle="dropdown" aria-expanded="false">
+               Jobs
+              </a>
+              <ul class="dropdown-menu">   
+                <li><a class="dropdown-item" href="{% url 'jobs:job_list' %}">Job Listing</a></li>                              
+                <li><a class="dropdown-item" href="{% url 'jobs:add_job_post' %}">Add A New Job Post</a></li>  
+                <li><hr class="dropdown-divider"></li>  
+                <li><a class="dropdown-item" href="{% url 'jobs:add_job_category' %}">Add A New Job Category</a></li>   
+                <li><a class="dropdown-item" href="{% url 'jobs:view_job_category' %}">View Job Categories</a></li>                                                                             
+              </ul>
+            </li>
+
 
                   <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle" href="" role="button"
@@ -75,36 +112,6 @@
                       <li><a class="dropdown-item" href="{% url 'logout' %}">Logout</a></li>                                                                                                                        
                     </ul>
                   </li>   
-
-
-                   <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle" href="{% url 'index:blog_list' %}" role="button"
-                    data-bs-toggle="dropdown" aria-expanded="false">
-                    Blog
-                    </a>
-                    <ul class="dropdown-menu">   
-                      <li><a class="dropdown-item" href="{% url 'index:blog_list' %}">Post </a></li>                              
-                      <li><a class="dropdown-item" href="{% url 'index:add_post' %}">Add A New Post</a></li>  
-                      <li><hr class="dropdown-divider"></li>  
-                      <li><a class="dropdown-item" href="{% url 'index:add_category' %}">Add A New Blog Category</a></li>   
-                      <li><a class="dropdown-item" href="{% url 'index:view_category' %}">View Post Categories</a></li>                                                                             
-                    </ul>
-                  </li>
-
-                  <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle" href="{% url 'index:blog_list' %}" role="button"
-                    data-bs-toggle="dropdown" aria-expanded="false">
-                     Jobs
-                    </a>
-                    <ul class="dropdown-menu">   
-                      <li><a class="dropdown-item" href="{% url 'jobs:job_list' %}">Job Listing</a></li>                              
-                      <li><a class="dropdown-item" href="{% url 'jobs:add_job_post' %}">Add A New Job Post</a></li>  
-                      <li><hr class="dropdown-divider"></li>  
-                      <li><a class="dropdown-item" href="{% url 'jobs:add_job_category' %}">Add A New Job Category</a></li>   
-                      <li><a class="dropdown-item" href="{% url 'jobs:view_job_category' %}">View Job Categories</a></li>                                                                             
-                    </ul>
-                  </li>
-
                   
             {% else %}                                               
                   <li class="nav-item dropdown">
@@ -187,10 +194,8 @@
               <li><a href="{% url 'jobs:job_list' %}" class="footer-link">Jobs</a></li> 
               <li><a href="{% url 'index:home' %}" class="footer-link">Home</a></li>                                                     
               <li><a href="{% url 'tasks:tasks_list' %}" class="footer-link">Task Management Help</a></li>
-              <li class="nav-item">
-                <a class="nav-link" href="{% url 'index:telecom' %}">Telecom</a>
-              </li>  
-              <li><a href="https://afr.808scoretv.com/" class="footer-link">Watch Live Football Matches</a></li>                                        
+              <li class="nav-item"><a class="nav-link" href="{% url 'index:telecom' %}">Telecom</a></li>  
+              <li><a href="https://afr.808scoretv.com/" class="footer-link" target="_blank">Watch Live Football Matches</a></li>                                        
             </ul>           
           </div>
         </div>

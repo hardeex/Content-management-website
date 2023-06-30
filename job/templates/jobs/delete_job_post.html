@@ -18,9 +18,13 @@
                 </form> <br><br>
             </div>
     {% else %} 
-            <h3>You don't have the access to delete this post</h3> <br> <br>
-            <a class="btn btn-primary" href="{% url 'index:blog_list' %}">View Blog Posts</a> 
-            <a class="btn btn-primary" href="{% url 'jobs:job_list' %}">View Job Posts</a> <br><br><br>
+            <div class="alert alert-danger" role="alert">
+                <p><a href="{% url 'login' %}">LOGIN</a> to Delete post</p>    
+                <a class="btn btn-primary" href="{% url 'index:blog_list' %}">View Blog Posts</a> 
+                <a class="btn btn-primary" href="{% url 'jobs:job_list' %}">View Job Posts</a> 
+            </div>
+            
+            <br><br><br>
     {% endif %}
 
 {% else %} 

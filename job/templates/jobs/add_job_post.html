@@ -18,7 +18,10 @@
         document.getElementById("author").value = author;
     </script>
 {% else %} 
-    <h2>You don't have the permission to access this page...</h2>
+<div class="alert alert-danger" role="alert">
+    <p>You don't have the permission to access this page...</p>
+    <a href="{% url 'login' %}">LOGIN</a>   
+</div>
 {% endif %}
 
 
