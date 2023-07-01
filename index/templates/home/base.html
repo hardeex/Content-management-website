@@ -68,8 +68,9 @@
               Blog
               </a>
               <ul class="dropdown-menu">   
-                <li><a class="dropdown-item" href="{% url 'index:blog_list' %}">Post </a></li>                              
-                <li><a class="dropdown-item" href="{% url 'index:add_post' %}">Add A New Post</a></li>  
+                <li><a class="dropdown-item" href="{% url 'index:blog_list' %}">Post </a></li>
+                <li><a class="dropdown-item" href="{% url 'index:drafts_list' %}"> Create/View Draft Post </a></li>                              
+                <li><a class="dropdown-item" href="{% url 'index:add_post' %}">Publish A New Post</a></li>                  
                 <li><hr class="dropdown-divider"></li>  
                 <li><a class="dropdown-item" href="{% url 'index:add_category' %}">Add A New Blog Category</a></li>   
                 <li><a class="dropdown-item" href="{% url 'index:view_category' %}">View Post Categories</a></li>                                                                             

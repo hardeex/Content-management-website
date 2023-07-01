@@ -64,10 +64,15 @@
               {{page_user.bio |safe}}               
               </a>         
               </p>
-         
+              <br><br>
+              {% if user.profile.id %}        
+              <a href="{% url 'account:edit_profile_page' user.profile.id %}" class="btn btn-secondary">Edit Profile</a><br><br> 
+           {% endif %} 
     </div>
     </div>
     </div>
+
+   
 </div>
 
 {% endblock %}

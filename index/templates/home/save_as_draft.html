@@ -1,26 +1,31 @@
 {% extends 'home/base.html' %} 
-{% block title %}  Add A New Job Post {% endblock %}
+{% block title %}  Save Post As Draft {% endblock %}
 
 {% block body %} 
 {% if user.is_authenticated %}
-    <h1>ADD A NEW JOB POST</h1>       
+    <h1> Create a new draft posts</h1>
+       
     <br><br>
     <div class="form-group"> 
         <form method="POST">
             {% csrf_token %} 
-            {{form.as_p}}
+            {{form.as_p}} 
             {{form.media}}
-            <button class="btn btn-success">Publish</button>
+            
+            <br><br>
+            <button class="btn btn-secondary"> Save As Draft</button>
         </form> <br><br>
     </div>
+
     <script>
         var author = "{{user.id}}";
         document.getElementById("author").value = author;
     </script>
+
 {% else %} 
 <div class="alert alert-danger" role="alert">
     <p>You don't have the permission to access this page...</p>
-    <a href="{% url 'login' %}">LOGIN</a>   
+    <p><a href="{% url 'login' %}">LOGIN</a> to add post</p>    
 </div>
 {% endif %}
 

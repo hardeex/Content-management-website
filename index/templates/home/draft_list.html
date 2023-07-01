@@ -1,0 +1,64 @@
+{% extends 'home/base.html' %}
+{% load humanize %}
+
+{% block title %} Draft Posts {% endblock %} 
+
+
+{% block body %} 
+
+<div class="d-flex">
+    <div class="p-2 w-100">
+      <h1>DRAFT POSTS</h1>
+    </div>
+    <div class="p-2 flex-shrink-1">
+      <a href="{% url 'index:add_draft_post' %}">
+        <button>Create A New Draft Post</button>
+      </a>
+    </div>
+  </div>
+
+<br><br>
+    
+        <ol>
+        {% for draft in object_list %} 
+        <li>
+           <h4><a href="{% url 'index:draft_details' draft.pk %}"> {{draft.title | upper}}</a></h4> 
+           {% if user.is_authenticated %}
+                <small>
+                   <b>Last Updated:</b>  {{draft.date}}({{draft.date | naturaltime}}) |
+                    <b>Author: </b>                    
+                        {{draft.author.first_name}} {{draft.author.last_name}} | 
+                   <b>Category:</b>  <a href="{% url 'index:category_list' draft.category %}">{{draft.category}}</a> |
+                   <br>
+                {% if draft.author.id == user.id  %}
+                     <a href="{% url 'index:edit_draft_post' draft.pk %}">(Edit)</a>  
+                    |    <a href="{% url 'index:delete_draft_post' draft.pk %}">(Delete)</a>
+                    |     <a href="{% url 'index:publish_draft' draft.pk %}">(Publish)</a>
+                {% endif %}    
+                </small>    
+                <hr>
+                <p> 
+                       <!---{{blog.content | truncatewords:"80" | safe}}--> 
+                       {{draft.headline | safe}}
+                </p>
+        {% else %} 
+                <small>
+                   <b> Category:</b>  <a href="{% url 'index:category_list' draft.category %}">{{draft.category}}</a> |
+                   <b>  Last Updated:</b> {{draft.date}} | <b>Author: </b>  {{draft.author.first_name}} {{draft.author.last_name}} |                    
+                </small>    
+                <p>
+                        <!-----{{blog.content | truncatewords:"80" | safe}}--->
+                        {{draft.headline | safe}}
+                </p>                
+        {% endif %}
+            
+        </li> <br>
+            
+        
+        {% empty %} 
+            <h2>No draft posts created yet....</h2>
+        {% endfor %}
+    </ol>
+
+
+{% endblock %}

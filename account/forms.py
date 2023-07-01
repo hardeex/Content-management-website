@@ -75,6 +75,7 @@ def validate_file_size(value):
 
 class ProfilePageForm(forms.ModelForm):
     profile_pic = forms.ImageField(
+        required=False,
         validators=[validate_file_size],
         widget=forms.ClearableFileInput(attrs={'class': 'form-control'})
     )

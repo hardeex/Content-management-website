@@ -1,28 +1,34 @@
 {% extends 'home/base.html' %} 
-{% block title %}  Edit Post {% endblock %}
+{% block title %}  Delete {{object.title}} {% endblock %}
 
 {% block body %} 
 {% if user.is_authenticated %}
-    <h1> UPDATE POST</h1><br> <br>
+    <h1> DELETE BLOG POST</h1><br> <br>
+    <h3><em>Delete: </em>  {{object.title}} </h3>
     {% if object.author.id == user.id  %}
+            <p>
+                {{object.content | safe | truncatewords:"80"}}
+            </p>
+
             <div class="form-group"> 
                 <form method="POST">
-                    {% csrf_token %} 
-                    {{form.as_p}}
-                    {{form.media}}
-                    <button class="btn btn-success">Update</button>
+                    {% csrf_token %}             
+                    <button class="btn btn-danger">Delete</button>
+                    <a href="{% url 'index:drafts_list' %}" class="btn btn-secondary">Cancel</a>
                 </form> <br><br>
             </div>
     {% else %} 
-            <h3>You don't have the access to edit this post</h3> <br> <br>
+            <h3>You don't have the access to delete this post</h3> <br> <br>
             <a class="btn btn-primary" href="{% url 'index:blog_list' %}">View Blog Posts</a> 
             <a class="btn btn-primary" href="{% url 'index:job_list' %}">View Job Posts</a> <br><br><br>
     {% endif %}
+
 {% else %} 
 <div class="alert alert-danger" role="alert">
     <p>You don't have the permission to access this page...</p>
-    <a href="{% url 'login' %}">LOGIN</a>   
-</div><br>
+    <p><a href="{% url 'login' %}">LOGIN</a> to delete post</p>    
+</div> <br> <br>
     <a class="btn btn-primary" href="{% url 'index:home' %}">Go Home</a> <br><br><br>
+
 {% endif %}
 {% endblock %}

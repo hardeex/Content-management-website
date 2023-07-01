@@ -29,6 +29,7 @@ class BlogPost(models.Model):
     headline = models.TextField(max_length=255)
     likes = models.ManyToManyField(User, related_name='blog_posts')
 
+
     def __str__(self):
         return self.title
 
@@ -37,8 +38,26 @@ class BlogPost(models.Model):
 
     def total_likes(self):
         return self.likes.count()
-        
 
+
+
+class SaveAsDraft(models.Model):
+    author = models.ForeignKey(User, on_delete=models.CASCADE)
+    title = models.CharField(max_length=255, unique=True)
+    date = models.DateTimeField(auto_now_add=True)
+    category = models.CharField(max_length=150, default='uncategorized')
+    content = RichTextField(blank=True, null=True, unique=True)
+    headline = models.TextField(max_length=255)
+    
+
+
+    def __str__(self):
+        return self.title
+
+    def get_absolute_url(self):
+        return reverse('index:draft_details', args=[str(self.id)] )
+
+    
    
 class Profile(models.Model):
     user = models.OneToOneField(User, null=True, on_delete=models.CASCADE)   

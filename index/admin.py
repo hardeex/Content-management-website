@@ -15,6 +15,14 @@ class BlogPostAdmin(admin.ModelAdmin):
     search_fields = ('author', 'title', 'content', 'category', 'date')
 
 
+@admin.register(models.SaveAsDraft)
+class SaveAsDraftAdmin(admin.ModelAdmin):
+    list_display = ('title', 'author', 'category',  'date')
+    list_filter = ('title', 'author', 'category', 'date')
+    search_fields = ('author', 'title', 'content', 'category', 'date')
+
+
+
 
 
 

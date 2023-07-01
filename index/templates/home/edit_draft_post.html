@@ -1,16 +1,16 @@
 {% extends 'home/base.html' %} 
-{% block title %}  Edit Post {% endblock %}
+{% block title %} Edit {{object.title}} {% endblock %}
 
 {% block body %} 
 {% if user.is_authenticated %}
-    <h1> UPDATE POST</h1><br> <br>
+    <h1> Edit {{object.title}} </h1><br> <br>
     {% if object.author.id == user.id  %}
             <div class="form-group"> 
                 <form method="POST">
                     {% csrf_token %} 
                     {{form.as_p}}
                     {{form.media}}
-                    <button class="btn btn-success">Update</button>
+                    <button class="btn btn-success"> Update </button>
                 </form> <br><br>
             </div>
     {% else %} 

@@ -14,6 +14,10 @@ import os
 from django.conf import settings
 from discussion.models import Discussion
 from django.contrib import messages
+from django.utils import timezone
+import datetime
+from django.contrib.auth.mixins import LoginRequiredMixin
+
 
 
 
@@ -90,14 +94,66 @@ def add_comment(request, pk):
 
 
 
-   
-
-
 class AddPostView(CreateView):
     model = models.BlogPost
     form_class = custom_model_form.CustomBlogPostForm
     template_name = 'home/add_post.html'
-    #fields = '__all__'
+
+
+    def form_valid(self, form): 
+        form.instance.author = self.request.user
+        return super().form_valid(form)
+
+    
+
+
+class DraftsListView(LoginRequiredMixin, ListView):
+    model = models.SaveAsDraft
+    template_name = 'home/draft_list.html'
+    ordering = ['-date']
+
+    def get_queryset(self):
+        queryset = super().get_queryset()
+        user = self.request.user
+        return queryset.filter(author=user)
+
+
+
+class AddDraftPostView(CreateView):
+    model = models.SaveAsDraft
+    form_class = custom_model_form.DraftPostForm
+    template_name = 'home/save_as_draft.html'
+
+
+    def form_valid(self, form): 
+        form.instance.author = self.request.user
+        return super().form_valid(form)
+
+
+class DraftPostDetailsView(DetailView):
+    model = models.SaveAsDraft
+    template_name = 'home/drafts_details.html'    
+   
+
+
+def publish_draft(request, draft_pk):
+    draft = get_object_or_404(models.SaveAsDraft, pk=draft_pk)
+    
+    # Create a new BlogPost instance
+    post = models.BlogPost(
+        title=draft.title,
+        content=draft.content,
+        author=draft.author,
+        category=draft.category,
+       headline = draft.headline
+    )
+    post.save()
+    
+    # Delete the draft post
+    draft.delete()
+    
+    return redirect('index:blog_list')  # Redirect to the blog post list page
+
 
 
 class AddCategoryView(CreateView):
@@ -116,12 +172,22 @@ class EditPostView(UpdateView):
     #success_url = 'home/blog_details.html'
 
 
+class EditDraftPostView(UpdateView):
+    model = models.SaveAsDraft
+    template_name = 'home/edit_draft_post.html'
+    form_class = custom_model_form.DraftPostForm    
+
 
 class DeletePostView(DeleteView):
     model = models.BlogPost
     success_url = reverse_lazy('index:blog_list')
     template_name = 'home/delete_post.html'
     
+
+class DeleteDraftPostView(DeleteView):
+    model = models.SaveAsDraft
+    success_url = reverse_lazy('index:drafts_list')
+    template_name = 'home/delete_draft_post.html'
     
 
 # Create the function views here.
@@ -142,7 +208,7 @@ def CategoryView(request, category_name):
     try:
         #category = models.BlogPost.objects.filter(category='category_name')
         category = models.BlogCategory.objects.get(name=category_name)       
-        posts = models.BlogPost.objects.filter(category=category)   
+        posts = models.BlogPost.objects.filter(category=category).order_by('-date')   
         return render(request, 'home/category_view.html', {
             'category': category,
             'posts': posts,            

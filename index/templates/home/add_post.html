@@ -1,30 +1,30 @@
 {% extends 'home/base.html' %} 
-{% block title %}  Add Post {% endblock %}
+{% block title %}Add Post{% endblock %}
 
 {% block body %} 
-{% if user.is_authenticated %}
+  {% if user.is_authenticated %}
     <h1>ADD A NEW BLOG POST</h1>
-       
     <br><br>
     <div class="form-group"> 
-        <form method="POST">
-            {% csrf_token %} 
-            {{form.as_p}}
-            {{form.media}}
-            <button class="btn btn-primary">Post</button>
-        </form> <br><br>
+      <form method="POST" action="{% url 'index:add_post' %}">
+        {% csrf_token %} 
+        {{ form.as_p }}
+        {{ form.media }}
+        <br><br>
+        <button class="btn btn-success" type="submit" name="publish">Publish</button>        
+      </form>
+      <br><br>
     </div>
+
     <script>
-        var author = "{{user.id}}";
-        document.getElementById("author").value = author;
-
+      var author = "{{ user.id }}";
+      document.getElementById("author").value = author;
     </script>
-{% else %} 
-<div class="alert alert-danger" role="alert">
-    <p>You don't have the permission to access this page...</p>
-    <p><a href="{% url 'login' %}">LOGIN</a> to add post</p>    
-</div>
-{% endif %}
-
-
+    
+  {% else %} 
+    <div class="alert alert-danger" role="alert">
+      <p>You don't have permission to access this page...</p>
+      <p><a href="{% url 'login' %}">LOGIN</a> to add a post</p>    
+    </div>
+  {% endif %}
 {% endblock %}
