@@ -7,10 +7,14 @@ from django.urls import reverse
 class Tasks(models.Model):
     user = models.ForeignKey(User, on_delete = models.CASCADE)
     name = models.CharField(max_length = 50, unique=True)
-    description = models.CharField(max_length=100)
+    description = models.CharField(max_length=100, unique=True)
     start_date = models.DateTimeField()
     due_date = models.DateTimeField()    
-    completed = models.CharField(max_length=150, default='No')
+    completed = models.CharField(max_length=150)
+
+
+    class Meta:
+        verbose_name_plural = 'Task'
 
     def __str__(self):
         return self.name

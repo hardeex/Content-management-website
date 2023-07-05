@@ -11,6 +11,9 @@ from mptt.models import MPTTModel, TreeForeignKey
 
 class BlogCategory(models.Model):
     name = models.CharField(max_length= 150, unique=True)
+
+    class Meta:
+        verbose_name_plural = 'Blog Category'
     
     
     def __str__(self):
@@ -24,7 +27,7 @@ class BlogPost(models.Model):
     author = models.ForeignKey(User, on_delete=models.CASCADE)
     title = models.CharField(max_length=255, unique=True)
     date = models.DateTimeField(auto_now_add=True)
-    category = models.CharField(max_length=150, default='uncategorized')
+    category = models.CharField(max_length=150)
     content = RichTextField(blank=True, null=True, unique=True)
     headline = models.TextField(max_length=255)
     likes = models.ManyToManyField(User, related_name='blog_posts')
@@ -45,7 +48,7 @@ class SaveAsDraft(models.Model):
     author = models.ForeignKey(User, on_delete=models.CASCADE)
     title = models.CharField(max_length=255, unique=True)
     date = models.DateTimeField(auto_now_add=True)
-    category = models.CharField(max_length=150, default='uncategorized')
+    category = models.CharField(max_length=150)
     content = RichTextField(blank=True, null=True, unique=True)
     headline = models.TextField(max_length=255)
     

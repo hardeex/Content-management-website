@@ -119,10 +119,11 @@
                 <ul>
                    {% for job in jobs  %} 
                    <li>
-                        <h4> <a href="{% url 'jobs:job_details' job.pk %}"> {{job.title}} </a></h4>
+                        <h4> <a href="{% url 'jobs:job_details' job.pk %}"> {{job.title | upper}} </a></h4>
                         <small>
                            <b>Last Updated: </b>  {{job.date}} ({{job.date | naturaltime}}) | <b> Job Posted By:</b>  {{job.author.first_name}}  {{job.author.last_name}}
-                          |  <b> Job Location: </b> {{job.location}} |    <b>  Deadline:</b> {{job.deadline}}
+                          |  <b> Job Location: </b> {{job.location}} |    <b>  Deadline:</b> {{job.deadline}}  
+                            |<b> Category:</b>  <a href="{% url 'jobs:job_category_list' job.category %}"> {{job.category}} </a> <br>
                         </small><br>  
                         <p style="text-align: justify;"> {{job.content|safe | truncatewords:"30"}}  </p>                           
                    </li> <br>
@@ -137,14 +138,15 @@
             <ul>
               {% for blog in blogs  %} 
               <li>
-                   <h4><a href="{% url 'index:blog_details' blog.pk %}">{{blog.title}}</a></h4>
+                   <h4><a href="{% url 'index:blog_details' blog.pk %}">{{blog.title | upper}}</a></h4>
                    <small>
                       <b> Last Updated: </b>  {{blog.date}} ({{blog.date | naturaltime}}) |  <b> Post By:</b>  {{blog.author.first_name}}  {{blog.author.last_name}}
+                      <b>Category:</b>  <a href="{% url 'index:category_list' blog.category %}">{{blog.category}}</a> 
                    </small> <br>                  
                    <p style="text-align: justify;">{{blog.content| safe | truncatewords:"30"}} </p>
               </li> <br>
                {% empty %} 
-                   <h2>No recent blog post availabe right now...</h2>
+                   <h4>No recent blog post availabe right now...</h4>
            {% endfor %}
            </ul>
 
@@ -162,17 +164,17 @@
           <div class="col"><br><br>
             <p style="text-align: justify;">
 
-              We are a team of people who appreciate taking on challenging and unattainable tasks and have a variety of skill sets.
+             We are a team of people who appreciate taking on challenging and unattainable tasks and have a variety of skill sets.
              Let us assist you with designing, security, and managing your personal, portfolio, and company websites, 
              mobile applications, and web applications.
               
             </p>
             <p style="text-align: justify;">
-              Additionally, We offer an extensive range of services, including the sale of digital products, telecommunications solutions 
+              Additionally, We offer an extensive range of services, including the sale of digital products, architectural designs, telecommunications solutions 
               like the sale of internet access for all Nigerian networks, job posting services like writing Cvs or Resumes, 
-              cover letters, reference letters, recruitment advice, business management for business owners, and much more. 
-              Additionally, we relieve you of the burden associated with your academic and business research projects, such 
-              as your final year project, school assignments (for all courses, departments, and levels), company plans, 
+              cover letters, reference letters, recruitment advice, business management, and much more. 
+              Also, we relieve you of the burden associated with your academic and business research projects, such 
+              as your final year project, school assignments (for all courses, departments, and levels), business plans, 
               feasibility analyses, business proposals, etc.
             </p>
           </div>
@@ -218,60 +220,15 @@
               </div>
                 <h5>Engineer James Oluwatoyin</h5>
               <p style="text-align: justify;">
-                An amazing person who has left a lasting impression on my organization through their brilliance, compassion,
+                An amazing person who has left a lasting impression on my organization through his brilliance, compassion,
                  ability to handle complicated problems, and unwavering devotion.
 
               </p>
             </div>
           </div>
-          <div class="col">
-            <div>
-              <div>
-                <img src="{% static '/images/tech.jpg' %}" alt="Tomilade image" srcset="" class="services-img">
-              </div>
-                <h5>Olugbemi Tomilade</h5>
-              <p style="text-align: justify;">Lorem, ipsum dolor sit amet consectetur adipisicing elit. Deleniti unde culpa facilis, tenetur perspiciatis ipsam, 
-                deserunt distinctio veniam autem illum qui id accusantium ipsum asperiores molestiae, fugit quas commodi repellat!
-              </p>
-            </div>
-          </div>
-          </div>
-
-          <div class="col">
-            <div>
-              <div>
-                <img src="{% static '/images/tech.jpg' %}" alt="Tomilade image" srcset="" class="services-img">
-              </div>
-                <h5>Adeshola Daniel</h5>
-              <p style="text-align: justify;">Lorem, ipsum dolor sit amet consectetur adipisicing elit. Deleniti unde culpa facilis, tenetur perspiciatis ipsam, 
-                deserunt distinctio veniam autem illum qui id accusantium ipsum asperiores molestiae, fugit quas commodi repellat!
-              </p>
-            </div>
-            <div class="col">
-            <div>
-              <div>
-                <img src="{% static '/images/tech.jpg' %}" alt="Tomilade image" srcset="" class="services-img">
-              </div>
-                <h5>Olugbemi Tomilade</h5>
-              <p style="text-align: justify;">Lorem, ipsum dolor sit amet consectetur adipisicing elit. Deleniti unde culpa facilis, tenetur perspiciatis ipsam, 
-                deserunt distinctio veniam autem illum qui id accusantium ipsum asperiores molestiae, fugit quas commodi repellat!
-              </p>
-            </div>
-          </div>
-          <div class="col">
-            <div>
-              <div>
-                <img src="{% static '/images/tech.jpg' %}" alt="Tomilade image" srcset="" class="services-img">
-              </div>
-                <h5>Olugbemi Tomilade</h5>
-              <p style="text-align: justify;">Lorem, ipsum dolor sit amet consectetur adipisicing elit. Deleniti unde culpa facilis, tenetur perspiciatis ipsam, 
-                deserunt distinctio veniam autem illum qui id accusantium ipsum asperiores molestiae, fugit quas commodi repellat!
-              </p>
-            </div>
-          </div>
-          </div>
           
           </div>
+
               
 
 

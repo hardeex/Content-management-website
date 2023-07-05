@@ -17,10 +17,15 @@
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
     <!---ckeditor-->
-    {% load static %}
     <script src="{% static 'ckeditor/ckeditor-init.js' %}"></script>
     <script src="{% static 'ckeditor/ckeditor/ckeditor.js' %}"></script>
 
+    <!--- Inventory management imports-->
+     
+       <!--Chartjs CDN-->
+     <script src="https://cdn.jsdelivr.net/npm/chart.js@2.9.4/dist/Chart.min.js"></script>
+    
+     <!---  End of Inventory management imports-->
 
     
     <title>{% block title %} {% endblock %}</title>
@@ -52,10 +57,9 @@
               Tools
               </a>
               <ul class="dropdown-menu">   
-                <li><a class="dropdown-item" href="{% url 'discussion:discuss_list' %}">Chat & Discussion</a></li>                                                                
-                <li><a class="dropdown-item" href="#">Inventory Management </a></li> 
+                <li><a class="dropdown-item" href="{% url 'discussion:discuss_list' %}">Chat & Discussion</a></li>                                                                               
                 <li><a class="dropdown-item" href="{% url 'tasks:tasks_list' %}">Task Management</a></li>  
-                <li class="nav-item"><a class="nav-link" href="{% url 'index:telecom' %}">Telecom</a></li> 
+                <li class="nav-item"><a class="nav-link" href="{% url 'index:telecom' %}" target="_blank" >Telecom</a></li> 
                 <li><a class="dropdown-item" href="https://afr.808scoretv.com/" target="_blank">Watch Live Matches</a></li>                                                                             
               </ul>
             </li>
@@ -172,11 +176,11 @@
               
             </p>
             <p style="text-align: justify;">
-               Additionally, We offer an extensive range of services, including the sale of digital products, telecommunications solutions 
+               Additionally, We offer an extensive range of services, including the sale of digital products, architectural designs, telecommunications solutions 
               like the sale of internet access for all Nigerian networks, job posting services like writing Cvs or Resumes, 
-              cover letters, reference letters, recruitment advice, business management for business owners, and much more. 
-              Additionally, we relieve you of the burden associated with your academic and business research projects, such 
-              as your final year project, school assignments (for all courses, departments, and levels), company plans, 
+              cover letters, reference letters, recruitment advice, business management, and much more. 
+              Also, we relieve you of the burden associated with your academic and business research projects, such 
+              as your final year project, school assignments (for all courses, departments, and levels), business plans, 
               feasibility analyses, business proposals, etc.           
             </p>            
             <a href="{% url 'contact:contact' %}" class="btn btn-primary">Send Us Message</a>
@@ -188,14 +192,13 @@
         <div class="card">
           <div class="card-body">
             <h5 class="card-title">Other Links</h5>
-            <ul>   
-              <li><a href="#" class="footer-link">About the website</a></li>                      
+            <ul>                                     
               <li><a href="{% url 'index:blog_list' %}" class="footer-link">Blog</a></li>
               <li><a href="{% url 'discussion:discuss_list' %}" class="footer-link">Chat & Discussion</a></li>
               <li><a href="{% url 'jobs:job_list' %}" class="footer-link">Jobs</a></li> 
               <li><a href="{% url 'index:home' %}" class="footer-link">Home</a></li>                                                     
               <li><a href="{% url 'tasks:tasks_list' %}" class="footer-link">Task Management Help</a></li>
-              <li class="nav-item"><a class="nav-link" href="{% url 'index:telecom' %}">Telecom</a></li>  
+              <li ><a  href="{% url 'index:telecom' %}" target='_blank' class="footer-link">Telecom</a></li>  
               <li><a href="https://afr.808scoretv.com/" class="footer-link" target="_blank">Watch Live Football Matches</a></li>                                        
             </ul>           
           </div>

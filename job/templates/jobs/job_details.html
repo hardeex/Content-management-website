@@ -33,9 +33,10 @@
                     <div >
                         <small>
                             <b>Last Updated:</b> {{ object.date }} ({{object.date | naturaltime}})  | <b>Posted By:</b> {{ object.author.first_name }}
-                            {{ object.author.last_name }} <br>
-                            <b> Job Location: </b> {{object.location}} |    <b>  Deadline:</b> {{object.deadline}} 
-                        </small> <br> <br>
+                            {{ object.author.last_name }} |
+                            <b>Category:</b> <a href="{% url 'jobs:job_category_list' object.category %}">{{ object.category }}</a> | <br>
+                            <b> Job Location: </b> {{object.location}} |    <b>  Deadline:</b> {{object.deadline}}                             
+                        </small>  <br> <br>
                         <p>
                             {{ object.content | safe }}
                         </p>

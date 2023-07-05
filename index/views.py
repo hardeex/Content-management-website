@@ -158,10 +158,10 @@ def publish_draft(request, draft_pk):
 
 class AddCategoryView(CreateView):
     model = models.BlogCategory
-    #form_class = custom_model_form.CustomBlogPostForm
     template_name = 'home/add_category.html'
     fields = '__all__'
 
+   
 
 
 class EditPostView(UpdateView):

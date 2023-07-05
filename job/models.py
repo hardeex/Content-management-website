@@ -12,9 +12,9 @@ class JobPost(models.Model):
     author = models.ForeignKey(User, on_delete=models.CASCADE)
     title = models.CharField(max_length=255, unique=True)
     date = models.DateTimeField(auto_now_add=True)
-    deadline = models.CharField(max_length=150, default='Not specified')
+    deadline = models.DateTimeField()
     location = models.CharField(max_length=150)    
-    category = models.CharField(max_length=150, default='uncategorized')    
+    category = models.CharField(max_length=150)    
     content = RichTextField(blank=True, null=True, unique=True)    
 
     def __str__(self):
@@ -29,7 +29,10 @@ class JobPost(models.Model):
 class JobCategory(models.Model):
     name = models.CharField(max_length= 150, unique=True)
     
-    
+    class Meta:
+        verbose_name_plural = 'Job Category'
+
+
     def __str__(self):
         return self.name
 

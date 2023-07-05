@@ -4,6 +4,7 @@ from mptt.admin import MPTTModelAdmin
 
 
 # Register your models here.
+admin.site.site_header = 'JDD WEBMASTER LIMITED'
 admin.site.register(models.BlogCategory)
 admin.site.register(models.Profile)
 admin.site.register(models.Comment, MPTTModelAdmin)
