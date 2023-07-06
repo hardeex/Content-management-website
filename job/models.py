@@ -23,6 +23,9 @@ class JobPost(models.Model):
     def get_absolute_url(self):
         return reverse('jobs:job_details', args=[str(self.id)] )
 
+    def delete_expired_posts(self):
+        expired_posts = JobPost.objects.filter(deadline__lt=timezone.now())
+        expired_posts.delete()
         
 
 

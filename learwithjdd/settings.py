@@ -39,7 +39,8 @@ INSTALLED_APPS = [
     'discussion',
     'tasks',    
     'ckeditor',
-    'mptt',       
+    'mptt', 
+    'django_crontab',      
     'django.contrib.humanize',
     'django.contrib.admin',
     'django.contrib.auth',
@@ -160,5 +161,12 @@ DEFAULT_FROM_EMAIL = 'webmasterjdd@gmail.com'  # Replace with your email address
 ADMINS = [
     ('webmasterjdd', 'webmasterjdd@gmail.com'),  # Replace with the admin's name and email address
 ]
+
+# self deleted expired job posts
+CRONJOBS = [
+    ('0 0 * * *', 'job.models.JobPost.delete_expired_posts')
+]
+# the location to save the cron file
+CRONTAB_DJANGO_LOG_FILE = 'path/to/crontab.log'
 
 
