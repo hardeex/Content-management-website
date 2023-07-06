@@ -36,8 +36,11 @@ class JobCategory(models.Model):
     def __str__(self):
         return self.name
 
+    #def get_absolute_url(self):
+     #   return reverse('jobs:job_details', args=[str(self.id)] )
+
     def get_absolute_url(self):
-        return reverse('jobs:job_details', args=[str(self.id)] )
+        return reverse('jobs:job_list' )
 
 
    

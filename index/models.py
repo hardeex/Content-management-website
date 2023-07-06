@@ -20,7 +20,7 @@ class BlogCategory(models.Model):
         return self.name
 
     def get_absolute_url(self):
-        return reverse('index:blog_details', args=[str(self.id)] )
+        return reverse('index:blog_list' )
 
 
 class BlogPost(models.Model):

@@ -16,8 +16,8 @@
                     <h1>{{ object.title | upper }}</h1>
                     {% if user.is_authenticated %}
                     <small>
-                        <b>Last Updated:</b> {{ object.date }} | <b>Author:</b> {{ object.author.first_name }}
-                        {{ object.author.last_name }} |
+                        <b>Last Updated:</b> {{ object.date }} | <b>Author:</b> {{ object.author.last_name }}
+                        {{ object.author.first_name }} |
                         <b>Category:</b> <a href="{% url 'index:category_list' object.category %}">{{ object.category }}</a> |
                         {% if object.author.id == user.id %}
                         <a href="{% url 'index:edit_post' object.pk %}">(Edit)</a> |
@@ -28,9 +28,10 @@
                         {{ object.content | safe }}
                     </p>
                     <hr>
-
-                  
-
+                    {% if object.author.first_name == 'Yusuf' and object.author.last_name == 'Jamiu' %}                                                            
+                    <a href="https://chat.whatsapp.com/J1Uyifhz2HWAhzkf24MqDv">  <button  class="btn btn-info">Join Our WhatsApp Group </button>  </a>                                                   
+                   {% endif %}
+                  <br>
 
                     <form action="{% url 'index:like_post' object.pk %}" method="post">
                         {% csrf_token %}
@@ -45,13 +46,16 @@
                     {% else %}
                     <div >
                         <small>
-                            <b>Last Updated:</b> {{ object.date }} | <b>Author:</b> {{ object.author.first_name }}
-                            {{ object.author.last_name }}
+                            <b>Last Updated:</b> {{ object.date }} | <b>Author:</b> {{ object.author.last_name }}
+                            {{ object.author.first_name }}
                         </small> <br> <br>
                         <p>
                             {{ object.content | safe }}
                         </p>
                         <hr>
+                    {% if object.author.first_name == 'Yusuf' and object.author.last_name == 'Jamiu' %}                                                            
+                     <a href="https://chat.whatsapp.com/J1Uyifhz2HWAhzkf24MqDv">  <button  class="btn btn-info">Join Our WhatsApp Group </button>  </a>                                                   
+                    {% endif %}
                         <small>
                             <a href="{% url 'login' %}">Login</a> to Like Posts, and Comment -
                             {{ total_likes }} Likes

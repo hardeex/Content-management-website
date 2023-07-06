@@ -14,8 +14,8 @@
                     <h1>{{ object.title | upper }}</h1>
                     {% if user.is_authenticated %}
                     <small>
-                        <b>Last Updated:</b> {{ object.date }} ({{object.date | naturaltime}})  | <b>Posted By:</b> {{ object.author.first_name }}
-                        {{ object.author.last_name }} |
+                        <b>Last Updated:</b> {{ object.date }} ({{object.date | naturaltime}})  | <b>Posted By:</b> {{ object.author.last_name }}
+                        {{ object.author.first_name }} |
                         <b>Category:</b> <a href="{% url 'jobs:job_category_list' object.category %}">{{ object.category }}</a> | <br>
                         <b> Job Location: </b> {{object.location}} |    <b>  Deadline:</b> {{object.deadline}} 
                         {% if object.author.id == user.id %}
@@ -24,16 +24,18 @@
                         {% endif %}
                     </small> 
                     <p> <hr>
-                        {{ object.content | safe }}
+                        {{ object.content | safe }}                      
                     </p>
                     <hr>
-
+                    {% if object.author.first_name == 'Yusuf' and object.author.last_name == 'Jamiu' %}                                                            
+                     <a href="https://chat.whatsapp.com/J1Uyifhz2HWAhzkf24MqDv">  <button  class="btn btn-info">Join Our WhatsApp Group </button>  </a>                                                   
+                    {% endif %}
                     
                     {% else %}
                     <div >
                         <small>
-                            <b>Last Updated:</b> {{ object.date }} ({{object.date | naturaltime}})  | <b>Posted By:</b> {{ object.author.first_name }}
-                            {{ object.author.last_name }} |
+                            <b>Last Updated:</b> {{ object.date }} ({{object.date | naturaltime}})  | <b>Posted By:</b> {{ object.author.last_name }}
+                            {{ object.author.first_name }} |
                             <b>Category:</b> <a href="{% url 'jobs:job_category_list' object.category %}">{{ object.category }}</a> | <br>
                             <b> Job Location: </b> {{object.location}} |    <b>  Deadline:</b> {{object.deadline}}                             
                         </small>  <br> <br>
@@ -41,6 +43,10 @@
                             {{ object.content | safe }}
                         </p>
                         <hr>
+                    {% if object.author.first_name == 'Yusuf' and object.author.last_name == 'Jamiu' %}                                                            
+                     <a href="https://chat.whatsapp.com/J1Uyifhz2HWAhzkf24MqDv">  <button  class="btn btn-info">Join Our WhatsApp Group </button>  </a>                                                   
+                    {% endif %}
+                    <br><br>
                         <small>
                             <a href="{% url 'login' %}">Login</a> to  Comment(s).                          
                         </small>
