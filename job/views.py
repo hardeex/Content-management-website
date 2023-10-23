@@ -8,6 +8,7 @@ from . job_forms import NewCommentForm
 from .models import JobPost, JobComment
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.db.models import Count
+from django.contrib.auth.mixins import LoginRequiredMixin
 
 
 
@@ -125,3 +126,73 @@ def ListJobCategory(request):
     return render(request, 'jobs/job_category_list.html', {
             'category_list': category_list            
     })
+
+
+
+# creating the code that save job post as a draft before publishing
+class JobDraftsListView(LoginRequiredMixin, ListView):
+    model = models.JobSaveAsDraft
+    template_name = 'jobs/job_draft_list.html'
+    ordering = ['-date']
+
+    def get_queryset(self):
+        queryset = super().get_queryset()
+        user = self.request.user
+        return queryset.filter(author=user)
+
+
+
+class AddJobDraftPostView(CreateView):
+    model = models.JobSaveAsDraft
+    form_class = job_forms.JobDraftPostForm
+    template_name = 'jobs/save_job_as_draft.html'
+
+
+    def form_valid(self, form): 
+        form.instance.author = self.request.user
+        return super().form_valid(form)
+
+
+class JobDraftPostDetailsView(DetailView):
+    model = models.JobSaveAsDraft
+    template_name = 'jobs/drafts_job_details.html'    
+   
+
+
+def publish_job_draft(request, job_draft_pk):
+    job_draft = get_object_or_404(models.JobSaveAsDraft, pk=job_draft_pk)
+    
+    # Create a new BlogPost instance
+    job_post = models.JobPost(
+        author=job_draft.author,
+        title=job_draft.title,
+        date= job_draft.date,
+        location=job_draft.location,
+        category=job_draft.category,
+        content=job_draft.content
+    )
+    # save the draft to the job post model-- published
+    job_post.save()
+    
+    # Delete the draft post
+    job_draft.delete()
+    
+    return redirect('jobs:job_list')  # Redirect to the blog post list page
+
+
+
+
+class EditJobDraftPostView(UpdateView):
+    model = models.JobSaveAsDraft
+    template_name = 'jobs/edit_job_draft_post.html'
+    form_class = job_forms.JobDraftPostForm
+
+
+
+    
+
+class DeleteJobDraftPostView(DeleteView):
+    model = models.JobSaveAsDraft
+    success_url = reverse_lazy('jobs:job_drafts_list')
+    template_name = 'jobs/delete_job_draft_post.html'
+    

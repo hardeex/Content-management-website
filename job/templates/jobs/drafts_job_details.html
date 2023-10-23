@@ -1,0 +1,137 @@
+{% extends 'home/base.html' %}
+{% load static %}
+{% load humanize %} <!---to display date in a natural time-->
+{% load mptt_tags %}
+
+
+
+{% block title %}{{ object.title }}{% endblock %}
+
+{% block body %}
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="col-lg-8">
+            <div class="post-container">
+                <div class="post-title">
+                    <h1>{{ object.title | upper }}</h1>
+                    {% if user.is_authenticated %}
+                    <small>
+                        <b>Last Updated:</b> {{ object.date }} | <b>Author:</b> {{ object.author.first_name }}
+                        {{ object.author.last_name }} |
+                        <b>Category:</b> <a href="{% url 'jobs:job_category_list' object.category %}">{{ object.category }}</a> |
+                        {% if object.author.id == user.id %}
+                        <a href="{% url 'jobs:edit_job_draft_post' object.pk %}">(Edit)</a>  
+                        |    <a href="{% url 'jobs:delete_job_draft_post' object.pk %}">(Delete)</a>
+                        |     <a href="{% url 'jobs:publish_job_draft' object.pk %}">(Publish Job)</a>
+                        {% endif %}
+                    </small> <hr>
+                    <p>
+                        {{ object.content | safe }}
+                    </p>
+                    <hr>
+                    
+                <a href="{% url 'jobs:publish_job_draft' object.pk %}"><button class="btn btn-success">Publish</button></a>
+                  
+                
+                    {% else %}
+                    <div class="alert alert-danger" role="alert">
+                        <p>You don't have the permission to access this page...</p>
+                        <p><a href="{% url 'login' %}">LOGIN</a> to viw draft post</p>    
+                    </div>
+                    {% endif %}
+                </div>
+<br><br>
+
+  <!--- show the blogger info-->
+  <div class="card mb-3" >                                                             
+    <div class="card mb-3"  >
+         <div class="row g-0">
+            <div class="col-md-2">
+                {% if object.author.profile.profile_pic %}
+                    <img src="{{ object.author.profile.profile_pic.url }}" class="rounded-circle" alt="Author profile image" width="120" height="120">
+                {% else %}
+                    <img src="{% static 'images/profile_user_icon.png' %}" class="rounded-circle" alt="Default profile image" width="170" height="170">
+                {% endif %}
+            </div>
+            
+         <div class="col-md-10">
+         <div class="card-body">
+              <h5 class="card-title">{{object.author.first_name|safe}} {{object.author.last_name|safe}}</h5>
+
+              <small  class="fw-lighter">
+                   {% if object.author.profile.website_url %}
+                   <a href="{{object.author.profile.website_url}}" target="_blank">Website </a>                                     
+              {% endif %}
+
+
+              {% if object.author.profile.facebook_url %}
+                   |  <a href="{{object.author.profile.facebook_url}}" class="links" target="_blank">Facebook </a>                                  
+              {% endif %}
+
+
+              {% if object.author.profile.linkedln_url %}
+                   |  <a href="{{object.author.profile.linkedln_url}}" class="links" target="_blank">Linkedln </a> 
+              {% endif %}
+
+
+              {% if object.author.profile.twitter_url %}
+                   |  <a href="{{object.author.profile.twitter_url}}" class="links" target="_blank">Twitter </a> 
+              {% endif %}
+
+              {% if object.author.profile.instagram_url %}                                   
+                   |  <a href="{{object.author.profile.instagram_url}}" class="links" target="_blank">Instagram </a>                                  
+              {% endif %}                                   
+
+
+              {% if object.author.profile.whatsapp_url %} 
+                   |  <a href="{{object.author.profile.whatsapp_url}}" class="links" target="_blank"> WhatsApp </a>
+              {% endif %}
+
+
+              {% if object.author.profile.github_url %}
+
+                   |  <a href="{{object.author.profile.github_url}}" class="links" target="_blank">GitHub </a> 
+              {% endif %}
+
+              </small>
+              <p class="card-text">
+                {% if object.author.profile and object.author.profile.id %}
+                   {{object.author.profile.bio |truncatewords:"50" |safe}} 
+                   ... <a href="{% url 'account:user_profile' object.author.profile.id %}" class="link-info link-offset-2 link-underline-opacity-25 link-underline-opacity-100-hover">
+                       Read More...
+                   </a> 
+                {% endif %}           
+              </p>
+              
+             
+          
+          
+         </div>
+         </div>
+         </div>
+    </div>
+  </div>
+
+  <!---  End of show the blogger info-->
+             
+
+                                 
+                      
+                <br><br>
+                <a href="{% url 'jobs:job_drafts_list' %}" class="btn btn-primary">Back To Draft List</a><br><br>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+             
+<style>
+    .post-title {
+        margin: auto;
+        text-align: justify;
+        max-width: 55rem;
+        width: 100%;
+    }
+</style>
+{% endblock %}

@@ -87,7 +87,8 @@
                Jobs
               </a>
               <ul class="dropdown-menu">   
-                <li><a class="dropdown-item" href="{% url 'jobs:job_list' %}">Job Listing</a></li>                              
+                <li><a class="dropdown-item" href="{% url 'jobs:job_list' %}">Job Listing</a></li>
+                <li><a class="dropdown-item" href="{% url 'jobs:job_drafts_list' %}"> Create/View Draft Job Post </a></li>                               
                 <li><a class="dropdown-item" href="{% url 'jobs:add_job_post' %}">Add A New Job Post</a></li>  
                 <li><hr class="dropdown-divider"></li>  
                 <li><a class="dropdown-item" href="{% url 'jobs:add_job_category' %}">Add A New Job Category</a></li>   

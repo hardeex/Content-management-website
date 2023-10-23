@@ -3,6 +3,7 @@ from django.contrib.auth.models import User
 from django.urls import reverse
 from django.http import HttpResponseRedirect, HttpResponse
 from ckeditor.fields import RichTextField
+from django.utils import timezone
 
 
 
@@ -12,7 +13,7 @@ class JobPost(models.Model):
     author = models.ForeignKey(User, on_delete=models.CASCADE)
     title = models.CharField(max_length=255, unique=True)
     date = models.DateTimeField(auto_now_add=True)
-    deadline = models.DateTimeField()
+    deadline = models.DateTimeField(null=True, blank=True)
     location = models.CharField(max_length=150)    
     category = models.CharField(max_length=150)    
     content = RichTextField(blank=True, null=True, unique=True)    
@@ -47,6 +48,23 @@ class JobCategory(models.Model):
 
 
    
+class JobSaveAsDraft(models.Model):
+    author = models.ForeignKey(User, on_delete=models.CASCADE)
+    title = models.CharField(max_length=255, unique=True)
+    date = models.DateTimeField(auto_now_add=True)
+    deadline = models.DateTimeField(auto_now_add=True)
+    location = models.CharField(max_length=150)    
+    category = models.CharField(max_length=150)    
+    content = RichTextField(blank=True, null=True, unique=True) 
+    
+
+    def __str__(self):
+        return f" {self.title}"
+
+    def get_absolute_url(self):
+        return reverse('jobs:job_draft_details', args=[str(self.id)] )
+
+
 
 
 class JobComment(models.Model):

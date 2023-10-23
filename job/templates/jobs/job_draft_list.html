@@ -1,0 +1,64 @@
+{% extends 'home/base.html' %}
+{% load humanize %}
+
+{% block title %} Job Draft Posts {% endblock %} 
+
+
+{% block body %} 
+
+<div class="d-flex">
+    <div class="p-2 w-100">
+      <h1> JOB DRAFT POSTS</h1>
+    </div>
+    <div class="p-2 flex-shrink-1">
+      <a href="{% url 'jobs:add_job_draft_post' %}">
+        <button>Create A New Job Draft</button>
+      </a>
+    </div>
+  </div>
+
+<br><br>
+    
+        <ol>
+        {% for job_draft in object_list %} 
+        <li>
+           <h4><a href="{% url 'jobs:job_draft_details' job_draft.pk %}"> {{job_draft.title | upper}}</a></h4> 
+           {% if user.is_authenticated %}
+                <small>
+                   <b>Last Updated:</b>  {{job_draft.date}}({{job_draft.date | naturaltime}}) |
+                    <b>Author: </b>                    
+                        {{job_draft.author.first_name}} {{job_draft.author.last_name}} | 
+                   <b>Category:</b>  <a href="{% url 'jobs:job_category_list' job_draft.category %}">{{job_draft.category}}</a> |
+                   <br>
+                {% if job_draft.author.id == user.id  %}
+                     <a href="{% url 'jobs:edit_job_draft_post' job_draft.pk %}">(Edit)</a>  
+                    |    <a href="{% url 'jobs:delete_job_draft_post' job_draft.pk %}">(Delete)</a>
+                    |     <a href="{% url 'jobs:publish_job_draft' job_draft.pk %}">(Publish Job)</a>
+                {% endif %}    
+                </small>    
+                <hr>
+                <p> 
+                       <!---{{blog.content | truncatewords:"80" | safe}}--> 
+                       {{job_draft.headline | safe}}
+                </p>
+        {% else %} 
+                <small>
+                   <b> Category:</b>  <a href="{% url 'jobs:job_category_list' job_draft.category %}">{{job_draft.category}}</a> |
+                   <b>  Last Updated:</b> {{job_draft.date}} | <b>Author: </b>  {{job_draft.author.first_name}} {{job_draft.author.last_name}} |                    
+                </small>    
+                <p>
+                        <!-----{{blog.content | truncatewords:"80" | safe}}--->
+                        {{job_draft.headline | safe}}
+                </p>                
+        {% endif %}
+            
+        </li> <br>
+            
+        
+        {% empty %} 
+            <h2>No job draft posts created yet....</h2>
+        {% endfor %}
+    </ol>
+
+
+{% endblock %}

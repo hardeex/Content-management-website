@@ -39,3 +39,30 @@ class NewCommentForm(forms.ModelForm):
         widgets = {
             'content': forms.Textarea(attrs={'class': 'form-control'}),
         }
+
+
+class JobDraftPostForm(forms.ModelForm):
+    #scheduled_publish_date = forms.DateField(widget=forms.DateInput(attrs={'class': 'form-control', 'type': 'date'}))
+    
+    #scheduled_publish_date = forms.DateField(
+     #   widget=forms.DateInput(attrs={'class': 'form-control', 'type': 'date'}),
+     #   required=False  )
+
+
+    class Meta:
+        model = models.JobSaveAsDraft
+        fields = ('title', 'author', 'category', 'location',  'content')
+
+        widgets = {
+            'title': forms.TextInput(attrs={'class': 'form-control'}),
+            'author': forms.TextInput(attrs={'class': 'form-control',  'value': '', 'id':'author', 'type': 'hidden'}),            
+            'category': forms.Select(choices= category_lists,  attrs= {'class': 'form-control'}),
+            #'deadline': forms.DateInput(attrs={'class': 'form-control', 'type': 'date'}),
+            'location': forms.TextInput(attrs={'class': 'form-control'}),            
+            'content': forms.Textarea(attrs={'class': 'form-control'}),
+            
+
+        
+        }
+
+        
