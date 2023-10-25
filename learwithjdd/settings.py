@@ -86,12 +86,27 @@ WSGI_APPLICATION = 'learwithjdd.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/3.2/ref/settings/#databases
 
+# integrating NOSQL-- MongoDB databse to the project
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': 'your_postgres_db_name',
+        'USER': 'your_postgres_username',
+        'PASSWORD': 'your_postgres_password',
+        'HOST': 'localhost',  # or the host where your PostgreSQL database is running
+        'PORT': '5432',       # default PostgreSQL port
+    }
+}
+
+
+'''
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
         'NAME': BASE_DIR / 'db.sqlite3',
     }
 }
+'''
 
 '''
 DATABASES = {
