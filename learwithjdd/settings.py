@@ -90,10 +90,10 @@ WSGI_APPLICATION = 'learwithjdd.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'your_postgres_db_name',
-        'USER': 'your_postgres_username',
-        'PASSWORD': 'your_postgres_password',
-        'HOST': 'localhost',  # or the host where your PostgreSQL database is running
+        'NAME': 'db_jddconnect',
+        'USER': 'jddconnect_db',
+        'PASSWORD': 'jddConnectDB',
+        'HOST': 'db-learwithjdd.crek8lz3oaxz.eu-north-1.rds.amazonaws.com',  # or the host where your PostgreSQL database is running
         'PORT': '5432',       # default PostgreSQL port
     }
 }
