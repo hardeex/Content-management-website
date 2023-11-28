@@ -1,0 +1,25 @@
+# .gitignore
+
+# Ignore database and migration files
+db.sqlite3
+*.pyc
+*.pyo
+__pycache__/
+
+# Ignore local development settings
+local_settings.py
+
+# Ignore environment-specific settings
+.env
+
+# Ignore virtual environment
+venv/
+
+# Ignore other generated files
+*.pyc
+*.pyo
+*.pyd
+
+# Ignore macOS system files
+.DS_Store
+

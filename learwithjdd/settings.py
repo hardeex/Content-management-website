@@ -21,12 +21,12 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/3.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-s7zn=@1gke4)w&6gsm$fmv8y&bj-04_ozsg#zb*iw^v7fyfq#c'
+SECRET_KEY = ''
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['http://51.20.77.236:8000/', '51.20.77.236']
 
 
 # Application definition
@@ -85,42 +85,29 @@ WSGI_APPLICATION = 'learwithjdd.wsgi.application'
 
 # Database
 # https://docs.djangoproject.com/en/3.2/ref/settings/#databases
+from decouple import config, Csv
+from django.core.management.utils import get_random_secret_key
 
-# integrating NOSQL-- MongoDB databse to the project
+# Read sensitive information from .env file
+SECRET_KEY = config('SECRET_KEY', default=get_random_secret_key())
+DEBUG = config('DEBUG', default=True, cast=bool)
+# settings.py
+
+# Database settings
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'db_jddconnect',
-        'USER': 'jddconnect_db',
-        'PASSWORD': 'jddConnectDB',
-        'HOST': 'db-learwithjdd.crek8lz3oaxz.eu-north-1.rds.amazonaws.com',  # or the host where your PostgreSQL database is running
-        'PORT': '5432',       # default PostgreSQL port
+        'NAME': config('DB_NAME', default='your_default_db_name'),
+        'USER': config('DB_USER', default='your_default_db_user'),
+        'PASSWORD': config('DB_PASSWORD', default='your_default_db_password'),
+        'HOST': config('DB_HOST', default='localhost'),
+        'PORT': config('DB_PORT', default='5432', cast=int),
     }
 }
 
 
-'''
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
-    }
-}
-'''
 
-'''
-DATABASES = {
-    "default": {
-        "ENGINE": "django.db.backends.postgresql_psycopg2",
-        "NAME": "[YOUR_DATABASE_NAME]",
-        "USER": "[YOUR_USER_NAME]",
-        "PASSWORD": "",
-        "HOST": "localhost",
-        "PORT": "",
-    }
-}
 
-'''
 # Password validation
 # https://docs.djangoproject.com/en/3.2/ref/settings/#auth-password-validators
 
